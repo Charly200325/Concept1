@@ -46,7 +46,7 @@
         "slide-1"
       ],
       "settings": {
-        "autoplay": false,
+        "autoplay": true,
         "autoplay_speed": 7,
         "show_navigation": true,
         "image_height": "750px",
