@@ -47,7 +47,7 @@
       ],
       "settings": {
         "autoplay": true,
-        "autoplay_speed": 7,
+        "autoplay_speed": 6,
         "show_navigation": true,
         "image_height": "750px",
         "content_width": "medium",
