@@ -9,44 +9,12 @@
  */
 {
   "sections": {
-    "image_with_text_overlay_FHL9NY": {
-      "type": "image-with-text-overlay",
-      "settings": {
-        "transparent_header": false,
-        "image": "shopify://shop_images/Add-a-heading-_5__1.webp",
-        "image_height": "adapt",
-        "content_width": "small",
-        "content_position": "md:items-end md:justify-start",
-        "text_alignment": "left",
-        "image_mobile": "shopify://shop_images/Add-a-heading-_5__1.webp",
-        "image_height_mobile": "adapt",
-        "content_position_mobile": "items-end justify-start",
-        "text_alignment_mobile": "left",
-        "color_text": "#ffffff",
-        "color_highlight": "#e0a580",
-        "gradient_highlight": "",
-        "color_button_text": "#171717",
-        "color_button_background": "#ffffff",
-        "color_button_gradient": "",
-        "color_overlay": "#171717",
-        "overlay_opacity": 0,
-        "padding_top": 0,
-        "padding_bottom": 0,
-        "divider": false,
-        "full_width": true,
-        "rounded": true,
-        "enable_parallax": false,
-        "parallax_direction": "vertical"
-      }
-    },
     "slideshow": {
       "type": "slideshow",
       "blocks": {
         "slide-1": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/Add-a-heading-_4.webp",
-            "image_mobile": "shopify://shop_images/Add-a-heading-_2.webp",
             "heading": "",
             "heading_size": "title-md",
             "heading_tag": "h2",
@@ -61,7 +29,6 @@
       "block_order": [
         "slide-1"
       ],
-      "disabled": true,
       "settings": {
         "autoplay": false,
         "autoplay_speed": 7,
@@ -178,7 +145,6 @@
         "image_pTWFGb": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/Copy_of_Copy_of_Long-Lasting_Smoothness_1.png",
             "heading": "",
             "heading_size": "title-lg tracking-heading",
             "heading_tag": "h2",
@@ -228,7 +194,6 @@
             "author": "Author's name",
             "author_info": "",
             "author_url": "",
-            "image": "shopify://shop_images/Capture_d_ecran_2025-04-05_a_23.09.00.png",
             "image_ratio": "rounded",
             "highlighted_text": "none",
             "highlighted_scribble": "circle"
@@ -335,12 +300,6 @@
             "gradient_background": ""
           }
         },
-        "kaching_bundles_app_block_qK99Dg": {
-          "type": "shopify://apps/kaching-bundles/blocks/app-block/6c637362-a106-4a32-94ac-94dcfd68cdb8",
-          "settings": {
-            "product": "{{section.settings.product}}"
-          }
-        },
         "buy_buttons_cAzDeh": {
           "type": "buy_buttons",
           "settings": {
@@ -410,7 +369,6 @@
         "variant_picker_V4FmR9",
         "text_xikH4p",
         "countdown_G849nJ",
-        "kaching_bundles_app_block_qK99Dg",
         "buy_buttons_cAzDeh",
         "collapsible_tab_HbzNfN",
         "collapsible_tab_7WaT9W",
@@ -811,7 +769,6 @@
     }
   },
   "order": [
-    "image_with_text_overlay_FHL9NY",
     "slideshow",
     "logo_list_KK7Cyf",
     "slideshow_GMXXfj",
