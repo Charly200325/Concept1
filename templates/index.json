@@ -23,7 +23,7 @@
             "button_link": "",
             "button_style": "primary",
             "button_external": false,
-            "button_icon": false
+            "button_icon": true
           }
         },
         "slide-1": {
