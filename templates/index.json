@@ -158,6 +158,7 @@
         "logo_cRjnyf",
         "logo_DrphYd"
       ],
+      "disabled": true,
       "settings": {
         "layout": "default",
         "grid_horizontal": 70,
@@ -188,6 +189,86 @@
         "divider": false,
         "full_width": false,
         "rounded": false
+      }
+    },
+    "image_with_text_aehJ7D": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_GKwCcG": {
+          "type": "heading",
+          "settings": {
+            "heading": "<strong>FOR EVERY ADVENTURE</strong>",
+            "heading_size": "title-sm",
+            "heading_tag": "h2",
+            "highlighted_text": "none",
+            "highlighted_scribble": "circle"
+          }
+        },
+        "subheading_Ye4xmH": {
+          "type": "subheading",
+          "settings": {
+            "subheading": "FOR CHILDREN FROM 9 MONTHS TO 4 YEARS (MAX. 20 KG)",
+            "subheading_size": "subtitle-md",
+            "secondary_color": false
+          }
+        },
+        "text_tcdXmg": {
+          "type": "text",
+          "settings": {
+            "text": "<p>From bustling markets to nature walks, our Momfoam baby carrier goes everywhere with you, so you can stay close to your child and enjoy every moment. Who needs a pushchair with that?</p><ul><li>Your child can look around and discover the world with you</li><li>A safe and comfortable way to carry your child</li><li>Quick and simple to use</li></ul>",
+            "text_size": "subtext-md",
+            "text_max_size": 32,
+            "text_font": "body",
+            "secondary_color": false,
+            "highlighted_text": "none",
+            "highlighted_scribble": "circle"
+          }
+        },
+        "button_jTkiNP": {
+          "type": "button",
+          "settings": {
+            "button_label": "START YOUR ADVENTURE",
+            "button_link": "",
+            "button_style": "primary",
+            "button_size": "md",
+            "button_external": false,
+            "button_icon": true
+          }
+        }
+      },
+      "block_order": [
+        "heading_GKwCcG",
+        "subheading_Ye4xmH",
+        "text_tcdXmg",
+        "button_jTkiNP"
+      ],
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/wildride-toddler-carrier-uni.-fotor-enhance-20260307185954.jpg",
+        "image_height": "adapt",
+        "image_width": "small",
+        "layout": "text_first",
+        "text_alignment": "left",
+        "content_position": "align-self-center",
+        "image_height_mobile": "auto",
+        "text_alignment_mobile": "left",
+        "color_text": "",
+        "color_background": "",
+        "gradient_background": "",
+        "color_background_2": "",
+        "gradient_background_2": "",
+        "color_highlight": "",
+        "gradient_highlight": "",
+        "color_button_text": "",
+        "color_button_background": "",
+        "color_button_gradient": "",
+        "padding_top": 72,
+        "padding_bottom": 72,
+        "divider": false,
+        "full_width": false,
+        "rounded": false,
+        "enable_parallax": true,
+        "parallax_direction": "vertical"
       }
     },
     "slideshow_GMXXfj": {
@@ -823,6 +904,7 @@
     "slideshow",
     "featured_collection_jx3eKb",
     "logo_list_KK7Cyf",
+    "image_with_text_aehJ7D",
     "slideshow_GMXXfj",
     "testimonials_gQ33mT",
     "featured_product_gBcb8t",

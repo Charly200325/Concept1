@@ -68,7 +68,7 @@
     "rounded_input": "round-slight",
     "rounded_swatch": "round",
     "rounded_card": "round",
-    "rounded_block": "round",
+    "rounded_block": "square",
     "enable_page_transition": true,
     "enable_lazy_image": true,
     "buttons_hover": "standard",
