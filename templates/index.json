@@ -15,10 +15,12 @@
         "slide-1": {
           "type": "image",
           "settings": {
-            "heading": "",
+            "image": "shopify://shop_images/wildride-backpack-black-bundle-banner-outdoors.webp",
+            "image_mobile": "shopify://shop_images/wildride-backpack-black-bundle-banner-outdoors-mobile-1.webp",
+            "heading": "THE MUST-HAVE FOR YOUR SPRING GETAWAYS",
             "heading_size": "title-md",
             "heading_tag": "h2",
-            "button_label": "",
+            "button_label": "DISCOVER OUR BABY CARRIERS",
             "button_link": "",
             "button_style": "primary",
             "button_external": false,
@@ -34,7 +36,7 @@
         "autoplay_speed": 7,
         "show_navigation": true,
         "image_height": "750px",
-        "content_width": "small",
+        "content_width": "medium",
         "image_height_mobile": "500px",
         "color_text": "#ffffff",
         "color_background": "#ffffff",
