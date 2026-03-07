@@ -12,12 +12,25 @@
     "slideshow": {
       "type": "slideshow",
       "blocks": {
+        "image_L7bAUF": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/wildride-toddler-carrier-black-rib-outdoors-banner2_1.webp",
+            "heading": "<strong>THE STYLISH ALTERNATIVE TO A STROLLER</strong>",
+            "heading_size": "title-md",
+            "heading_tag": "h2",
+            "button_label": "SHOP THE COLLECTION",
+            "button_link": "",
+            "button_style": "primary",
+            "button_external": false,
+            "button_icon": false
+          }
+        },
         "slide-1": {
           "type": "image",
           "settings": {
             "image": "shopify://shop_images/wildride-backpack-black-bundle-banner-outdoors.webp",
-            "image_mobile": "shopify://shop_images/wildride-backpack-black-bundle-banner-outdoors-mobile-1.webp",
-            "heading": "THE MUST-HAVE FOR YOUR SPRING GETAWAYS",
+            "heading": "<strong>THE MUST-HAVE FOR YOUR SPRING GETAWAYS</strong>",
             "heading_size": "title-md",
             "heading_tag": "h2",
             "button_label": "DISCOVER OUR BABY CARRIERS",
@@ -29,6 +42,7 @@
         }
       },
       "block_order": [
+        "image_L7bAUF",
         "slide-1"
       ],
       "settings": {
