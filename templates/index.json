@@ -73,7 +73,7 @@
       "type": "featured-collection",
       "name": "t:sections.featured-collection.presets.name",
       "settings": {
-        "collection": "",
+        "collection": "baby-carriers",
         "products": [],
         "product_limit": 6,
         "columns": 4,
