@@ -157,8 +157,8 @@
       ],
       "name": "t:sections.image-with-text.presets.name",
       "settings": {
-        "image": "shopify://shop_images/wildride-toddler-carrier-uni.-fotor-enhance-20260307185954.jpg",
-        "image_height": "adapt",
+        "image": "shopify://shop_images/porte-bebe-et-enfant-9-mois-4-ans.avif",
+        "image_height": "700px",
         "image_width": "small",
         "layout": "text_first",
         "text_alignment": "left",
@@ -272,8 +272,8 @@
       ],
       "name": "t:sections.image-with-text.presets.name",
       "settings": {
-        "image": "shopify://shop_images/wildride-toddler-carrier-uni.-fotor-enhance-20260307185954.jpg",
-        "image_height": "adapt",
+        "image": "shopify://shop_images/porte-bebe-et-enfant-9-mois-4-ans_1.avif",
+        "image_height": "700px",
         "image_width": "small",
         "layout": "image_first",
         "text_alignment": "left",
