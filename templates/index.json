@@ -299,48 +299,100 @@
         "parallax_direction": "vertical"
       }
     },
-    "slideshow_GMXXfj": {
-      "type": "slideshow",
+    "featured_product_rftdJk": {
+      "type": "featured-product",
       "blocks": {
-        "image_pTWFGb": {
-          "type": "image",
+        "title_C6tcBc": {
+          "type": "title",
           "settings": {
-            "heading": "",
-            "heading_size": "title-lg tracking-heading",
-            "heading_tag": "h2",
-            "button_label": "",
-            "button_link": "",
-            "button_style": "primary",
-            "button_external": false,
-            "button_icon": false
+            "title_size": "product-title-md",
+            "title_size_mobile": "product-title-md",
+            "show_price": true,
+            "show_rating": true
+          }
+        },
+        "description_UGRiR8": {
+          "type": "description",
+          "settings": {
+            "text_size": "text-base"
+          }
+        },
+        "variant_picker_nzP9XK": {
+          "type": "variant_picker",
+          "settings": {
+            "show_variant_labels": true,
+            "picker_type": "button",
+            "enable_color_swatches": true,
+            "color_swatch_type": "color",
+            "size_chart": ""
+          }
+        },
+        "buy_buttons_TGVXx6": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_quantity_selector": true,
+            "show_price": false,
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": true,
+            "enable_back_in_stock": false,
+            "show_back_in_stock_name": false,
+            "show_back_in_stock_phone": false
+          }
+        },
+        "pickup_availability_XbQra8": {
+          "type": "pickup_availability",
+          "settings": {}
+        },
+        "share_nCBqAC": {
+          "type": "share",
+          "settings": {
+            "share_label": "Share",
+            "show_help_desk": true,
+            "help_label": "Need help?",
+            "help_page": ""
+          }
+        },
+        "read_more_gExycx": {
+          "type": "read_more",
+          "settings": {}
+        },
+        "spinning_text_ih8wrx": {
+          "type": "spinning_text",
+          "settings": {
+            "text": "Featured product"
           }
         }
       },
       "block_order": [
-        "image_pTWFGb"
+        "title_C6tcBc",
+        "description_UGRiR8",
+        "variant_picker_nzP9XK",
+        "buy_buttons_TGVXx6",
+        "pickup_availability_XbQra8",
+        "share_nCBqAC",
+        "read_more_gExycx",
+        "spinning_text_ih8wrx"
       ],
+      "name": "t:sections.featured-product.presets.name",
       "settings": {
-        "autoplay": false,
-        "autoplay_speed": 5,
-        "show_navigation": true,
-        "image_height": "650px",
-        "content_width": "small",
-        "image_height_mobile": "adapt",
-        "color_text": "#ffffff",
-        "color_background": "#ffffff",
-        "gradient_background": "",
-        "color_button_text": "#171717",
-        "color_button_background": "#ffffff",
-        "color_button_gradient": "",
-        "color_overlay": "#171717",
-        "overlay_opacity": 0,
-        "padding_top": 0,
-        "padding_bottom": 0,
+        "product": "",
+        "enable_sticky_info": true,
+        "media_size": 66,
+        "gallery_layout": "thumbnail",
+        "thumbnail_position": "beside",
+        "image_ratio": "adapt_first",
+        "image_zoom": "lightbox",
+        "hide_variants": false,
+        "enable_video_autoplay": false,
+        "enable_video_looping": false,
+        "mobile_layout": "partial",
+        "image_ratio_mobile": "adapt_first",
+        "mobile_thumbnail": false,
+        "padding_top": 72,
+        "padding_bottom": 72,
         "divider": false,
         "full_width": false,
-        "rounded": false,
-        "enable_parallax": false,
-        "parallax_direction": "vertical"
+        "rounded": false
       }
     },
     "testimonials_gQ33mT": {
@@ -934,7 +986,7 @@
     "image_with_text_aehJ7D",
     "featured_collection_6pn6Cg",
     "image_with_text_EC3mFy",
-    "slideshow_GMXXfj",
+    "featured_product_rftdJk",
     "testimonials_gQ33mT",
     "featured_product_gBcb8t",
     "image-comparison",
