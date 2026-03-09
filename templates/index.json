@@ -219,6 +219,86 @@
         "rounded": false
       }
     },
+    "image_with_text_EC3mFy": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_npAh4H": {
+          "type": "heading",
+          "settings": {
+            "heading": "<strong>YOUR VACATION ESSENTIAL</strong>",
+            "heading_size": "title-sm",
+            "heading_tag": "h2",
+            "highlighted_text": "none",
+            "highlighted_scribble": "circle"
+          }
+        },
+        "subheading_miem4H": {
+          "type": "subheading",
+          "settings": {
+            "subheading": "THE MUST-HAVE FOR TRAVELING LIGHT",
+            "subheading_size": "subtitle-md",
+            "secondary_color": false
+          }
+        },
+        "text_qwegdy": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Travel light! This baby carrier is compact, easy to carry, and takes you where a stroller can't go. Adventure awaits — ready to go?</p><p>Whether soaking up the sun on the beach or strolling through historic streets, the <strong>MARQUE</strong> baby carrier is our vacation essential. No more bulky strollers, make way for limitless exploration!</p><ul><li>Explore the world with ease</li><li>Lighten your load</li><li>From city streets to rugged trails, nothing can stop you</li><li>Experience freedom</li></ul>",
+            "text_size": "subtext-md",
+            "text_max_size": 32,
+            "text_font": "body",
+            "secondary_color": false,
+            "highlighted_text": "none",
+            "highlighted_scribble": "circle"
+          }
+        },
+        "button_yR3aLG": {
+          "type": "button",
+          "settings": {
+            "button_label": "ORDER NOW",
+            "button_link": "",
+            "button_style": "primary",
+            "button_size": "md",
+            "button_external": false,
+            "button_icon": true
+          }
+        }
+      },
+      "block_order": [
+        "heading_npAh4H",
+        "subheading_miem4H",
+        "text_qwegdy",
+        "button_yR3aLG"
+      ],
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/wildride-toddler-carrier-uni.-fotor-enhance-20260307185954.jpg",
+        "image_height": "adapt",
+        "image_width": "small",
+        "layout": "image_first",
+        "text_alignment": "left",
+        "content_position": "align-self-center",
+        "image_height_mobile": "auto",
+        "text_alignment_mobile": "left",
+        "color_text": "",
+        "color_background": "",
+        "gradient_background": "",
+        "color_background_2": "",
+        "gradient_background_2": "",
+        "color_highlight": "",
+        "gradient_highlight": "",
+        "color_button_text": "",
+        "color_button_background": "",
+        "color_button_gradient": "",
+        "padding_top": 72,
+        "padding_bottom": 72,
+        "divider": false,
+        "full_width": false,
+        "rounded": false,
+        "enable_parallax": true,
+        "parallax_direction": "vertical"
+      }
+    },
     "slideshow_GMXXfj": {
       "type": "slideshow",
       "blocks": {
@@ -853,6 +933,7 @@
     "featured_collection_jx3eKb",
     "image_with_text_aehJ7D",
     "featured_collection_6pn6Cg",
+    "image_with_text_EC3mFy",
     "slideshow_GMXXfj",
     "testimonials_gQ33mT",
     "featured_product_gBcb8t",
