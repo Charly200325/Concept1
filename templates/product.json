@@ -46,7 +46,7 @@
         "buy_buttons": {
           "type": "buy_buttons",
           "settings": {
-            "show_quantity_selector": false,
+            "show_quantity_selector": true,
             "show_price": false,
             "show_dynamic_checkout": true,
             "show_gift_card_recipient": false,
@@ -73,6 +73,7 @@
         },
         "liquid_TyYxCW": {
           "type": "liquid",
+          "disabled": true,
           "settings": {
             "liquid": "<details class=\"product__accordion accordion\">\n  <summary>\n    DESCRIPTION DU PRODUIT\n    <span class=\"toggle-icon\"></span>\n  </summary>\n  <div class=\"collapsible__content accordion__content rte\">\n    <p>Aimez-vous vous promener sur la plage ou explorer la forêt avec votre enfant ? Avec le porte-bébé de Momfoam, chaque sortie devient simple. Conçu pour les parents et les enfants, ce porte-bébé allie confort, fonctionnalité et style pour des moments agréables à deux.</p>\n    <p><strong>Confectionné en 100% coton.</strong>Ses fibres naturelles offrent confort et durabilité, en faisant un choix fiable pour un usage quotidien. Conçu pour toute l’année, il reste polyvalent et toujours <strong>léger.</strong></p>\n    <p>Ce <strong>porte-bébé de hanche</strong> <strong>polyvalent</strong> est <strong>l’alternative parfaite à la poussette</strong>, vous offrant la liberté de vous déplacer dans des endroits où les roues ne passent pas. Son design symétrique s’adapte facilement aux droitiers comme aux gauchers, garantissant confort et facilité d’utilisation.</p>\n\n    <p><strong>Pourquoi choisir Momfoam aujourd’hui</strong></p>\n    <ul>\n      <li><strong>Rapide &amp; efficace</strong> – S’enfile et s’enlève en quelques secondes.</li>\n<li><strong>Léger & portable</strong> – Se plie facilement pour le transport.</li>\n      <li><strong>Conçu pour le confort</strong> – Design ergonomique qui soutient à la fois vous et votre enfant.</li>\n      <li><strong>Idéal pour les tout-petits</strong> – <strong>Convient aux enfants de 9 mois à 4 ans, jusqu’à 20 kg.</strong></li>\n      <li><strong>Prêt pour tous les terrains</strong> – Idéal pour les endroits où la poussette ne passe pas.</li>\n      <li><strong>Certifié SGS</strong> – Testé pour répondre aux normes de sécurité.</li>\n      <li><strong>Écologique</strong> – Conçu avec un emballage plastique minimal.</li>\n    </ul>\n\n    <p>Le <strong>porte-bébé Momfoam noir</strong> est un <strong>design néerlandais</strong> qui associe praticité et style intemporel. Dites adieu à la poussette encombrante et profitez de la liberté avec Momfoam&nbsp;!</p>\n  </div>\n</details>\n\n<details class=\"product__accordion accordion\">\n  <summary>\n    DÉTAILS DU PRODUIT\n    <span class=\"toggle-icon\"></span>\n  </summary>\n  <div class=\"collapsible__content accordion__content rte\">\n    <ul>\n      <li>Convient aux enfants de 9 mois à 4 ans (max. 20 kg).</li>\n      <li>L’assise est en 5% coton et 95% polyester.</li>\n      <li>La ceinture noire est en 100% polyester.</li>\n      <li>Le clip noir est en 100% POM.</li>\n      <li>Le porte-enfant présente des détails dorés sur les logos.</li>\n    </ul>\n    <p>Veuillez noter : les couleurs sur les photos peuvent légèrement différer du produit réel en raison de l’éclairage et des réglages de l’écran.</p>\n  </div>\n</details>\n\n<details class=\"product__accordion accordion\">\n  <summary>\n    EXPÉDITION ET LIVRAISON\n    <span class=\"toggle-icon\"></span>\n  </summary>\n  <div class=\"collapsible__content accordion__content rte\">\n    <ul>\n      <li>France : jusqu’à 5 jours ouvrables</li>\n      <li>Europe : jusqu’à 15 jours ouvrables</li>\n      <li>Amérique du Nord : jusqu’à 15 jours ouvrables</li>\n      <li>Amérique du Sud : jusqu’à 25 jours ouvrables</li>\n      <li>Moyen-Orient : jusqu’à 20 jours ouvrables</li>\n      <li>Afrique : jusqu’à 25 jours ouvrables</li>\n      <li>Asie : jusqu’à 23 jours ouvrables</li>\n    </ul>\n    <p>Veuillez noter qu’il peut y avoir des retards pendant la haute saison !</p>\n    <p>Consultez notre aperçu des expéditions pour des informations plus détaillées.</p>\n  </div>\n</details>\n\n<details class=\"product__accordion accordion\">\n  <summary>\n    INSTRUCTIONS, SÉCURITÉ ET ENTRETIEN\n    <span class=\"toggle-icon\"></span>\n  </summary>\n  <div class=\"collapsible__content accordion__content rte\">\n   <p>Télécharger le manuel du produit en PDF <a href=\"https://online.fliphtml5.com/momfoam/aowe/\" target=\"_blank\">ici</a>.</p>\n  </div>\n</details>\n\n<details class=\"product__accordion accordion\">\n  <summary>\n    COMMENT UTILISER\n    <span class=\"toggle-icon\"></span>\n  </summary>\n  <div class=\"collapsible__content accordion__content rte\">\n    <div style=\"width: 100%; display: flex; justify-content: center;\">\n      <video id=\"wildride-video\" muted playsinline controls preload=\"metadata\" poster=\"https://cdn.shopify.com/s/files/1/0928/8050/3127/files/MODE_D_EMPLOI_PORTE-BEBE_4.png?v=1757945145\" style=\"width: 100%; max-width: 720px; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 0px; margin-bottom: 16px; display: block;\" title=\"How to Use Wildride Carrier\">\n        <source src=\"https://cdn.shopify.com/videos/c/o/v/a754c346325b4d1b93a2ec7696723342.mp4\" type=\"video/mp4\">\n        Your browser does not support the video tag.\n      </video>\n    </div>\n    <script>\n      document.addEventListener(\"DOMContentLoaded\", function () {\n        // logique additionnelle si nécessaire\n      });\n    </script>\n    <p>Découvrez comment porter et ajuster votre porte-bébé avec notre vidéo pas à pas.</p>\n    <ul>\n      <li>Montre comment sécuriser et ajuster le porte-bébé en toute sécurité</li>\n      <li>Utile pour les utilisateurs débutants comme expérimentés</li>\n    </ul>\n    <p>\n      Vous préférez un guide visuel ? Notre page dédiée inclut la vidéo complète et des conseils pour bien débuter. <br>\n      <a href=\"https://momfoam.com/pages/comment-utiliser-le-porte-bebe\" target=\"_blank\" style=\"color: #000; text-decoration: underline;\">\n        Voir Comment Utiliser →\n      </a>\n    </p>\n  </div>\n</details>\n\n\n<style>\n/* Supprime la flèche native */\n.product__accordion summary::-webkit-details-marker { display: none; }\n\n.product__accordion summary {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  cursor: pointer;\n  padding: 1rem 0;\n  border-top: 1px solid #CD8E6C;\n  font-weight: 600;\n  font-size: 0.9rem;\n  letter-spacing: 0.5px;\n  text-transform: uppercase;\n  color: #1d2523; /* noir adouci */\n  background: #FFF;\n}\n\n/* Ajoute une seule ligne en dessous sauf sur le dernier */\n.product__accordion {\n  border-bottom: 1px solid #ffffff;\n}\n\n/* signe + / – en couleur adoucie */\n.product__accordion .toggle-icon::before {\n  content: \"+\";\n  font-size: 18px;\n  line-height: 1;\n  font-weight: 400;\n  color: #1d2523;\n}\n.product__accordion[open] .toggle-icon::before {\n  content: \"–\";\n}\n\n.collapsible__content {\n  padding: 0.75rem 0 1rem;\n  color: #2e413d; /* corps du texte, cohérent avec ton thème */\n}\n/* Fond blanc pour tous les accordéons */\n.product__accordion {\n  background-color: #fff; /* fond blanc */\n}\n\n/* Fond blanc et texte noir pour le contenu à l'intérieur */\n.product__accordion .collapsible__content {\n  background-color: #fff; /* fond blanc */\n  color: #000; /* texte noir */\n}\n\n/* Facultatif : si tu veux que le texte des liens reste lisible */\n.product__accordion .collapsible__content a {\n  color: #000;\n  text-decoration: underline;\n}\n\n/* Optionnel : uniformise la couleur du summary */\n.product__accordion summary {\n  background-color: #fff;\n  color: #1d2523; /* noir adouci */\n}\n/* Supprime la flèche native */\n.product__accordion summary::-webkit-details-marker { display: none; }\n\n.product__accordion summary {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  cursor: pointer;\n  padding: 1rem 0;\n  border-top: 1px solid #CD8E6C; /* ligne par défaut */\n  font-weight: 600;\n  font-size: 0.9rem;\n  letter-spacing: 0.5px;\n  text-transform: uppercase;\n  color: #1d2523;\n  background: #FFF;\n}\n\n/* Supprime la ligne du premier bloc (DESCRIPTION DU PRODUIT) */\n.product__accordion:first-of-type summary {\n  border-top: none;\n}\n\n/* Supprime la ligne du dernier bloc (COMMENT UTILISER) */\n.product__accordion:last-of-type {\n  border-bottom: none;\n}\n\n/* signe + / – en couleur adoucie */\n.product__accordion .toggle-icon::before {\n  content: \"+\";\n  font-size: 18px;\n  line-height: 1;\n  font-weight: 400;\n  color: #1d2523;\n}\n.product__accordion[open] .toggle-icon::before {\n  content: \"–\";\n}\n\n.collapsible__content {\n  padding: 0.75rem 0 1rem;\n  color: #2e413d;\n}\n\n.product__accordion {\n  background-color: #fff;\n  border-bottom: 1px solid #FFFFFF; /* garde un bas clair sauf sur le dernier */\n}\n\n.product__accordion .collapsible__content {\n  background-color: #fff;\n  color: #000;\n}\n\n.product__accordion .collapsible__content a {\n  color: #000;\n  text-decoration: underline;\n}\n\n.product__accordion summary {\n  background-color: #fff;\n  color: #1d2523;\n}"
           }
@@ -108,79 +109,6 @@
         "divider": false,
         "full_width": true,
         "rounded": false
-      }
-    },
-    "slideshow_4h3TKd": {
-      "type": "slideshow",
-      "blocks": {
-        "image_zRqdz7": {
-          "type": "image",
-          "settings": {
-            "heading": "Image slide",
-            "heading_size": "title-lg tracking-heading",
-            "heading_tag": "h2",
-            "button_label": "",
-            "button_link": "",
-            "button_style": "primary",
-            "button_external": false,
-            "button_icon": false
-          }
-        },
-        "image_pKUGKA": {
-          "type": "image",
-          "settings": {
-            "heading": "Image slide",
-            "heading_size": "title-lg tracking-heading",
-            "heading_tag": "h2",
-            "button_label": "",
-            "button_link": "",
-            "button_style": "primary",
-            "button_external": false,
-            "button_icon": false
-          }
-        },
-        "image_FBrLHr": {
-          "type": "image",
-          "settings": {
-            "heading": "Image slide",
-            "heading_size": "title-lg tracking-heading",
-            "heading_tag": "h2",
-            "button_label": "",
-            "button_link": "",
-            "button_style": "primary",
-            "button_external": false,
-            "button_icon": false
-          }
-        }
-      },
-      "block_order": [
-        "image_zRqdz7",
-        "image_pKUGKA",
-        "image_FBrLHr"
-      ],
-      "name": "t:sections.slideshow.presets.name",
-      "settings": {
-        "autoplay": false,
-        "autoplay_speed": 5,
-        "show_navigation": true,
-        "image_height": "650px",
-        "content_width": "small",
-        "image_height_mobile": "auto",
-        "color_text": "#ffffff",
-        "color_background": "#ffffff",
-        "gradient_background": "",
-        "color_button_text": "#171717",
-        "color_button_background": "#ffffff",
-        "color_button_gradient": "",
-        "color_overlay": "#171717",
-        "overlay_opacity": 20,
-        "padding_top": 0,
-        "padding_bottom": 0,
-        "divider": false,
-        "full_width": true,
-        "rounded": false,
-        "enable_parallax": false,
-        "parallax_direction": "vertical"
       }
     },
     "image_with_text_kP9Tjf": {
@@ -867,7 +795,6 @@
   },
   "order": [
     "main-product",
-    "slideshow_4h3TKd",
     "image_with_text_kP9Tjf",
     "help-drawer",
     "collage",
