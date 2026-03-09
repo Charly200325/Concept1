@@ -141,6 +141,68 @@
         "rounded": false
       }
     },
+    "rich_text_zk7yYC": {
+      "type": "rich-text",
+      "blocks": {
+        "text_eBY8Ai": {
+          "type": "text",
+          "settings": {
+            "text": "<p><strong>THANK YOU FOR YOUR TRUST!</strong></p>",
+            "text_size": "subtext-lg",
+            "text_max_size": 32,
+            "text_font": "body",
+            "secondary_color": false,
+            "highlighted_text": "none",
+            "highlighted_scribble": "circle"
+          }
+        },
+        "heading_gb9q6Q": {
+          "type": "heading",
+          "settings": {
+            "heading": "MORE THAN 10,000 HAPPY CUSTOMERS...",
+            "heading_size": "title-sm",
+            "heading_tag": "h2",
+            "highlighted_text": "none",
+            "highlighted_scribble": "circle"
+          }
+        }
+      },
+      "block_order": [
+        "text_eBY8Ai",
+        "heading_gb9q6Q"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "text_alignment": "center",
+        "text_alignment_mobile": "center",
+        "heading": "",
+        "heading_size": "title-md",
+        "heading_alignment": "text-left md:items-end md:flex-row",
+        "heading_width": "small",
+        "heading_tag": "h2",
+        "subheading": "",
+        "description": "",
+        "button_label": "",
+        "button_link": "",
+        "button_external": false,
+        "button_icon": true,
+        "highlighted_text": "none",
+        "highlighted_scribble": "circle",
+        "color_text": "",
+        "color_background": "",
+        "gradient_background": "",
+        "color_highlight": "",
+        "gradient_highlight": "",
+        "color_button_text": "",
+        "color_button_background": "",
+        "color_button_gradient": "",
+        "padding_top": 72,
+        "padding_bottom": 100,
+        "divider": false,
+        "narrow": true,
+        "rounded": false
+      }
+    },
     "image_with_text_kP9Tjf": {
       "type": "image-with-text",
       "blocks": {
@@ -826,6 +888,7 @@
   "order": [
     "main-product",
     "custom_liquid_KAy6YM",
+    "rich_text_zk7yYC",
     "image_with_text_kP9Tjf",
     "help-drawer",
     "collage",
