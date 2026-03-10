@@ -1,6 +1,386 @@
+{% doc %}
+  @prompt
+    est-ce possible de creer une barre de recherche qui ecrit puis supprimer et ecrit autre chose Exemple : explorer la collection... efface petit a petit puis ecrie, explorer les portes bebe 
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-typewriter-search-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+  }
+
+  .ai-typewriter-search-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+  }
+
+  .ai-typewriter-search-input-{{ ai_gen_id }} {
+    width: 100%;
+    padding: {{ block.settings.input_padding }}px;
+    padding-right: {{ block.settings.input_padding | plus: 40 }}px;
+    font-size: {{ block.settings.font_size }}px;
+    border: {{ block.settings.border_thickness }}px solid {{ block.settings.border_color }};
+    border-radius: {{ block.settings.border_radius }}px;
+    background-color: {{ block.settings.background_color }};
+    color: {{ block.settings.text_color }};
+    outline: none;
+  }
+
+  .ai-typewriter-search-input-{{ ai_gen_id }}::placeholder {
+    color: transparent;
+  }
+
+  .ai-typewriter-search-input-{{ ai_gen_id }}:focus {
+    border-color: {{ block.settings.focus_border_color }};
+  }
+
+  .ai-typewriter-search-placeholder-{{ ai_gen_id }} {
+    position: absolute;
+    left: {{ block.settings.input_padding }}px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: {{ block.settings.font_size }}px;
+    color: {{ block.settings.placeholder_color }};
+    pointer-events: none;
+    white-space: nowrap;
+  }
+
+  .ai-typewriter-search-cursor-{{ ai_gen_id }} {
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    background-color: {{ block.settings.cursor_color }};
+    margin-left: 2px;
+    animation: ai-typewriter-blink-{{ ai_gen_id }} 1s infinite;
+  }
+
+  .ai-typewriter-search-icon-{{ ai_gen_id }} {
+    position: absolute;
+    right: {{ block.settings.input_padding }}px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    color: {{ block.settings.icon_color }};
+    pointer-events: none;
+  }
+
+  @keyframes ai-typewriter-blink-{{ ai_gen_id }} {
+    0%, 50% {
+      opacity: 1;
+    }
+    51%, 100% {
+      opacity: 0;
+    }
+  }
+{% endstyle %}
+
+<typewriter-search-{{ ai_gen_id }}
+  class="ai-typewriter-search-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="ai-typewriter-search-wrapper-{{ ai_gen_id }}">
+    <input
+      type="text"
+      class="ai-typewriter-search-input-{{ ai_gen_id }}"
+      aria-label="Rechercher"
+      autocomplete="off"
+    >
+    <div class="ai-typewriter-search-placeholder-{{ ai_gen_id }}">
+      <span class="ai-typewriter-search-text-{{ ai_gen_id }}"></span>
+      <span class="ai-typewriter-search-cursor-{{ ai_gen_id }}"></span>
+    </div>
+    <svg
+      class="ai-typewriter-search-icon-{{ ai_gen_id }}"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+  </div>
+</typewriter-search-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class TypewriterSearch{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.phrases = [];
+        this.currentPhraseIndex = 0;
+        this.currentCharIndex = 0;
+        this.isDeleting = false;
+        this.typingSpeed = {{ block.settings.typing_speed }};
+        this.deletingSpeed = {{ block.settings.deleting_speed }};
+        this.pauseBeforeDelete = {{ block.settings.pause_before_delete }};
+        this.pauseBeforeType = {{ block.settings.pause_before_type }};
+      }
+
+      connectedCallback() {
+        this.input = this.querySelector('.ai-typewriter-search-input-{{ ai_gen_id }}');
+        this.textElement = this.querySelector('.ai-typewriter-search-text-{{ ai_gen_id }}');
+        this.placeholderElement = this.querySelector('.ai-typewriter-search-placeholder-{{ ai_gen_id }}');
+
+        {% if block.settings.phrase_1 != blank %}
+          this.phrases.push('{{ block.settings.phrase_1 | escape }}');
+        {% endif %}
+        {% if block.settings.phrase_2 != blank %}
+          this.phrases.push('{{ block.settings.phrase_2 | escape }}');
+        {% endif %}
+        {% if block.settings.phrase_3 != blank %}
+          this.phrases.push('{{ block.settings.phrase_3 | escape }}');
+        {% endif %}
+        {% if block.settings.phrase_4 != blank %}
+          this.phrases.push('{{ block.settings.phrase_4 | escape }}');
+        {% endif %}
+
+        if (this.phrases.length === 0) {
+          this.phrases.push('Rechercher...');
+        }
+
+        this.input.addEventListener('focus', () => {
+          this.placeholderElement.style.display = 'none';
+        });
+
+        this.input.addEventListener('blur', () => {
+          if (this.input.value === '') {
+            this.placeholderElement.style.display = 'block';
+          }
+        });
+
+        this.input.addEventListener('input', () => {
+          if (this.input.value !== '') {
+            this.placeholderElement.style.display = 'none';
+          }
+        });
+
+        this.startTyping();
+      }
+
+      startTyping() {
+        this.typeWriter();
+      }
+
+      typeWriter() {
+        const currentPhrase = this.phrases[this.currentPhraseIndex];
+
+        if (this.isDeleting) {
+          this.textElement.textContent = currentPhrase.substring(0, this.currentCharIndex - 1);
+          this.currentCharIndex--;
+
+          if (this.currentCharIndex === 0) {
+            this.isDeleting = false;
+            this.currentPhraseIndex = (this.currentPhraseIndex + 1) % this.phrases.length;
+            setTimeout(() => this.typeWriter(), this.pauseBeforeType);
+            return;
+          }
+
+          setTimeout(() => this.typeWriter(), this.deletingSpeed);
+        } else {
+          this.textElement.textContent = currentPhrase.substring(0, this.currentCharIndex + 1);
+          this.currentCharIndex++;
+
+          if (this.currentCharIndex === currentPhrase.length) {
+            this.isDeleting = true;
+            setTimeout(() => this.typeWriter(), this.pauseBeforeDelete);
+            return;
+          }
+
+          setTimeout(() => this.typeWriter(), this.typingSpeed);
+        }
+      }
+    }
+
+    customElements.define('typewriter-search-{{ ai_gen_id }}', TypewriterSearch{{ ai_gen_id }});
+  })();
+</script>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Barre de recherche animée",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Phrases à afficher"
+    },
+    {
+      "type": "text",
+      "id": "phrase_1",
+      "label": "Phrase 1",
+      "default": "Explorer la collection..."
+    },
+    {
+      "type": "text",
+      "id": "phrase_2",
+      "label": "Phrase 2",
+      "default": "Explorer les portes bébé"
+    },
+    {
+      "type": "text",
+      "id": "phrase_3",
+      "label": "Phrase 3"
+    },
+    {
+      "type": "text",
+      "id": "phrase_4",
+      "label": "Phrase 4"
+    },
+    {
+      "type": "header",
+      "content": "Vitesse d'animation"
+    },
+    {
+      "type": "range",
+      "id": "typing_speed",
+      "label": "Vitesse de frappe",
+      "min": 50,
+      "max": 200,
+      "step": 10,
+      "unit": "ms",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "deleting_speed",
+      "label": "Vitesse de suppression",
+      "min": 30,
+      "max": 150,
+      "step": 10,
+      "unit": "ms",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "pause_before_delete",
+      "label": "Pause avant suppression",
+      "min": 500,
+      "max": 3000,
+      "step": 100,
+      "unit": "ms",
+      "default": 2000
+    },
+    {
+      "type": "range",
+      "id": "pause_before_type",
+      "label": "Pause avant frappe",
+      "min": 200,
+      "max": 1000,
+      "step": 100,
+      "unit": "ms",
+      "default": 500
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Largeur sur ordinateur",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "input_padding",
+      "label": "Espacement interne",
+      "min": 8,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "label": "Taille de police",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Arrondi des coins",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "border_thickness",
+      "label": "Épaisseur de bordure",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "header",
+      "content": "Couleurs"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Fond",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Texte",
+      "default": "#171717"
+    },
+    {
+      "type": "color",
+      "id": "placeholder_color",
+      "label": "Placeholder",
+      "default": "#999999"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Bordure",
+      "default": "#cccccc"
+    },
+    {
+      "type": "color",
+      "id": "focus_border_color",
+      "label": "Bordure au focus",
+      "default": "#171717"
+    },
+    {
+      "type": "color",
+      "id": "cursor_color",
+      "label": "Curseur",
+      "default": "#171717"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icône",
+      "default": "#171717"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Barre de recherche animée"
+    }
+  ]
+}
 {% endschema %}
