@@ -130,6 +130,7 @@
     },
     "header": {
       "type": "header",
+      "disabled": true,
       "custom_css": [],
       "settings": {
         "menu": "main-menu",
@@ -188,7 +189,6 @@
       "block_order": [
         "ai_gen_block_1dfd5c0_yHGTbP"
       ],
-      "disabled": true,
       "settings": {}
     }
   },
