@@ -124,6 +124,7 @@
         },
         "ai_gen_block_61e024a_XH8B9e": {
           "type": "ai_gen_block_61e024a",
+          "disabled": true,
           "settings": {
             "logo_width": 120,
             "logo_width_mobile": 100,
@@ -165,6 +166,7 @@
     },
     "header": {
       "type": "header",
+      "disabled": true,
       "custom_css": [],
       "settings": {
         "menu": "main-menu",
