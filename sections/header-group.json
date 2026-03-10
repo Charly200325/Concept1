@@ -127,7 +127,7 @@
           "settings": {
             "logo_width": 120,
             "logo_width_mobile": 100,
-            "menu": "",
+            "menu": "main-menu",
             "menu_font_size": 16,
             "menu_font_weight": "500",
             "menu_spacing": 30,
