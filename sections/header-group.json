@@ -67,7 +67,6 @@
       "blocks": {
         "ai_gen_block_60a48cf_RYTkF9": {
           "type": "ai_gen_block_60a48cf",
-          "disabled": true,
           "settings": {
             "logo_width": 160,
             "logo_width_mobile": 140,
@@ -128,7 +127,7 @@
           "settings": {
             "logo_width": 120,
             "logo_width_mobile": 100,
-            "menu": "main-menu",
+            "menu": "",
             "menu_font_size": 16,
             "menu_font_weight": "500",
             "menu_spacing": 30,
