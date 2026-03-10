@@ -270,13 +270,17 @@
   }
 
   .ai-header-search-text-{{ ai_gen_id }} {
-    display: flex;
-    align-items: center;
-    gap: 2px;
-    font-size: 14px;
-    white-space: nowrap;
-    line-height: 1;
-  }
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 14px;
+  white-space: nowrap;
+  line-height: 1;
+  width: 220px;
+  min-width: 220px;
+  max-width: 220px;
+  overflow: hidden;
+}
 
   .ai-header-search-label-{{ ai_gen_id }} {
     color: inherit;
