@@ -937,21 +937,28 @@
 
       connectedCallback() {
         this.menuToggle = this.querySelector('[data-menu-toggle]');
-        this.drawerClose = this.querySelector('[data-drawer-close]');
-        this.drawer = this.querySelector('[data-mobile-drawer]');
-        this.overlay = this.querySelector('[data-drawer-overlay]');
-        this.isTransparent = this.dataset.transparent === 'true';
+this.drawerClose = this.querySelector('[data-drawer-close]');
+this.drawer = this.querySelector('[data-mobile-drawer]');
+this.overlay = this.querySelector('[data-drawer-overlay]');
+this.isTransparent = this.dataset.transparent === 'true';
 
-        this.searchWrapper = this.querySelector('[data-search-wrapper]');
-        this.searchToggle = this.querySelector('[data-search-toggle]');
-        this.searchInput = this.querySelector('[data-search-input]');
-        this.searchForm = this.querySelector('[data-search-form]');
+this.searchWrapper = this.querySelector('[data-search-wrapper]');
+this.searchToggle = this.querySelector('[data-search-toggle]');
+this.searchInput = this.querySelector('[data-search-input]');
+this.searchForm = this.querySelector('[data-search-form]');
 
-        this.typingElement = this.querySelector('[data-typing-text]');
-        this.typingTexts = {{ block.settings.typing_texts | json }};
-        this.typingSpeed = {{ block.settings.typing_speed }};
-        this.deletingSpeed = {{ block.settings.deleting_speed }};
-        this.pauseDuration = {{ block.settings.pause_duration }};
+this.typingElement = this.querySelector('[data-typing-text]');
+
+try {
+  const parsedTexts = JSON.parse({{ block.settings.typing_texts | json }});
+  this.typingTexts = Array.isArray(parsedTexts) ? parsedTexts : ["explorer la collection", "porte bébé"];
+} catch (e) {
+  this.typingTexts = ["explorer la collection", "porte bébé"];
+}
+
+this.typingSpeed = {{ block.settings.typing_speed }};
+this.deletingSpeed = {{ block.settings.deleting_speed }};
+this.pauseDuration = {{ block.settings.pause_duration }};
 
         this.setupEventListeners();
 
