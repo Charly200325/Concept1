@@ -285,7 +285,13 @@
   .ai-header-search-label-{{ ai_gen_id }} {
     color: inherit;
   }
-
+.ai-header-typing-text-{{ ai_gen_id }} {
+  color: {{ block.settings.typing_text_color }};
+  font-style: italic;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: clip;
+}
   .ai-header-typing-text-{{ ai_gen_id }} {
     color: {{ block.settings.typing_text_color }};
     font-style: italic;
