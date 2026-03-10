@@ -35,8 +35,8 @@
   .ai-header-{{ ai_gen_id }}.transparent .ai-header-menu-btn-{{ ai_gen_id }},
   .ai-header-{{ ai_gen_id }}.transparent .ai-header-account-link-{{ ai_gen_id }},
   .ai-header-{{ ai_gen_id }}.transparent .ai-header-cart-link-{{ ai_gen_id }},
-  .ai-header-{{ ai_gen_id }}.transparent .ai-header-search-link-{{ ai_gen_id }},
-  .ai-header-{{ ai_gen_id }}.transparent .ai-header-search-btn-{{ ai_gen_id }} {
+  .ai-header-{{ ai_gen_id }}.transparent .ai-header-search-toggle-{{ ai_gen_id }},
+  .ai-header-{{ ai_gen_id }}.transparent .ai-header-search-submit-{{ ai_gen_id }} {
     color: {{ block.settings.transparent_text_color }};
   }
 
@@ -238,20 +238,26 @@
 
   .ai-header-search-{{ ai_gen_id }} {
     position: relative;
+    display: flex;
+    align-items: center;
   }
 
-  .ai-header-search-link-{{ ai_gen_id }} {
+  .ai-header-search-toggle-{{ ai_gen_id }} {
     display: flex;
     align-items: center;
     gap: 8px;
-    text-decoration: none;
+    background: none;
+    border: none;
     color: {{ block.settings.header_text_color }};
     padding: 8px 12px;
     border-radius: 4px;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease, opacity 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
   }
 
-  .ai-header-search-link-{{ ai_gen_id }}:hover {
+  .ai-header-search-toggle-{{ ai_gen_id }}:hover {
     background-color: {{ block.settings.search_hover_bg }};
     color: {{ block.settings.nav_hover_color }};
   }
@@ -260,6 +266,7 @@
     width: 20px;
     height: 20px;
     flex-shrink: 0;
+    display: block;
   }
 
   .ai-header-search-text-{{ ai_gen_id }} {
@@ -268,6 +275,7 @@
     gap: 2px;
     font-size: 14px;
     white-space: nowrap;
+    line-height: 1;
   }
 
   .ai-header-search-label-{{ ai_gen_id }} {
@@ -288,22 +296,73 @@
     animation: ai-header-blink-{{ ai_gen_id }} 1s step-end infinite;
   }
 
-  @keyframes ai-header-blink-{{ ai_gen_id }} {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0; }
+  .ai-header-search-form-{{ ai_gen_id }} {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 0;
+    opacity: 0;
+    pointer-events: none;
+    overflow: hidden;
+    background: {{ block.settings.header_bg_color }};
+    border: 1px solid {{ block.settings.dropdown_hover_bg }};
+    border-radius: 999px;
+    padding: 0;
+    transition: all 0.3s ease;
+    z-index: 5;
   }
 
-  .ai-header-search-btn-{{ ai_gen_id }} {
+  .ai-header-search-{{ ai_gen_id }}.active .ai-header-search-form-{{ ai_gen_id }} {
+    width: 320px;
+    opacity: 1;
+    pointer-events: auto;
+    padding: 6px 10px;
+  }
+
+  .ai-header-search-{{ ai_gen_id }}.active .ai-header-search-toggle-{{ ai_gen_id }} {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .ai-header-search-input-{{ ai_gen_id }} {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 14px;
+    color: {{ block.settings.header_text_color }};
+    min-width: 0;
+  }
+
+  .ai-header-search-input-{{ ai_gen_id }}::placeholder {
+    color: #888;
+  }
+
+  .ai-header-search-submit-{{ ai_gen_id }} {
     background: none;
     border: none;
     cursor: pointer;
-    padding: 8px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: {{ block.settings.header_text_color }};
+    flex-shrink: 0;
   }
 
-  .ai-header-search-btn-{{ ai_gen_id }} svg {
-    width: 20px;
-    height: 20px;
+  .ai-header-search-submit-{{ ai_gen_id }} svg {
+    width: 18px;
+    height: 18px;
+    display: block;
+  }
+
+  @keyframes ai-header-blink-{{ ai_gen_id }} {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
   }
 
   .ai-header-account-{{ ai_gen_id }} {
@@ -527,133 +586,14 @@
       display: none;
     }
 
+    .ai-header-search-{{ ai_gen_id }}.active .ai-header-search-form-{{ ai_gen_id }} {
+      width: 220px;
+    }
+
     {% if block.settings.hide_account_mobile %}
       .ai-header-account-{{ ai_gen_id }} {
         display: none;
       }
-      .ai-header-search-{{ ai_gen_id }} {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.ai-header-search-toggle-{{ ai_gen_id }} {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: none;
-  border: none;
-  text-decoration: none;
-  color: {{ block.settings.header_text_color }};
-  padding: 8px 12px;
-  border-radius: 4px;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  cursor: pointer;
-}
-
-.ai-header-search-toggle-{{ ai_gen_id }}:hover {
-  background-color: {{ block.settings.search_hover_bg }};
-  color: {{ block.settings.nav_hover_color }};
-}
-
-.ai-header-search-icon-{{ ai_gen_id }} {
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
-}
-
-.ai-header-search-text-{{ ai_gen_id }} {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  font-size: 14px;
-  white-space: nowrap;
-}
-
-.ai-header-search-label-{{ ai_gen_id }} {
-  color: inherit;
-}
-
-.ai-header-typing-text-{{ ai_gen_id }} {
-  color: {{ block.settings.typing_text_color }};
-  font-style: italic;
-}
-
-.ai-header-typing-cursor-{{ ai_gen_id }} {
-  display: inline-block;
-  width: 2px;
-  height: 14px;
-  background-color: {{ block.settings.typing_text_color }};
-  margin-left: 2px;
-  animation: ai-header-blink-{{ ai_gen_id }} 1s step-end infinite;
-}
-
-.ai-header-search-form-{{ ai_gen_id }} {
-  position: absolute;
-  top: 50%;
-  right: 0;
-  transform: translateY(-50%);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 0;
-  opacity: 0;
-  pointer-events: none;
-  overflow: hidden;
-  background: {{ block.settings.header_bg_color }};
-  border: 1px solid {{ block.settings.dropdown_hover_bg }};
-  border-radius: 999px;
-  padding: 0;
-  transition: all 0.3s ease;
-  z-index: 20;
-}
-
-.ai-header-search-{{ ai_gen_id }}.active .ai-header-search-form-{{ ai_gen_id }} {
-  width: 320px;
-  opacity: 1;
-  pointer-events: auto;
-  padding: 6px 10px;
-}
-
-.ai-header-search-{{ ai_gen_id }}.active .ai-header-search-toggle-{{ ai_gen_id }} {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.ai-header-search-input-{{ ai_gen_id }} {
-  flex: 1;
-  border: none;
-  outline: none;
-  background: transparent;
-  font-size: 14px;
-  color: {{ block.settings.header_text_color }};
-  min-width: 0;
-}
-
-.ai-header-search-input-{{ ai_gen_id }}::placeholder {
-  color: #888;
-}
-
-.ai-header-search-submit-{{ ai_gen_id }} {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: {{ block.settings.header_text_color }};
-}
-
-.ai-header-search-submit-{{ ai_gen_id }} svg {
-  width: 18px;
-  height: 18px;
-}
-
-@keyframes ai-header-blink-{{ ai_gen_id }} {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0; }
-}
     {% endif %}
   }
 
@@ -671,6 +611,7 @@
         class="ai-header-menu-btn-{{ ai_gen_id }}"
         aria-label="Ouvrir le menu"
         data-menu-toggle
+        type="button"
       >
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 16" fill="currentColor">
           <rect width="25" height="2"></rect>
@@ -749,40 +690,45 @@
 
       <div class="ai-header-actions-{{ ai_gen_id }}">
         {% if block.settings.enable_search %}
-  <div class="ai-header-search-{{ ai_gen_id }}" data-search-wrapper>
-    <button type="button" class="ai-header-search-toggle-{{ ai_gen_id }}" aria-label="Ouvrir la recherche" data-search-toggle>
-      <svg class="ai-header-search-icon-{{ ai_gen_id }}" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-        <path d="M472.576 11.264C222.549333 11.264 19.285333 214.698667 19.285333 464.554667s203.434667 453.290667 453.290667 453.290666c86.869333 0 171.349333-24.746667 244.224-71.338666c11.946667-7.68 15.36-23.381333 7.68-35.328s-23.381333-15.36-35.328-7.68a400.469333 400.469333 0 0 1-216.576 63.317333c-221.696 0-402.090667-180.394667-402.090667-402.090667S250.88 62.464 472.576 62.464s402.090667 180.394667 402.090667 402.090667c0 110.933333-44.202667 214.186667-124.416 290.986666a25.6 25.6 0 0 0 35.328 37.034667c90.453333-86.357333 140.288-202.922667 140.288-328.021333C926.037333 214.528 722.602667 11.264 472.576 11.264zM997.205333 969.045333l-140.970666-140.970666a25.429333 25.429333 0 0 0-36.181334 0 25.429333 25.429333 0 0 0 0 36.181333l140.970667 140.970667c4.949333 4.949333 11.605333 7.509333 18.090667 7.509333s13.141333-2.56 18.090666-7.509333c10.069333-9.898667 10.069333-26.112 0-36.181334z"></path>
-        <path d="M804.352 490.154667c14.165333 0 25.6-11.434667 25.6-25.6 0-196.949333-160.256-357.205333-357.205333-357.205334-14.165333 0-25.6 11.434667-25.6 25.6s11.434667 25.6 25.6 25.6c168.789333 0 306.005333 137.216 306.005333 306.005334 0 14.165333 11.434667 25.6 25.6 25.6z"></path>
-      </svg>
+          <div class="ai-header-search-{{ ai_gen_id }}" data-search-wrapper>
+            <button
+              type="button"
+              class="ai-header-search-toggle-{{ ai_gen_id }}"
+              aria-label="Ouvrir la recherche"
+              data-search-toggle
+            >
+              <svg class="ai-header-search-icon-{{ ai_gen_id }}" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                <path d="M472.576 11.264C222.549333 11.264 19.285333 214.698667 19.285333 464.554667s203.434667 453.290667 453.290667 453.290666c86.869333 0 171.349333-24.746667 244.224-71.338666c11.946667-7.68 15.36-23.381333 7.68-35.328s-23.381333-15.36-35.328-7.68a400.469333 400.469333 0 0 1-216.576 63.317333c-221.696 0-402.090667-180.394667-402.090667-402.090667S250.88 62.464 472.576 62.464s402.090667 180.394667 402.090667 402.090667c0 110.933333-44.202667 214.186667-124.416 290.986666a25.6 25.6 0 0 0 35.328 37.034667c90.453333-86.357333 140.288-202.922667 140.288-328.021333C926.037333 214.528 722.602667 11.264 472.576 11.264zM997.205333 969.045333l-140.970666-140.970666a25.429333 25.429333 0 0 0-36.181334 0 25.429333 25.429333 0 0 0 0 36.181333l140.970667 140.970667c4.949333 4.949333 11.605333 7.509333 18.090667 7.509333s13.141333-2.56 18.090666-7.509333c10.069333-9.898667 10.069333-26.112 0-36.181334z"></path>
+                <path d="M804.352 490.154667c14.165333 0 25.6-11.434667 25.6-25.6 0-196.949333-160.256-357.205333-357.205333-357.205334-14.165333 0-25.6 11.434667-25.6 25.6s11.434667 25.6 25.6 25.6c168.789333 0 306.005333 137.216 306.005333 306.005334 0 14.165333 11.434667 25.6 25.6 25.6z"></path>
+              </svg>
 
-      <div class="ai-header-search-text-{{ ai_gen_id }}">
-        <span class="ai-header-search-label-{{ ai_gen_id }}">{{ block.settings.search_label }}</span>
-        <span class="ai-header-typing-text-{{ ai_gen_id }}" data-typing-text></span>
-        <span class="ai-header-typing-cursor-{{ ai_gen_id }}"></span>
-      </div>
-    </button>
+              <div class="ai-header-search-text-{{ ai_gen_id }}">
+                <span class="ai-header-search-label-{{ ai_gen_id }}">{{ block.settings.search_label }}</span>
+                <span class="ai-header-typing-text-{{ ai_gen_id }}" data-typing-text></span>
+                <span class="ai-header-typing-cursor-{{ ai_gen_id }}"></span>
+              </div>
+            </button>
 
-    <form action="/search" method="get" role="search" class="ai-header-search-form-{{ ai_gen_id }}" data-search-form>
-      <input
-        type="search"
-        name="q"
-        value="{{ search.terms | escape }}"
-        placeholder="{{ block.settings.search_placeholder }}"
-        class="ai-header-search-input-{{ ai_gen_id }}"
-        aria-label="Rechercher"
-        data-search-input
-      >
-      <input type="hidden" name="options[prefix]" value="last">
-      <button type="submit" class="ai-header-search-submit-{{ ai_gen_id }}" aria-label="Lancer la recherche">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" fill="currentColor">
-          <path d="M472.576 11.264C222.549333 11.264 19.285333 214.698667 19.285333 464.554667s203.434667 453.290667 453.290667 453.290666c86.869333 0 171.349333-24.746667 244.224-71.338666c11.946667-7.68 15.36-23.381333 7.68-35.328s-23.381333-15.36-35.328-7.68a400.469333 400.469333 0 0 1-216.576 63.317333c-221.696 0-402.090667-180.394667-402.090667-402.090667S250.88 62.464 472.576 62.464s402.090667 180.394667 402.090667 402.090667c0 110.933333-44.202667 214.186667-124.416 290.986666a25.6 25.6 0 0 0 35.328 37.034667c90.453333-86.357333 140.288-202.922667 140.288-328.021333C926.037333 214.528 722.602667 11.264 472.576 11.264zM997.205333 969.045333l-140.970666-140.970666a25.429333 25.429333 0 0 0-36.181334 0 25.429333 25.429333 0 0 0 0 36.181333l140.970667 140.970667c4.949333 4.949333 11.605333 7.509333 18.090667 7.509333s13.141333-2.56 18.090666-7.509333c10.069333-9.898667 10.069333-26.112 0-36.181334z"></path>
-          <path d="M804.352 490.154667c14.165333 0 25.6-11.434667 25.6-25.6 0-196.949333-160.256-357.205333-357.205333-357.205334-14.165333 0-25.6 11.434667-25.6 25.6s11.434667 25.6 25.6 25.6c168.789333 0 306.005333 137.216 306.005333 306.005334 0 14.165333 11.434667 25.6 25.6 25.6z"></path>
-        </svg>
-      </button>
-    </form>
-  </div>
-{% endif %}
+            <form action="/search" method="get" role="search" class="ai-header-search-form-{{ ai_gen_id }}" data-search-form>
+              <input
+                type="search"
+                name="q"
+                value="{{ search.terms | escape }}"
+                placeholder="{{ block.settings.search_placeholder }}"
+                class="ai-header-search-input-{{ ai_gen_id }}"
+                aria-label="Rechercher"
+                data-search-input
+              >
+              <input type="hidden" name="options[prefix]" value="last">
+              <button type="submit" class="ai-header-search-submit-{{ ai_gen_id }}" aria-label="Lancer la recherche">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" fill="currentColor">
+                  <path d="M472.576 11.264C222.549333 11.264 19.285333 214.698667 19.285333 464.554667s203.434667 453.290667 453.290667 453.290666c86.869333 0 171.349333-24.746667 244.224-71.338666c11.946667-7.68 15.36-23.381333 7.68-35.328s-23.381333-15.36-35.328-7.68a400.469333 400.469333 0 0 1-216.576 63.317333c-221.696 0-402.090667-180.394667-402.090667-402.090667S250.88 62.464 472.576 62.464s402.090667 180.394667 402.090667 402.090667c0 110.933333-44.202667 214.186667-124.416 290.986666a25.6 25.6 0 0 0 35.328 37.034667c90.453333-86.357333 140.288-202.922667 140.288-328.021333C926.037333 214.528 722.602667 11.264 472.576 11.264zM997.205333 969.045333l-140.970666-140.970666a25.429333 25.429333 0 0 0-36.181334 0 25.429333 25.429333 0 0 0 0 36.181333l140.970667 140.970667c4.949333 4.949333 11.605333 7.509333 18.090667 7.509333s13.141333-2.56 18.090666-7.509333c10.069333-9.898667 10.069333-26.112 0-36.181334z"></path>
+                  <path d="M804.352 490.154667c14.165333 0 25.6-11.434667 25.6-25.6 0-196.949333-160.256-357.205333-357.205333-357.205334-14.165333 0-25.6 11.434667-25.6 25.6s11.434667 25.6 25.6 25.6c168.789333 0 306.005333 137.216 306.005333 306.005334 0 14.165333 11.434667 25.6 25.6 25.6z"></path>
+                </svg>
+              </button>
+            </form>
+          </div>
+        {% endif %}
 
         {% if block.settings.enable_locale_selector and shop.published_locales.size > 1 %}
           <div class="ai-header-locale-{{ ai_gen_id }}">
@@ -996,6 +942,11 @@
         this.overlay = this.querySelector('[data-drawer-overlay]');
         this.isTransparent = this.dataset.transparent === 'true';
 
+        this.searchWrapper = this.querySelector('[data-search-wrapper]');
+        this.searchToggle = this.querySelector('[data-search-toggle]');
+        this.searchInput = this.querySelector('[data-search-input]');
+        this.searchForm = this.querySelector('[data-search-form]');
+
         this.typingElement = this.querySelector('[data-typing-text]');
         this.typingTexts = {{ block.settings.typing_texts | json }};
         this.typingSpeed = {{ block.settings.typing_speed }};
@@ -1026,9 +977,23 @@
           this.overlay.addEventListener('click', () => this.closeDrawer());
         }
 
+        if (this.searchToggle && this.searchWrapper) {
+          this.searchToggle.addEventListener('click', () => this.openSearch());
+        }
+
+        document.addEventListener('click', (e) => {
+          if (this.searchWrapper && !this.searchWrapper.contains(e.target)) {
+            this.closeSearch();
+          }
+        });
+
         document.addEventListener('keydown', (e) => {
           if (e.key === 'Escape' && this.drawer && this.drawer.classList.contains('active')) {
             this.closeDrawer();
+          }
+
+          if (e.key === 'Escape') {
+            this.closeSearch();
           }
         });
 
@@ -1055,6 +1020,23 @@
         if (this.drawer) this.drawer.classList.remove('active');
         if (this.overlay) this.overlay.classList.remove('active');
         document.body.style.overflow = '';
+      }
+
+      openSearch() {
+        if (!this.searchWrapper) return;
+        this.searchWrapper.classList.add('active');
+
+        setTimeout(() => {
+          if (this.searchInput) this.searchInput.focus();
+        }, 150);
+      }
+
+      closeSearch() {
+        if (!this.searchWrapper) return;
+
+        if (this.searchInput && this.searchInput.value.trim() !== '') return;
+
+        this.searchWrapper.classList.remove('active');
       }
 
       typeText() {
@@ -1543,6 +1525,12 @@
       "id": "search_label",
       "label": "Texte de recherche",
       "default": "Recherche"
+    },
+    {
+      "type": "text",
+      "id": "search_placeholder",
+      "label": "Placeholder de recherche",
+      "default": "Rechercher un produit..."
     },
     {
       "type": "textarea",
