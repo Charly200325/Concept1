@@ -1,6 +1,624 @@
+{% doc %}
+  @prompt
+    creer une entete avec logo menu + panier compte client et barre de recherche anime comme le code suivant ; <div class="t4s-site-nav__icon t4s-site-nav__search"><div class="t4s-d-lg-inline-block t4s-d-none">
+              <a class="t4s-pr" aria-label="link" href="/search" data-drawer-delay-="" data-drawer-options="{ &quot;id&quot;: &quot;#t4s-search-hidden&quot; }">
+                <details-modal class="w__searchBar-with-typingText">
+                  <svg t="1719561738377" class="w__typeingSearchIcon t4s-icon t4s-icon--search" aria-hidden="true" focusable="false" role="presentation" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2347" width="20" height="20">
+                    <path d="M472.576 11.264C222.549333 11.264 19.285333 214.698667 19.285333 464.554667s203.434667 453.290667 453.290667 453.290666c86.869333 0 171.349333-24.746667 244.224-71.338666 11.946667-7.68 15.36-23.381333 7.68-35.328s-23.381333-15.36-35.328-7.68a400.469333 400.469333 0 0 1-216.576 63.317333c-221.696 0-402.090667-180.394667-402.090667-402.090667S250.88 62.464 472.576 62.464s402.090667 180.394667 402.090667 402.090667c0 110.933333-44.202667 214.186667-124.416 290.986666a25.6 25.6 0 0 0 35.328 37.034667c90.453333-86.357333 140.288-202.922667 140.288-328.021333C926.037333 214.528 722.602667 11.264 472.576 11.264zM997.205333 969.045333l-140.970666-140.970666a25.429333 25.429333 0 0 0-36.181334 0 25.429333 25.429333 0 0 0 0 36.181333l140.970667 140.970667c4.949333 4.949333 11.605333 7.509333 18.090667 7.509333s13.141333-2.56 18.090666-7.509333c10.069333-9.898667 10.069333-26.112 0-36.181334z" p-id="2348"></path><path d="M804.352 490.154667c14.165333 0 25.6-11.434667 25.6-25.6 0-196.949333-160.256-357.205333-357.205333-357.205334-14.165333 0-25.6 11.434667-25.6 25.6s11.434667 25.6 25.6 25.6c168.789333 0 306.005333 137.216 306.005333 306.005334 0 14.165333 11.434667 25.6 25.6 25.6z" p-id="2349"></path>
+                  </svg>
+                  <p class="w__typingTextData" aria-label="What are you looking for?">
+                    <span>Recherche</span>
+                    <span id="w__typingText" aria-hidden="true">brid</span>
+                    <span id="w__typingCursor" aria-hidden="true" style="visibility: visible;"></span>
+                  </p>
+                </details-modal>
+              </a>
+            </div></div>
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-header-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    background-color: {{ block.settings.header_bg_color }};
+    border-bottom: 1px solid {{ block.settings.border_color }};
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+
+  .ai-header-container-{{ ai_gen_id }} {
+    max-width: {{ block.settings.page_width }}px;
+    margin: 0 auto;
+    padding: {{ block.settings.header_padding }}px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  .ai-header-logo-{{ ai_gen_id }} {
+    flex-shrink: 0;
+  }
+
+  .ai-header-logo-{{ ai_gen_id }} img {
+    display: block;
+    width: {{ block.settings.logo_width }}px;
+    height: auto;
+  }
+
+  .ai-header-logo-placeholder-{{ ai_gen_id }} {
+    width: {{ block.settings.logo_width }}px;
+    height: 40px;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-header-logo-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: {{ block.settings.logo_width }}px;
+    max-height: 40px;
+  }
+
+  .ai-header-nav-{{ ai_gen_id }} {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+  }
+
+  .ai-header-nav-list-{{ ai_gen_id }} {
+    display: flex;
+    gap: {{ block.settings.menu_spacing }}px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .ai-header-nav-item-{{ ai_gen_id }} a {
+    color: {{ block.settings.menu_text_color }};
+    text-decoration: none;
+    font-size: {{ block.settings.menu_font_size }}px;
+    font-weight: {{ block.settings.menu_font_weight }};
+    transition: color 0.3s ease;
+  }
+
+  .ai-header-nav-item-{{ ai_gen_id }} a:hover {
+    color: {{ block.settings.menu_hover_color }};
+  }
+
+  .ai-header-actions-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: {{ block.settings.icon_spacing }}px;
+    flex-shrink: 0;
+  }
+
+  .ai-header-search-{{ ai_gen_id }} {
+    position: relative;
+  }
+
+  .ai-header-search-link-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: {{ block.settings.icon_color }};
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+
+  .ai-header-search-link-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.icon_hover_bg }};
+  }
+
+  .ai-header-search-icon-{{ ai_gen_id }} {
+    width: {{ block.settings.icon_size }}px;
+    height: {{ block.settings.icon_size }}px;
+    flex-shrink: 0;
+  }
+
+  .ai-header-search-text-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    font-size: 14px;
+  }
+
+  .ai-header-search-label-{{ ai_gen_id }} {
+    color: {{ block.settings.icon_color }};
+  }
+
+  .ai-header-typing-text-{{ ai_gen_id }} {
+    color: {{ block.settings.typing_text_color }};
+    font-style: italic;
+  }
+
+  .ai-header-typing-cursor-{{ ai_gen_id }} {
+    display: inline-block;
+    width: 2px;
+    height: 14px;
+    background-color: {{ block.settings.typing_text_color }};
+    margin-left: 2px;
+    animation: ai-header-blink-{{ ai_gen_id }} 1s step-end infinite;
+  }
+
+  @keyframes ai-header-blink-{{ ai_gen_id }} {
+    0%, 50% {
+      opacity: 1;
+    }
+    51%, 100% {
+      opacity: 0;
+    }
+  }
+
+  .ai-header-icon-link-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: {{ block.settings.icon_size }}px;
+    height: {{ block.settings.icon_size }}px;
+    color: {{ block.settings.icon_color }};
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .ai-header-icon-link-{{ ai_gen_id }}:hover {
+    color: {{ block.settings.icon_hover_color }};
+  }
+
+  .ai-header-icon-link-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .ai-header-cart-{{ ai_gen_id }} {
+    position: relative;
+  }
+
+  .ai-header-cart-count-{{ ai_gen_id }} {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: {{ block.settings.cart_badge_bg }};
+    color: {{ block.settings.cart_badge_text }};
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  @media screen and (max-width: 989px) {
+    .ai-header-nav-{{ ai_gen_id }} {
+      display: none;
+    }
+
+    .ai-header-search-text-{{ ai_gen_id }} {
+      display: none;
+    }
+
+    .ai-header-logo-{{ ai_gen_id }} img {
+      width: {{ block.settings.logo_width_mobile }}px;
+    }
+
+    .ai-header-logo-placeholder-{{ ai_gen_id }} {
+      width: {{ block.settings.logo_width_mobile }}px;
+    }
+
+    .ai-header-logo-placeholder-{{ ai_gen_id }} svg {
+      max-width: {{ block.settings.logo_width_mobile }}px;
+    }
+  }
+{% endstyle %}
+
+<header-animated-search-{{ ai_gen_id }} class="ai-header-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-header-container-{{ ai_gen_id }}">
+    <div class="ai-header-logo-{{ ai_gen_id }}">
+      <a href="/" aria-label="Home">
+        {% if block.settings.logo %}
+          <img
+            src="{{ block.settings.logo | image_url: width: 400 }}"
+            alt="{{ shop.name }}"
+            width="{{ block.settings.logo_width }}"
+            height="auto"
+            loading="eager"
+          >
+        {% else %}
+          <div class="ai-header-logo-placeholder-{{ ai_gen_id }}">
+            {{ 'image' | placeholder_svg_tag }}
+          </div>
+        {% endif %}
+      </a>
+    </div>
+
+    {% if block.settings.menu != blank %}
+      <nav class="ai-header-nav-{{ ai_gen_id }}" aria-label="Main navigation">
+        <ul class="ai-header-nav-list-{{ ai_gen_id }}">
+          {% for link in block.settings.menu.links %}
+            <li class="ai-header-nav-item-{{ ai_gen_id }}">
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </nav>
+    {% endif %}
+
+    <div class="ai-header-actions-{{ ai_gen_id }}">
+      {% if block.settings.show_search %}
+        <div class="ai-header-search-{{ ai_gen_id }}">
+          <a href="/search" class="ai-header-search-link-{{ ai_gen_id }}" aria-label="Search">
+            <svg class="ai-header-search-icon-{{ ai_gen_id }}" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+              <path d="M472.576 11.264C222.549333 11.264 19.285333 214.698667 19.285333 464.554667s203.434667 453.290667 453.290667 453.290666c86.869333 0 171.349333-24.746667 244.224-71.338666 11.946667-7.68 15.36-23.381333 7.68-35.328s-23.381333-15.36-35.328-7.68a400.469333 400.469333 0 0 1-216.576 63.317333c-221.696 0-402.090667-180.394667-402.090667-402.090667S250.88 62.464 472.576 62.464s402.090667 180.394667 402.090667 402.090667c0 110.933333-44.202667 214.186667-124.416 290.986666a25.6 25.6 0 0 0 35.328 37.034667c90.453333-86.357333 140.288-202.922667 140.288-328.021333C926.037333 214.528 722.602667 11.264 472.576 11.264zM997.205333 969.045333l-140.970666-140.970666a25.429333 25.429333 0 0 0-36.181334 0 25.429333 25.429333 0 0 0 0 36.181333l140.970667 140.970667c4.949333 4.949333 11.605333 7.509333 18.090667 7.509333s13.141333-2.56 18.090666-7.509333c10.069333-9.898667 10.069333-26.112 0-36.181334z"></path>
+              <path d="M804.352 490.154667c14.165333 0 25.6-11.434667 25.6-25.6 0-196.949333-160.256-357.205333-357.205333-357.205334-14.165333 0-25.6 11.434667-25.6 25.6s11.434667 25.6 25.6 25.6c168.789333 0 306.005333 137.216 306.005333 306.005334 0 14.165333 11.434667 25.6 25.6 25.6z"></path>
+            </svg>
+            <div class="ai-header-search-text-{{ ai_gen_id }}">
+              <span class="ai-header-search-label-{{ ai_gen_id }}">{{ block.settings.search_label }}</span>
+              <span class="ai-header-typing-text-{{ ai_gen_id }}" data-typing-text></span>
+              <span class="ai-header-typing-cursor-{{ ai_gen_id }}"></span>
+            </div>
+          </a>
+        </div>
+      {% endif %}
+
+      {% if block.settings.show_account %}
+        <a href="/account" class="ai-header-icon-link-{{ ai_gen_id }}" aria-label="Account">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </a>
+      {% endif %}
+
+      {% if block.settings.show_cart %}
+        <div class="ai-header-cart-{{ ai_gen_id }}">
+          <a href="/cart" class="ai-header-icon-link-{{ ai_gen_id }}" aria-label="Cart">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="9" cy="21" r="1"></circle>
+              <circle cx="20" cy="21" r="1"></circle>
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+            </svg>
+            {% if cart.item_count > 0 %}
+              <span class="ai-header-cart-count-{{ ai_gen_id }}">{{ cart.item_count }}</span>
+            {% endif %}
+          </a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</header-animated-search-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class HeaderAnimatedSearch{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.typingElement = this.querySelector('[data-typing-text]');
+        this.typingTexts = {{ block.settings.typing_texts | json }};
+        this.currentTextIndex = 0;
+        this.currentCharIndex = 0;
+        this.isDeleting = false;
+        this.typingSpeed = {{ block.settings.typing_speed }};
+        this.deletingSpeed = {{ block.settings.deleting_speed }};
+        this.pauseDuration = {{ block.settings.pause_duration }};
+      }
+
+      connectedCallback() {
+        if (this.typingElement && this.typingTexts && this.typingTexts.length > 0) {
+          this.startTyping();
+        }
+      }
+
+      startTyping() {
+        this.typeText();
+      }
+
+      typeText() {
+        const currentText = this.typingTexts[this.currentTextIndex];
+        
+        if (this.isDeleting) {
+          this.typingElement.textContent = currentText.substring(0, this.currentCharIndex - 1);
+          this.currentCharIndex--;
+        } else {
+          this.typingElement.textContent = currentText.substring(0, this.currentCharIndex + 1);
+          this.currentCharIndex++;
+        }
+
+        let timeout = this.isDeleting ? this.deletingSpeed : this.typingSpeed;
+
+        if (!this.isDeleting && this.currentCharIndex === currentText.length) {
+          timeout = this.pauseDuration;
+          this.isDeleting = true;
+        } else if (this.isDeleting && this.currentCharIndex === 0) {
+          this.isDeleting = false;
+          this.currentTextIndex = (this.currentTextIndex + 1) % this.typingTexts.length;
+          timeout = 500;
+        }
+
+        setTimeout(() => this.typeText(), timeout);
+      }
+    }
+
+    customElements.define('header-animated-search-{{ ai_gen_id }}', HeaderAnimatedSearch{{ ai_gen_id }});
+  })();
+</script>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Animated header",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo image"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "label": "Desktop logo width",
+      "min": 50,
+      "max": 300,
+      "step": 10,
+      "unit": "px",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "logo_width_mobile",
+      "label": "Mobile logo width",
+      "min": 40,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu"
+    },
+    {
+      "type": "range",
+      "id": "menu_font_size",
+      "label": "Font size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "menu_font_weight",
+      "label": "Font weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi-bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "range",
+      "id": "menu_spacing",
+      "label": "Menu item spacing",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "color",
+      "id": "menu_text_color",
+      "label": "Text color",
+      "default": "#171717"
+    },
+    {
+      "type": "color",
+      "id": "menu_hover_color",
+      "label": "Hover color",
+      "default": "#f9d43d"
+    },
+    {
+      "type": "header",
+      "content": "Search"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_search",
+      "label": "Show search",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "search_label",
+      "label": "Search label",
+      "default": "Recherche"
+    },
+    {
+      "type": "textarea",
+      "id": "typing_texts",
+      "label": "Typing animation texts",
+      "default": "[\"brid\", \"explorer la collection\", \"porte bébé\"]",
+      "info": "Enter texts as JSON array format: [\"text1\", \"text2\", \"text3\"]"
+    },
+    {
+      "type": "range",
+      "id": "typing_speed",
+      "label": "Typing speed",
+      "min": 50,
+      "max": 300,
+      "step": 10,
+      "unit": "ms",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "deleting_speed",
+      "label": "Deleting speed",
+      "min": 30,
+      "max": 200,
+      "step": 10,
+      "unit": "ms",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "pause_duration",
+      "label": "Pause duration",
+      "min": 500,
+      "max": 3000,
+      "step": 100,
+      "unit": "ms",
+      "default": 2000
+    },
+    {
+      "type": "color",
+      "id": "typing_text_color",
+      "label": "Typing text color",
+      "default": "#f9d43d"
+    },
+    {
+      "type": "header",
+      "content": "Icons"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_account",
+      "label": "Show account icon",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cart",
+      "label": "Show cart icon",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "label": "Icon size",
+      "min": 16,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "icon_spacing",
+      "label": "Icon spacing",
+      "min": 10,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon color",
+      "default": "#171717"
+    },
+    {
+      "type": "color",
+      "id": "icon_hover_color",
+      "label": "Icon hover color",
+      "default": "#f9d43d"
+    },
+    {
+      "type": "color",
+      "id": "icon_hover_bg",
+      "label": "Search hover background",
+      "default": "#f4f4f4"
+    },
+    {
+      "type": "header",
+      "content": "Cart badge"
+    },
+    {
+      "type": "color",
+      "id": "cart_badge_bg",
+      "label": "Background color",
+      "default": "#e11d48"
+    },
+    {
+      "type": "color",
+      "id": "cart_badge_text",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Header style"
+    },
+    {
+      "type": "color",
+      "id": "header_bg_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border color",
+      "default": "#e5e5e5"
+    },
+    {
+      "type": "range",
+      "id": "header_padding",
+      "label": "Vertical padding",
+      "min": 10,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "page_width",
+      "label": "Max width",
+      "min": 1000,
+      "max": 2000,
+      "step": 100,
+      "unit": "px",
+      "default": 1600
+    }
+  ],
+  "presets": [
+    {
+      "name": "Animated header"
+    }
+  ]
+}
 {% endschema %}
