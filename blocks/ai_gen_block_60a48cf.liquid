@@ -243,22 +243,19 @@
   }
 
   .ai-header-search-toggle-{{ ai_gen_id }} {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: none;
-  border: none;
-  color: {{ block.settings.header_text_color }};
-  padding: 8px 14px;
-  border-radius: 999px;
-  transition: background-color 0.3s ease, color 0.3s ease, opacity 0.3s ease;
-  cursor: pointer;
-  position: relative;
-  z-index: 2;
-
-  min-width: 320px;
-  justify-content: flex-start;
-}
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    color: {{ block.settings.header_text_color }};
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease, opacity 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+  }
 
   .ai-header-search-toggle-{{ ai_gen_id }}:hover {
     background-color: {{ block.settings.search_hover_bg }};
