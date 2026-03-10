@@ -86,7 +86,7 @@
             "mobile_show_locale": false,
             "mobile_show_country": false,
             "enable_transparent": false,
-            "transparent_text_color": "#FFFFFF",
+            "transparent_text_color": "#ffffff",
             "header_bg_color": "#ffffff",
             "header_text_color": "#171717",
             "nav_hover_color": "#6b2c3b",
