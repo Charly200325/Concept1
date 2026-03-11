@@ -337,8 +337,8 @@
         "image-2": {
           "type": "image",
           "settings": {
-            "subheading": "<em>Tagline</em>",
-            "heading": "Example heading",
+            "subheading": "<em>Easy to use</em>",
+            "heading": "Lift your child <strong>effortlessly</strong>, set them down <strong>stress-free</strong>.",
             "link": "",
             "invert_subheading_heading": false,
             "image": "shopify://shop_images/8b1fc76c-7432-4e2d-a238-79fc3ce96270.png",
@@ -360,8 +360,8 @@
         "image-3": {
           "type": "image",
           "settings": {
-            "subheading": "<em>Tagline</em>",
-            "heading": "Example heading",
+            "subheading": "<em>Secure carrying</em>",
+            "heading": "Cuddles guaranteed",
             "link": "",
             "invert_subheading_heading": false,
             "image": "shopify://shop_images/Design_sans_titre_1.png",
