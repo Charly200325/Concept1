@@ -318,6 +318,7 @@
             "heading": "Example heading",
             "link": "",
             "invert_subheading_heading": false,
+            "image": "shopify://shop_images/d92fdc46-2d41-46e1-a90a-17ebf960dacf.png",
             "image_ratio": "landscape",
             "content_position": "md:items-end md:justify-center",
             "text_alignment": "center",
