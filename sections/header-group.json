@@ -67,6 +67,7 @@
       "blocks": {
         "ai_gen_block_60a48cf_RYTkF9": {
           "type": "ai_gen_block_60a48cf",
+          "disabled": true,
           "settings": {
             "logo_width": 160,
             "logo_width_mobile": 140,
