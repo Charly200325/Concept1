@@ -366,7 +366,7 @@
             "invert_subheading_heading": false,
             "image": "shopify://shop_images/Design_sans_titre_1.png",
             "image_ratio": "portrait",
-            "content_position": "md:items-start md:justify-end",
+            "content_position": "md:items-end md:justify-center",
             "text_alignment": "right",
             "image_ratio_mobile": "portrait",
             "content_position_mobile": "items-start justify-end",
