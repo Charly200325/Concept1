@@ -1,0 +1,529 @@
+<!-- sections/slideshow-dynamic.liquid -->
+<style>
+  .slideshow-container {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+    background: #000;
+  }
+
+  .slides-wrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 ratio */
+  }
+
+  .slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+  }
+
+  .slide.active {
+    opacity: 1;
+  }
+
+  .slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .slide-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 40px;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    color: white;
+    z-index: 10;
+  }
+
+  .slide-subtitle {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    opacity: 0.9;
+  }
+
+  .slide-title {
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    line-height: 1.2;
+  }
+
+  .slide-text {
+    font-size: 16px;
+    margin-bottom: 25px;
+    max-width: 600px;
+    line-height: 1.6;
+  }
+
+  .slide-button {
+    display: inline-block;
+    padding: 12px 30px;
+    background: white;
+    color: #000;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+  }
+
+  .slide-button:hover {
+    background: #f0f0f0;
+    transform: translateY(-2px);
+  }
+
+  /* Navigation inférieure style MOMcozy */
+  .slideshow-nav {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    right: 80px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    z-index: 20;
+  }
+
+  .nav-bar {
+    flex: 1;
+    height: 3px;
+    background: rgba(255,255,255,0.3);
+    border-radius: 2px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .nav-bar.active {
+    background: rgba(255,255,255,0.5);
+  }
+
+  .nav-bar-progress {
+    height: 100%;
+    background: white;
+    width: 0%;
+    transition: width 0.1s linear;
+    border-radius: 2px;
+  }
+
+  .nav-label {
+    font-size: 12px;
+    color: white;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.8;
+  }
+
+  /* Bouton play/pause */
+  .play-pause-btn {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  }
+
+  .play-pause-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+  }
+
+  .play-pause-btn svg {
+    width: 24px;
+    height: 24px;
+    fill: #000;
+  }
+
+  .progress-circle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+  }
+
+  .progress-circle-svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .slide-content {
+      padding: 20px;
+    }
+
+    .slide-title {
+      font-size: 28px;
+    }
+
+    .slide-text {
+      font-size: 14px;
+    }
+
+    .slideshow-nav {
+      bottom: 15px;
+      left: 15px;
+      right: 70px;
+      gap: 10px;
+    }
+
+    .nav-bar {
+      height: 2px;
+    }
+
+    .play-pause-btn {
+      width: 45px;
+      height: 45px;
+      bottom: 15px;
+      right: 15px;
+    }
+  }
+</style>
+
+<div class="slideshow-container">
+  <div class="slides-wrapper">
+    {% for block in section.blocks %}
+      <div class="slide {% if forloop.first %}active{% endif %}" data-slide="{{ forloop.index0 }}">
+        <picture>
+          <source media="(max-width: 768px)" srcset="{{ block.settings.image_mobile | image_url: width: 768 }}">
+          <img src="{{ block.settings.image_desktop | image_url: width: 1920 }}" alt="{{ block.settings.title }}">
+        </picture>
+        <div class="slide-content">
+          {% if block.settings.subtitle %}
+            <div class="slide-subtitle">{{ block.settings.subtitle }}</div>
+          {% endif %}
+          <h2 class="slide-title">{{ block.settings.title }}</h2>
+          {% if block.settings.text %}
+            <p class="slide-text">{{ block.settings.text }}</p>
+          {% endif %}
+          {% if block.settings.button_text and block.settings.button_link %}
+            <a href="{{ block.settings.button_link }}" class="slide-button">{{ block.settings.button_text }}</a>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <!-- Navigation inférieure -->
+  <div class="slideshow-nav">
+    {% for block in section.blocks %}
+      <div class="nav-bar {% if forloop.first %}active{% endif %}" data-slide="{{ forloop.index0 }}">
+        <div class="nav-bar-progress"></div>
+      </div>
+    {% endfor %}
+    {% if section.blocks.size > 0 %}
+      <span class="nav-label" id="nav-label">{{ section.blocks[0].settings.slide_label }}</span>
+    {% endif %}
+  </div>
+
+  <!-- Bouton play/pause -->
+  <button class="play-pause-btn" id="play-pause-btn" aria-label="Play/Pause">
+    <svg viewBox="0 0 24 24">
+      <path id="play-icon" d="M8 5v14l11-7z" style="display: block;"/>
+      <path id="pause-icon" d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" style="display: none;"/>
+    </svg>
+    <svg class="progress-circle-svg" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="45" fill="none" stroke="#000" stroke-width="2" opacity="0.2"/>
+      <circle id="progress-ring" cx="50" cy="50" r="45" fill="none" stroke="#000" stroke-width="2" stroke-dasharray="282.7" stroke-dashoffset="282.7" stroke-linecap="round"/>
+    </svg>
+  </button>
+</div>
+
+<script>
+  class DynamicSlideshow {
+    constructor(container) {
+      this.container = container;
+      this.slides = container.querySelectorAll('.slide');
+      this.navBars = container.querySelectorAll('.nav-bar');
+      this.playPauseBtn = container.querySelector('#play-pause-btn');
+      this.navLabel = container.querySelector('#nav-label');
+      this.progressRing = container.querySelector('#progress-ring');
+      
+      this.currentSlide = 0;
+      this.isPlaying = {{ section.settings.autoplay | default: true }};
+      this.duration = {{ section.settings.duration | default: 5 }} * 1000;
+      this.autoplayTimeout = null;
+      this.progressInterval = null;
+      this.startTime = null;
+      this.touchStartX = 0;
+      
+      this.init();
+    }
+
+    init() {
+      this.updateSlide(0);
+      this.setupEventListeners();
+      if (this.isPlaying) this.startAutoplay();
+    }
+
+    setupEventListeners() {
+      // Navigation bars
+      this.navBars.forEach((bar, index) => {
+        bar.addEventListener('click', () => this.goToSlide(index));
+      });
+
+      // Play/Pause button
+      this.playPauseBtn.addEventListener('click', () => this.togglePlayPause());
+
+      // Hover pause
+      this.container.addEventListener('mouseenter', () => this.pauseAutoplay());
+      this.container.addEventListener('mouseleave', () => {
+        if (this.isPlaying) this.startAutoplay();
+      });
+
+      // Swipe on mobile
+      this.container.addEventListener('touchstart', (e) => {
+        this.touchStartX = e.touches[0].clientX;
+      });
+
+      this.container.addEventListener('touchend', (e) => {
+        const touchEndX = e.changedTouches[0].clientX;
+        const diff = this.touchStartX - touchEndX;
+        
+        if (Math.abs(diff) > 50) {
+          if (diff > 0) {
+            this.nextSlide();
+          } else {
+            this.prevSlide();
+          }
+        }
+      });
+
+      // Keyboard navigation
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') this.prevSlide();
+        if (e.key === 'ArrowRight') this.nextSlide();
+      });
+    }
+
+    updateSlide(index) {
+      this.currentSlide = (index + this.slides.length) % this.slides.length;
+
+      // Update slides
+      this.slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === this.currentSlide);
+      });
+
+      // Update nav bars
+      this.navBars.forEach((bar, i) => {
+        bar.classList.toggle('active', i === this.currentSlide);
+        bar.querySelector('.nav-bar-progress').style.width = '0%';
+      });
+
+      // Update label
+      if (this.navLabel) {
+        const slideLabel = this.slides[this.currentSlide].dataset.label || 
+                          document.querySelector(`[data-slide="${this.currentSlide}"]`)?.parentElement?.querySelector('.slide-label')?.textContent || 
+                          `Slide ${this.currentSlide + 1}`;
+        this.navLabel.textContent = slideLabel;
+      }
+
+      // Reset progress
+      this.startTime = Date.now();
+      this.updateProgress();
+    }
+
+    nextSlide() {
+      this.updateSlide(this.currentSlide + 1);
+      if (this.isPlaying) this.restartAutoplay();
+    }
+
+    prevSlide() {
+      this.updateSlide(this.currentSlide - 1);
+      if (this.isPlaying) this.restartAutoplay();
+    }
+
+    goToSlide(index) {
+      this.updateSlide(index);
+      if (this.isPlaying) this.restartAutoplay();
+    }
+
+    startAutoplay() {
+      this.isPlaying = true;
+      this.updatePlayPauseIcon();
+      this.autoplayTimeout = setTimeout(() => this.nextSlide(), this.duration);
+      this.startTime = Date.now();
+      this.updateProgress();
+    }
+
+    pauseAutoplay() {
+      clearTimeout(this.autoplayTimeout);
+      clearInterval(this.progressInterval);
+    }
+
+    restartAutoplay() {
+      this.pauseAutoplay();
+      this.startAutoplay();
+    }
+
+    togglePlayPause() {
+      if (this.isPlaying) {
+        this.isPlaying = false;
+        this.pauseAutoplay();
+      } else {
+        this.isPlaying = true;
+        this.startAutoplay();
+      }
+      this.updatePlayPauseIcon();
+    }
+
+    updatePlayPauseIcon() {
+      const playIcon = this.playPauseBtn.querySelector('#play-icon');
+      const pauseIcon = this.playPauseBtn.querySelector('#pause-icon');
+      
+      if (this.isPlaying) {
+        playIcon.style.display = 'none';
+        pauseIcon.style.display = 'block';
+      } else {
+        playIcon.style.display = 'block';
+        pauseIcon.style.display = 'none';
+      }
+    }
+
+    updateProgress() {
+      this.progressInterval = setInterval(() => {
+        const elapsed = Date.now() - this.startTime;
+        const progress = Math.min(elapsed / this.duration, 1);
+        
+        // Update nav bar progress
+        const activeBar = this.navBars[this.currentSlide];
+        if (activeBar) {
+          activeBar.querySelector('.nav-bar-progress').style.width = (progress * 100) + '%';
+        }
+
+        // Update button progress ring
+        const circumference = 2 * Math.PI * 45;
+        const offset = circumference * (1 - progress);
+        this.progressRing.style.strokeDashoffset = offset;
+
+        if (progress >= 1) {
+          clearInterval(this.progressInterval);
+        }
+      }, 50);
+    }
+  }
+
+  // Initialize slideshow
+  document.addEventListener('DOMContentLoaded', () => {
+    const container = document.querySelector('.slideshow-container');
+    if (container) {
+      new DynamicSlideshow(container);
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Slideshow Dynamique",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Autoplay",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "duration",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "label": "Durée par slide",
+      "default": 5
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image_desktop",
+          "label": "Image Desktop"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "Image Mobile"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Sous-titre"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Titre"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Texte"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Texte du bouton"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Lien du bouton"
+        },
+        {
+          "type": "text",
+          "id": "slide_label",
+          "label": "Texte de navigation",
+          "default": "Slide"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Slideshow Dynamique",
+      "blocks": [
+        {
+          "type": "slide"
+        },
+        {
+          "type": "slide"
+        },
+        {
+          "type": "slide"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
