@@ -69,9 +69,60 @@
         "parallax_direction": "vertical"
       }
     },
-    "1773765906e65e7d6f": {
-      "type": "_blocks",
-      "settings": {}
+    "featured_collections_pqL6dW": {
+      "type": "featured-collections",
+      "blocks": {
+        "collection_7zqrWP": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "products": [],
+            "title": ""
+          }
+        },
+        "collection_LdNPAe": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "products": [],
+            "title": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_7zqrWP",
+        "collection_LdNPAe"
+      ],
+      "name": "t:sections.featured-collections.presets.name",
+      "settings": {
+        "product_limit": 6,
+        "columns": 4,
+        "carousel_on_desktop": true,
+        "show_view_all": false,
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "heading": "Featured collection",
+        "heading_size": "title-md",
+        "heading_alignment": "text-left md:items-end md:flex-row",
+        "heading_tag": "h2",
+        "subheading": "",
+        "description": "",
+        "highlighted_text": "none",
+        "highlighted_scribble": "circle",
+        "color_text": "",
+        "color_background": "",
+        "gradient_background": "",
+        "color_highlight": "",
+        "gradient_highlight": "",
+        "color_button_text": "",
+        "color_button_background": "",
+        "color_button_gradient": "",
+        "padding_top": 72,
+        "padding_bottom": 72,
+        "divider": false,
+        "full_width": false,
+        "rounded": false
+      }
     },
     "featured_collection_jx3eKb": {
       "type": "featured-collection",
@@ -590,7 +641,7 @@
   },
   "order": [
     "slideshow",
-    "1773765906e65e7d6f",
+    "featured_collections_pqL6dW",
     "featured_collection_jx3eKb",
     "custom_html_tEBAEn",
     "image_with_text_aehJ7D",
