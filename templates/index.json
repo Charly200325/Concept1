@@ -9,6 +9,100 @@
  */
 {
   "sections": {
+    "ss_slideshow_9_fDtK8k": {
+      "type": "ss-slideshow-9",
+      "blocks": {
+        "slide_xnCJbK": {
+          "type": "slide",
+          "settings": {
+            "image_alt": "Slide image",
+            "thumb_title": "New In: Lavender",
+            "heading_tag": "h2",
+            "heading": "New In: Lavender",
+            "text": "<p>Lavender is widely known for its unique scent and versatile uses, making it a top choice among essential oils.</p>",
+            "button_1_label": "Shop this",
+            "button_1_link": "",
+            "button_2_label": "Shop all",
+            "button_2_link": ""
+          }
+        },
+        "slide_TN3tqd": {
+          "type": "slide",
+          "settings": {
+            "image_alt": "Slide image",
+            "thumb_title": "Single Oils",
+            "heading_tag": "h2",
+            "heading": "Single Oils",
+            "text": "<p>Essential oils derived from a specific plant, grown and harvested by our network of expert farmers.</p>",
+            "button_1_label": "Shop single oils",
+            "button_1_link": "",
+            "button_2_label": "",
+            "button_2_link": ""
+          }
+        },
+        "slide_D7dRnM": {
+          "type": "slide",
+          "settings": {
+            "image_alt": "Slide image",
+            "thumb_title": "New In: Food Supplement",
+            "heading_tag": "h2",
+            "heading": "Food Supplement Available Now!",
+            "text": "<p>Following the phenomenal demand, our food supplements are now available for individual sale!</p>",
+            "button_1_label": "Shop this",
+            "button_1_link": "",
+            "button_2_label": "Shop all",
+            "button_2_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "slide_xnCJbK",
+        "slide_TN3tqd",
+        "slide_D7dRnM"
+      ],
+      "name": "SS Slideshow 9",
+      "settings": {
+        "background_color": "#ffffff",
+        "height_mobile": 95,
+        "height_desktop": 95,
+        "overlay_opacity": 20,
+        "margin_top": 0,
+        "margin_bottom": 0,
+        "margin_horizontal": 0,
+        "margin_horizontal_desktop": 0,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_horizontal_mobile": 0,
+        "padding_horizontal_desktop": 0,
+        "border_top": 0,
+        "border_bottom": 0,
+        "border_radius": 0,
+        "border_color": "#121212",
+        "heading_color": "#ffffff",
+        "text_color": "#ffffff",
+        "heading_size_mobile": 32,
+        "heading_size_desktop": 48,
+        "text_size_mobile": 16,
+        "text_size_desktop": 18,
+        "button_size_mobile": 14,
+        "button_size_desktop": 16,
+        "primary_button_bg": "#9c5455",
+        "primary_button_text": "#ffffff",
+        "primary_button_bg_hover": "#2a2a2a",
+        "primary_button_text_hover": "#ffffff",
+        "secondary_button_bg": "#ffffff",
+        "secondary_button_text": "#2a2a2a",
+        "secondary_button_bg_hover": "#bd7f80",
+        "secondary_button_text_hover": "#ffffff",
+        "thumb_text_color": "#ffffff",
+        "thumb_line_color": "#ffffff",
+        "thumb_circle_color": "#ffffff",
+        "play_icon_color": "#ffffff",
+        "show_pause_button": true,
+        "autoplay": true,
+        "autoplay_delay": 6
+      }
+    },
     "custom_html_RPBiPN": {
       "type": "custom-html",
       "name": "Custom HTML",
@@ -648,6 +742,7 @@
     }
   },
   "order": [
+    "ss_slideshow_9_fDtK8k",
     "custom_html_RPBiPN",
     "slideshow",
     "featured_collections_pqL6dW",
