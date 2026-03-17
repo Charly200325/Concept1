@@ -71,53 +71,38 @@
     },
     "1773765906e65e7d6f": {
       "type": "_blocks",
+      "settings": {}
+    },
+    "17737669660220ed12": {
+      "type": "_blocks",
       "blocks": {
-        "ai_gen_block_bc4f9a0_KQm9GN": {
-          "type": "ai_gen_block_bc4f9a0",
+        "ai_gen_block_d5d8138_qYhqhD": {
+          "type": "ai_gen_block_d5d8138",
           "settings": {
-            "slide_height": 500,
-            "autoplay_duration": 5,
-            "desktop_width_percent": 100,
+            "overlay_opacity_top": 0.2,
+            "overlay_opacity_bottom": 0.4,
+            "subtitle": "Nouvelle Collection",
+            "title": "Découvrez le Confort Premium",
+            "text": "L'alliance parfaite entre style et fonctionnalité",
+            "button_text": "Découvrir",
+            "button_link": "",
             "text_color": "#ffffff",
-            "overlay_color": "#000000",
-            "overlay_opacity": 30,
-            "title_size": 48,
-            "subtitle_size": 20,
-            "button_bg_color": "#f9d43d",
+            "title_size": 64,
+            "subtitle_size": 16,
+            "text_size": 18,
+            "button_bg_color": "#ffffff",
             "button_text_color": "#171717",
-            "button_hover_bg_color": "#171717",
-            "button_hover_text_color": "#ffffff",
+            "button_hover_bg_color": "#f9d43d",
+            "button_hover_text_color": "#171717",
             "button_size": 16,
-            "button_border_radius": 4,
-            "progress_bg_color": "#ffffff",
-            "progress_text_color": "#171717",
-            "progress_bar_bg_color": "#e5e5e5",
-            "progress_bar_fill_color": "#171717",
-            "slide_1_enabled": true,
-            "slide_1_image": "shopify://shop_images/wildride-toddler-carrier-black-rib-outdoors-banner2_1.webp",
-            "slide_1_title": "Première diapositive",
-            "slide_1_subtitle": "Découvrez notre collection",
-            "slide_1_button_text": "Découvrir",
-            "slide_1_button_link": "",
-            "slide_1_progress_title": "Diapositive 1",
-            "slide_2_enabled": false,
-            "slide_2_title": "Deuxième diapositive",
-            "slide_2_subtitle": "Nouveautés de la saison",
-            "slide_2_button_text": "Voir plus",
-            "slide_2_button_link": "",
-            "slide_2_progress_title": "Diapositive 2",
-            "slide_3_enabled": false,
-            "slide_3_title": "Troisième diapositive",
-            "slide_3_subtitle": "Offres exclusives",
-            "slide_3_button_text": "Profiter",
-            "slide_3_button_link": "",
-            "slide_3_progress_title": "Diapositive 3"
+            "button_radius": 30,
+            "desktop_width_percent": 100
           },
           "blocks": {}
         }
       },
       "block_order": [
-        "ai_gen_block_bc4f9a0_KQm9GN"
+        "ai_gen_block_d5d8138_qYhqhD"
       ],
       "settings": {}
     },
@@ -639,6 +624,7 @@
   "order": [
     "slideshow",
     "1773765906e65e7d6f",
+    "17737669660220ed12",
     "featured_collection_jx3eKb",
     "custom_html_tEBAEn",
     "image_with_text_aehJ7D",
