@@ -1,6 +1,467 @@
+{% doc %}
+  @prompt
+    Crée une section Shopify slideshow hero premium inspirée de MOMcozy.
+    
+    Je veux :
+    
+    Plusieurs slides éditables dans le customizer (blocks)
+    
+    Pour chaque slide :
+    
+    image desktop (1989x907)
+    
+    image mobile (400x560)
+    
+    titre
+    
+    sous-titre
+    
+    texte
+    
+    bouton + lien
+    
+    texte pour la navigation en bas
+    
+    Fonctionnalités :
+    
+    autoplay avec durée réglable
+    
+    transition fluide (fade)
+    
+    swipe mobile
+    
+    pause au hover (desktop)
+    
+    Design :
+    
+    style premium, doux, minimaliste
+    
+    texte superposé sur l’image
+    
+    bouton arrondi élégant
+    
+    Navigation :
+    
+    en bas : barres blanches (une par slide) avec progression animée
+    
+    chaque barre correspond à un slide (cliquable)
+    
+    afficher le texte de chaque slide en bas
+    
+    Contrôle :
+    
+    bouton rond en bas à droite :
+    
+    play / pause
+    
+    progression circulaire
+    
+    Responsive :
+    
+    image desktop sur ordinateur
+    
+    image mobile sur téléphone
+    
+    Technique :
+    
+    code complet Liquid + CSS + JS
+    
+    schema Shopify complet
+    
+    section prête à être utilisée dans le thème
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-hero-slide-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    min-height: 500px;
+    max-height: 907px;
+    overflow: hidden;
+    display: block;
+  }
+
+  .ai-hero-slide__image-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-hero-slide__image-mobile-{{ ai_gen_id }} {
+    display: none;
+  }
+
+  .ai-hero-slide__overlay-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, {{ block.settings.overlay_opacity_top }}),
+      rgba(0, 0, 0, {{ block.settings.overlay_opacity_bottom }})
+    );
+    z-index: 1;
+  }
+
+  .ai-hero-slide__content-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 60px 20px;
+    z-index: 2;
+  }
+
+  .ai-hero-slide__subtitle-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subtitle_size }}px;
+    color: {{ block.settings.text_color }};
+    margin: 0 0 16px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.95;
+    animation: ai-hero-fade-in-up-{{ ai_gen_id }} 0.8s ease-out 0.2s both;
+  }
+
+  .ai-hero-slide__title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    color: {{ block.settings.text_color }};
+    margin: 0 0 20px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    max-width: 900px;
+    animation: ai-hero-fade-in-up-{{ ai_gen_id }} 0.8s ease-out 0.4s both;
+  }
+
+  .ai-hero-slide__text-{{ ai_gen_id }} {
+    font-size: {{ block.settings.text_size }}px;
+    color: {{ block.settings.text_color }};
+    margin: 0 0 36px;
+    line-height: 1.6;
+    max-width: 700px;
+    opacity: 0.9;
+    animation: ai-hero-fade-in-up-{{ ai_gen_id }} 0.8s ease-out 0.6s both;
+  }
+
+  .ai-hero-slide__button-{{ ai_gen_id }} {
+    display: inline-block;
+    padding: 18px 52px;
+    background-color: {{ block.settings.button_bg_color }};
+    color: {{ block.settings.button_text_color }};
+    text-decoration: none;
+    border-radius: {{ block.settings.button_radius }}px;
+    font-size: {{ block.settings.button_size }}px;
+    font-weight: 600;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    animation: ai-hero-fade-in-up-{{ ai_gen_id }} 0.8s ease-out 0.8s both;
+    letter-spacing: 0.02em;
+  }
+
+  .ai-hero-slide__button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_bg_color }};
+    color: {{ block.settings.button_hover_text_color }};
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+  }
+
+  @keyframes ai-hero-fade-in-up-{{ ai_gen_id }} {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-hero-slide-{{ ai_gen_id }} {
+      max-height: 560px;
+    }
+
+    .ai-hero-slide__image-desktop-{{ ai_gen_id }} {
+      display: none;
+    }
+
+    .ai-hero-slide__image-mobile-{{ ai_gen_id }} {
+      display: block;
+    }
+
+    .ai-hero-slide__content-{{ ai_gen_id }} {
+      padding: 40px 20px;
+    }
+
+    .ai-hero-slide__subtitle-{{ ai_gen_id }} {
+      font-size: {{ block.settings.subtitle_size | times: 0.7 }}px;
+      margin-bottom: 12px;
+    }
+
+    .ai-hero-slide__title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_size | times: 0.5 }}px;
+      margin-bottom: 16px;
+    }
+
+    .ai-hero-slide__text-{{ ai_gen_id }} {
+      font-size: {{ block.settings.text_size | times: 0.85 }}px;
+      margin-bottom: 28px;
+    }
+
+    .ai-hero-slide__button-{{ ai_gen_id }} {
+      padding: 16px 40px;
+      font-size: {{ block.settings.button_size | times: 0.9 }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-hero-slide-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% if block.settings.image_desktop %}
+    <img
+      src="{{ block.settings.image_desktop | image_url: width: 1989 }}"
+      alt="{{ block.settings.title | escape }}"
+      class="ai-hero-slide__image-{{ ai_gen_id }} ai-hero-slide__image-desktop-{{ ai_gen_id }}"
+      loading="eager"
+      width="1989"
+      height="907"
+    >
+  {% else %}
+    <div class="ai-hero-slide__image-placeholder-{{ ai_gen_id }}" style="width: 100%; height: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+    </div>
+  {% endif %}
+
+  {% if block.settings.image_mobile %}
+    <img
+      src="{{ block.settings.image_mobile | image_url: width: 400 }}"
+      alt="{{ block.settings.title | escape }}"
+      class="ai-hero-slide__image-{{ ai_gen_id }} ai-hero-slide__image-mobile-{{ ai_gen_id }}"
+      loading="eager"
+      width="400"
+      height="560"
+    >
+  {% endif %}
+
+  <div class="ai-hero-slide__overlay-{{ ai_gen_id }}"></div>
+
+  <div class="ai-hero-slide__content-{{ ai_gen_id }}">
+    {% if block.settings.subtitle != blank %}
+      <div class="ai-hero-slide__subtitle-{{ ai_gen_id }}">
+        {{ block.settings.subtitle }}
+      </div>
+    {% endif %}
+
+    {% if block.settings.title != blank %}
+      <h1 class="ai-hero-slide__title-{{ ai_gen_id }}">
+        {{ block.settings.title }}
+      </h1>
+    {% endif %}
+
+    {% if block.settings.text != blank %}
+      <div class="ai-hero-slide__text-{{ ai_gen_id }}">
+        {{ block.settings.text }}
+      </div>
+    {% endif %}
+
+    {% if block.settings.button_text != blank %}
+      <a
+        href="{{ block.settings.button_link }}"
+        class="ai-hero-slide__button-{{ ai_gen_id }}"
+      >
+        {{ block.settings.button_text }}
+      </a>
+    {% endif %}
+  </div>
+</div>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Premium hero slide",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_desktop",
+      "label": "Desktop image",
+      "info": "1989 x 907px recommended"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile image",
+      "info": "400 x 560px recommended"
+    },
+    {
+      "type": "header",
+      "content": "Overlay"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity_top",
+      "label": "Top opacity",
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "default": 0.2
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity_bottom",
+      "label": "Bottom opacity",
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "default": 0.4
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Nouvelle Collection"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Découvrez le Confort Premium"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "L'alliance parfaite entre style et fonctionnalité"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Découvrir"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Text style"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Title size",
+      "min": 30,
+      "max": 90,
+      "step": 2,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "label": "Subtitle size",
+      "min": 12,
+      "max": 28,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Text size",
+      "min": 14,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "header",
+      "content": "Button style"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Text",
+      "default": "#171717"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg_color",
+      "label": "Hover background",
+      "default": "#f9d43d"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_text_color",
+      "label": "Hover text",
+      "default": "#171717"
+    },
+    {
+      "type": "range",
+      "id": "button_size",
+      "label": "Button text size",
+      "min": 14,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "button_radius",
+      "label": "Button radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Premium hero slide"
+    }
+  ]
+}
 {% endschema %}
