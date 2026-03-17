@@ -1,6 +1,693 @@
+{% doc %}
+  @prompt
+    creer un diaporam qui : contient titre, sous trtre ,call to action, boutton et en bas sur ordianteur j'aimerais pouvoir afficher une barre qui progresse pour defiler les differents slides avec titre en bas du defileur exemple 3 diaporama : trois bares qui progressent 
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-slideshow-{{ ai_gen_id }} {
+    position: relative;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    overflow: hidden;
+    display: block;
+  }
+
+  .ai-slideshow-slides-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    height: {{ block.settings.slide_height }}px;
+  }
+
+  .ai-slideshow-slide-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.6s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .ai-slideshow-slide-{{ ai_gen_id }}.active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 1;
+  }
+
+  .ai-slideshow-slide-overlay-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: {{ block.settings.overlay_color }};
+    opacity: {{ block.settings.overlay_opacity | divided_by: 100.0 }};
+  }
+
+  .ai-slideshow-slide-content-{{ ai_gen_id }} {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: {{ block.settings.text_color }};
+    max-width: 800px;
+    padding: 20px;
+  }
+
+  .ai-slideshow-slide-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    margin: 0 0 15px;
+    font-weight: 700;
+  }
+
+  .ai-slideshow-slide-subtitle-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subtitle_size }}px;
+    margin: 0 0 25px;
+  }
+
+  .ai-slideshow-slide-button-{{ ai_gen_id }} {
+    display: inline-block;
+    padding: 15px 35px;
+    background-color: {{ block.settings.button_bg_color }};
+    color: {{ block.settings.button_text_color }};
+    text-decoration: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-size: {{ block.settings.button_size }}px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .ai-slideshow-slide-button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_bg_color }};
+    color: {{ block.settings.button_hover_text_color }};
+  }
+
+  .ai-slideshow-progress-container-{{ ai_gen_id }} {
+    display: flex;
+    gap: 15px;
+    padding: 20px;
+    background-color: {{ block.settings.progress_bg_color }};
+    align-items: center;
+  }
+
+  .ai-slideshow-progress-item-{{ ai_gen_id }} {
+    flex: 1;
+    cursor: pointer;
+  }
+
+  .ai-slideshow-progress-title-{{ ai_gen_id }} {
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: {{ block.settings.progress_text_color }};
+    font-weight: 500;
+  }
+
+  .ai-slideshow-progress-bar-bg-{{ ai_gen_id }} {
+    width: 100%;
+    height: 4px;
+    background-color: {{ block.settings.progress_bar_bg_color }};
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .ai-slideshow-progress-bar-fill-{{ ai_gen_id }} {
+    height: 100%;
+    background-color: {{ block.settings.progress_bar_fill_color }};
+    width: 0%;
+    transition: width 0.1s linear;
+  }
+
+  .ai-slideshow-empty-state-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: {{ block.settings.slide_height }}px;
+    background-color: #f4f4f4;
+    color: #666;
+    font-size: 16px;
+    text-align: center;
+    padding: 20px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-slideshow-slides-{{ ai_gen_id }} {
+      height: {{ block.settings.slide_height | times: 0.7 }}px;
+    }
+
+    .ai-slideshow-slide-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_size | times: 0.7 }}px;
+    }
+
+    .ai-slideshow-slide-subtitle-{{ ai_gen_id }} {
+      font-size: {{ block.settings.subtitle_size | times: 0.8 }}px;
+    }
+
+    .ai-slideshow-empty-state-{{ ai_gen_id }} {
+      height: {{ block.settings.slide_height | times: 0.7 }}px;
+    }
+
+    .ai-slideshow-progress-container-{{ ai_gen_id }} {
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
+{% endstyle %}
+
+<slideshow-component-{{ ai_gen_id }} class="ai-slideshow-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% liquid
+    assign slide_1_enabled = block.settings.slide_1_enabled
+    assign slide_2_enabled = block.settings.slide_2_enabled
+    assign slide_3_enabled = block.settings.slide_3_enabled
+    
+    assign has_slides = false
+    if slide_1_enabled or slide_2_enabled or slide_3_enabled
+      assign has_slides = true
+    endif
+  %}
+
+  {% if has_slides %}
+    <div class="ai-slideshow-slides-{{ ai_gen_id }}">
+      {% if slide_1_enabled %}
+        <div 
+          class="ai-slideshow-slide-{{ ai_gen_id }} {% if forloop.first %}active{% endif %}" 
+          data-slide-index="0"
+          {% if block.settings.slide_1_image %}
+            style="background-image: url('{{ block.settings.slide_1_image | image_url: width: 2000 }}');"
+          {% else %}
+            style="background-color: #e5e5e5;"
+          {% endif %}
+        >
+          <div class="ai-slideshow-slide-overlay-{{ ai_gen_id }}"></div>
+          <div class="ai-slideshow-slide-content-{{ ai_gen_id }}">
+            {% if block.settings.slide_1_title != blank %}
+              <h2 class="ai-slideshow-slide-title-{{ ai_gen_id }}">{{ block.settings.slide_1_title }}</h2>
+            {% endif %}
+            {% if block.settings.slide_1_subtitle != blank %}
+              <p class="ai-slideshow-slide-subtitle-{{ ai_gen_id }}">{{ block.settings.slide_1_subtitle }}</p>
+            {% endif %}
+            {% if block.settings.slide_1_button_text != blank and block.settings.slide_1_button_link != blank %}
+              <a href="{{ block.settings.slide_1_button_link }}" class="ai-slideshow-slide-button-{{ ai_gen_id }}">
+                {{ block.settings.slide_1_button_text }}
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+
+      {% if slide_2_enabled %}
+        <div 
+          class="ai-slideshow-slide-{{ ai_gen_id }}" 
+          data-slide-index="1"
+          {% if block.settings.slide_2_image %}
+            style="background-image: url('{{ block.settings.slide_2_image | image_url: width: 2000 }}');"
+          {% else %}
+            style="background-color: #d4d4d4;"
+          {% endif %}
+        >
+          <div class="ai-slideshow-slide-overlay-{{ ai_gen_id }}"></div>
+          <div class="ai-slideshow-slide-content-{{ ai_gen_id }}">
+            {% if block.settings.slide_2_title != blank %}
+              <h2 class="ai-slideshow-slide-title-{{ ai_gen_id }}">{{ block.settings.slide_2_title }}</h2>
+            {% endif %}
+            {% if block.settings.slide_2_subtitle != blank %}
+              <p class="ai-slideshow-slide-subtitle-{{ ai_gen_id }}">{{ block.settings.slide_2_subtitle }}</p>
+            {% endif %}
+            {% if block.settings.slide_2_button_text != blank and block.settings.slide_2_button_link != blank %}
+              <a href="{{ block.settings.slide_2_button_link }}" class="ai-slideshow-slide-button-{{ ai_gen_id }}">
+                {{ block.settings.slide_2_button_text }}
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+
+      {% if slide_3_enabled %}
+        <div 
+          class="ai-slideshow-slide-{{ ai_gen_id }}" 
+          data-slide-index="2"
+          {% if block.settings.slide_3_image %}
+            style="background-image: url('{{ block.settings.slide_3_image | image_url: width: 2000 }}');"
+          {% else %}
+            style="background-color: #c4c4c4;"
+          {% endif %}
+        >
+          <div class="ai-slideshow-slide-overlay-{{ ai_gen_id }}"></div>
+          <div class="ai-slideshow-slide-content-{{ ai_gen_id }}">
+            {% if block.settings.slide_3_title != blank %}
+              <h2 class="ai-slideshow-slide-title-{{ ai_gen_id }}">{{ block.settings.slide_3_title }}</h2>
+            {% endif %}
+            {% if block.settings.slide_3_subtitle != blank %}
+              <p class="ai-slideshow-slide-subtitle-{{ ai_gen_id }}">{{ block.settings.slide_3_subtitle }}</p>
+            {% endif %}
+            {% if block.settings.slide_3_button_text != blank and block.settings.slide_3_button_link != blank %}
+              <a href="{{ block.settings.slide_3_button_link }}" class="ai-slideshow-slide-button-{{ ai_gen_id }}">
+                {{ block.settings.slide_3_button_text }}
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="ai-slideshow-progress-container-{{ ai_gen_id }}">
+      {% if slide_1_enabled %}
+        <div class="ai-slideshow-progress-item-{{ ai_gen_id }}" data-progress-index="0">
+          <div class="ai-slideshow-progress-title-{{ ai_gen_id }}">{{ block.settings.slide_1_progress_title }}</div>
+          <div class="ai-slideshow-progress-bar-bg-{{ ai_gen_id }}">
+            <div class="ai-slideshow-progress-bar-fill-{{ ai_gen_id }}"></div>
+          </div>
+        </div>
+      {% endif %}
+
+      {% if slide_2_enabled %}
+        <div class="ai-slideshow-progress-item-{{ ai_gen_id }}" data-progress-index="1">
+          <div class="ai-slideshow-progress-title-{{ ai_gen_id }}">{{ block.settings.slide_2_progress_title }}</div>
+          <div class="ai-slideshow-progress-bar-bg-{{ ai_gen_id }}">
+            <div class="ai-slideshow-progress-bar-fill-{{ ai_gen_id }}"></div>
+          </div>
+        </div>
+      {% endif %}
+
+      {% if slide_3_enabled %}
+        <div class="ai-slideshow-progress-item-{{ ai_gen_id }}" data-progress-index="2">
+          <div class="ai-slideshow-progress-title-{{ ai_gen_id }}">{{ block.settings.slide_3_progress_title }}</div>
+          <div class="ai-slideshow-progress-bar-bg-{{ ai_gen_id }}">
+            <div class="ai-slideshow-progress-bar-fill-{{ ai_gen_id }}"></div>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  {% else %}
+    <div class="ai-slideshow-empty-state-{{ ai_gen_id }}">
+      Activez au moins une diapositive pour commencer
+    </div>
+  {% endif %}
+</slideshow-component-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class SlideshowComponent{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.currentSlide = 0;
+        this.slides = [];
+        this.progressItems = [];
+        this.autoplayInterval = null;
+        this.progressInterval = null;
+        this.autoplayDuration = {{ block.settings.autoplay_duration | times: 1000 }};
+      }
+
+      connectedCallback() {
+        this.slides = Array.from(this.querySelectorAll('.ai-slideshow-slide-{{ ai_gen_id }}'));
+        this.progressItems = Array.from(this.querySelectorAll('.ai-slideshow-progress-item-{{ ai_gen_id }}'));
+        
+        if (this.slides.length === 0) return;
+
+        this.setupEventListeners();
+        this.startAutoplay();
+      }
+
+      disconnectedCallback() {
+        this.stopAutoplay();
+      }
+
+      setupEventListeners() {
+        this.progressItems.forEach((item, index) => {
+          item.addEventListener('click', () => {
+            this.goToSlide(index);
+          });
+        });
+      }
+
+      goToSlide(index) {
+        if (index === this.currentSlide) return;
+
+        this.slides[this.currentSlide].classList.remove('active');
+        this.currentSlide = index;
+        this.slides[this.currentSlide].classList.add('active');
+
+        this.stopAutoplay();
+        this.startAutoplay();
+      }
+
+      nextSlide() {
+        const nextIndex = (this.currentSlide + 1) % this.slides.length;
+        this.goToSlide(nextIndex);
+      }
+
+      startAutoplay() {
+        this.stopAutoplay();
+        this.updateProgress(0);
+
+        let progress = 0;
+        const progressStep = 100 / (this.autoplayDuration / 100);
+
+        this.progressInterval = setInterval(() => {
+          progress += progressStep;
+          if (progress >= 100) {
+            progress = 100;
+          }
+          this.updateProgress(progress);
+        }, 100);
+
+        this.autoplayInterval = setTimeout(() => {
+          this.nextSlide();
+        }, this.autoplayDuration);
+      }
+
+      stopAutoplay() {
+        if (this.autoplayInterval) {
+          clearTimeout(this.autoplayInterval);
+          this.autoplayInterval = null;
+        }
+        if (this.progressInterval) {
+          clearInterval(this.progressInterval);
+          this.progressInterval = null;
+        }
+      }
+
+      updateProgress(percentage) {
+        this.progressItems.forEach((item, index) => {
+          const fill = item.querySelector('.ai-slideshow-progress-bar-fill-{{ ai_gen_id }}');
+          if (index === this.currentSlide) {
+            fill.style.width = percentage + '%';
+          } else if (index < this.currentSlide) {
+            fill.style.width = '100%';
+          } else {
+            fill.style.width = '0%';
+          }
+        });
+      }
+    }
+
+    customElements.define('slideshow-component-{{ ai_gen_id }}', SlideshowComponent{{ ai_gen_id }});
+  })();
+</script>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Diaporama progressif",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Configuration générale"
+    },
+    {
+      "type": "range",
+      "id": "slide_height",
+      "label": "Hauteur des slides",
+      "min": 300,
+      "max": 800,
+      "step": 50,
+      "unit": "px",
+      "default": 500
+    },
+    {
+      "type": "range",
+      "id": "autoplay_duration",
+      "label": "Durée d'affichage",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "default": 5
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Largeur sur ordinateur",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "Style du contenu"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Couleur du texte",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Couleur du calque",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Opacité du calque",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Taille du titre",
+      "min": 20,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "label": "Taille du sous-titre",
+      "min": 14,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Style du bouton"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Couleur de fond",
+      "default": "#f9d43d"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Couleur du texte",
+      "default": "#171717"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg_color",
+      "label": "Fond au survol",
+      "default": "#171717"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_text_color",
+      "label": "Texte au survol",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "button_size",
+      "label": "Taille du texte",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "label": "Arrondi des coins",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Barre de progression"
+    },
+    {
+      "type": "color",
+      "id": "progress_bg_color",
+      "label": "Couleur de fond",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "progress_text_color",
+      "label": "Couleur du texte",
+      "default": "#171717"
+    },
+    {
+      "type": "color",
+      "id": "progress_bar_bg_color",
+      "label": "Fond de la barre",
+      "default": "#e5e5e5"
+    },
+    {
+      "type": "color",
+      "id": "progress_bar_fill_color",
+      "label": "Remplissage",
+      "default": "#171717"
+    },
+    {
+      "type": "header",
+      "content": "Diapositive 1"
+    },
+    {
+      "type": "checkbox",
+      "id": "slide_1_enabled",
+      "label": "Activer",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "slide_1_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "slide_1_title",
+      "label": "Titre",
+      "default": "Première diapositive"
+    },
+    {
+      "type": "text",
+      "id": "slide_1_subtitle",
+      "label": "Sous-titre",
+      "default": "Découvrez notre collection"
+    },
+    {
+      "type": "text",
+      "id": "slide_1_button_text",
+      "label": "Texte du bouton",
+      "default": "Découvrir"
+    },
+    {
+      "type": "url",
+      "id": "slide_1_button_link",
+      "label": "Lien du bouton"
+    },
+    {
+      "type": "text",
+      "id": "slide_1_progress_title",
+      "label": "Titre de progression",
+      "default": "Diapositive 1"
+    },
+    {
+      "type": "header",
+      "content": "Diapositive 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "slide_2_enabled",
+      "label": "Activer",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "slide_2_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "slide_2_title",
+      "label": "Titre",
+      "default": "Deuxième diapositive"
+    },
+    {
+      "type": "text",
+      "id": "slide_2_subtitle",
+      "label": "Sous-titre",
+      "default": "Nouveautés de la saison"
+    },
+    {
+      "type": "text",
+      "id": "slide_2_button_text",
+      "label": "Texte du bouton",
+      "default": "Voir plus"
+    },
+    {
+      "type": "url",
+      "id": "slide_2_button_link",
+      "label": "Lien du bouton"
+    },
+    {
+      "type": "text",
+      "id": "slide_2_progress_title",
+      "label": "Titre de progression",
+      "default": "Diapositive 2"
+    },
+    {
+      "type": "header",
+      "content": "Diapositive 3"
+    },
+    {
+      "type": "checkbox",
+      "id": "slide_3_enabled",
+      "label": "Activer",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "slide_3_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "slide_3_title",
+      "label": "Titre",
+      "default": "Troisième diapositive"
+    },
+    {
+      "type": "text",
+      "id": "slide_3_subtitle",
+      "label": "Sous-titre",
+      "default": "Offres exclusives"
+    },
+    {
+      "type": "text",
+      "id": "slide_3_button_text",
+      "label": "Texte du bouton",
+      "default": "Profiter"
+    },
+    {
+      "type": "url",
+      "id": "slide_3_button_link",
+      "label": "Lien du bouton"
+    },
+    {
+      "type": "text",
+      "id": "slide_3_progress_title",
+      "label": "Titre de progression",
+      "default": "Diapositive 3"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Diaporama progressif"
+    }
+  ]
+}
 {% endschema %}
