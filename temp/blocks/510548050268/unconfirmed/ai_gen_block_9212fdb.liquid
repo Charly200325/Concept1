@@ -1,6 +1,791 @@
+{% doc %}
+  @prompt
+    Crée-moi une section Shopify personnalisée de type diaporama hero premium pour la page d’accueil, inspirée visuellement du slider de la homepage de MOMcozy.
+    
+    Objectif
+    
+    Je veux une section slideshow élégante, haut de gamme, très visuelle, pensée pour une marque féminine / maternité / lifestyle.
+    Le rendu doit être moderne, doux, premium, minimaliste, avec un focus sur :
+    
+    grandes images immersives,
+    
+    texte superposé,
+    
+    navigation discrète,
+    
+    animation fluide,
+    
+    expérience desktop + mobile très propre.
+    
+    1) Structure générale de la section
+    
+    Créer une section Shopify avec :
+    
+    un slider principal
+    
+    plusieurs blocs / slides
+    
+    chaque slide doit pouvoir contenir :
+    
+    une image desktop
+    
+    une image mobile
+    
+    un titre
+    
+    un sous-titre
+    
+    un texte / description
+    
+    un bouton CTA
+    
+    un lien du bouton
+    
+    un label court pour la barre du bas (ex: “NOUVEAUTÉ : Tire-lait portable intelligent”)
+    
+    Je veux pouvoir ajouter, supprimer et réorganiser les slides facilement depuis l’éditeur de thème Shopify.
+    
+    2) Images par slide
+    
+    Chaque slide doit permettre d’ajouter :
+    
+    1 image desktop
+    
+    1 image mobile
+    
+    Dimensions souhaitées
+    
+    Desktop : 1989 x 907
+    
+    Mobile : 400 x 560
+    
+    Comportement responsive
+    
+    sur ordinateur : afficher l’image desktop
+    
+    sur mobile : afficher l’image mobile
+    
+    ne pas simplement redimensionner la desktop sur mobile, il faut bien utiliser l’image mobile dédiée
+    
+    Affichage image
+    
+    image en pleine largeur
+    
+    recadrage propre avec object-fit: cover
+    
+    rendu premium, sans déformation
+    
+    possibilité d’ajouter un overlay léger pour améliorer la lisibilité du texte
+    
+    3) Contenu texte éditable
+    
+    Pour chaque slide, je veux dans l’éditeur Shopify des champs séparés :
+    
+    Titre
+    
+    Sous-titre
+    
+    Texte / paragraphe
+    
+    Texte du bouton
+    
+    Lien du bouton
+    
+    Texte du label bas
+    
+    Alignement du contenu
+    
+    Couleur du texte
+    
+    Couleur du bouton
+    
+    Couleur du texte du bouton
+    
+    Important sur la mise en forme
+    
+    Je veux que le contenu texte puisse être modifiable facilement.
+    
+    Idéalement :
+    
+    titre : champ riche ou au minimum support des retours à la ligne
+    
+    sous-titre / texte : champ riche si possible
+    
+    permettre d’utiliser du gras sur certains mots si Shopify le permet via richtext
+    Sinon, prévoir au moins :
+    
+    un champ texte simple pour le titre
+    
+    un champ richtext pour le texte
+    
+    et la possibilité de gérer des sauts de ligne propres
+    
+    4) Positionnement du texte sur l’image
+    
+    Je veux pouvoir choisir pour chaque slide :
+    
+    alignement horizontal :
+    
+    gauche
+    
+    centre
+    
+    droite
+    
+    alignement vertical :
+    
+    haut
+    
+    centre
+    
+    bas
+    
+    Je veux aussi des réglages globaux ou par slide pour :
+    
+    largeur max du bloc texte
+    
+    espacement intérieur
+    
+    marge bas/haut
+    
+    distance depuis le bord gauche/droit
+    
+    Le texte doit rester lisible sur mobile.
+    
+    5) Bouton CTA
+    
+    Chaque slide doit avoir un bouton personnalisable :
+    
+    texte du bouton
+    
+    lien
+    
+    style arrondi/pill comme sur MOMcozy
+    
+    possibilité de l’afficher ou non
+    
+    Style souhaité
+    
+    bouton arrondi premium
+    
+    taille assez visible
+    
+    hover fluide
+    
+    possibilité de régler :
+    
+    couleur de fond
+    
+    couleur du texte
+    
+    couleur bordure
+    
+    rayon des coins
+    
+    taille du bouton
+    
+    6) Fonctionnement du diaporama
+    
+    Je veux un autoplay automatique.
+    
+    Options à prévoir dans les paramètres de section
+    
+    autoplay : oui/non
+    
+    durée par slide : ex. 3, 4, 5, 6, 7 secondes
+    
+    transition douce entre les slides
+    
+    pause au survol sur desktop : option oui/non
+    
+    boucle infinie : oui
+    
+    Effet de transition
+    
+    Je veux une transition élégante, premium, fluide.
+    Style recommandé :
+    
+    fade
+    ou
+    
+    léger fondu + mouvement subtil
+    
+    Pas de transition agressive.
+    
+    7) Barre blanche en bas comme MOMcozy
+    
+    Je veux en bas du slider une navigation visuelle avec plusieurs barres blanches horizontales, une par slide.
+    
+    Exemple :
+    
+    si j’ai 3 slides, il y a 3 segments/barres en bas
+    
+    chaque segment correspond à un slide
+    
+    le texte court du slide doit être affiché à proximité ou associé à sa barre
+    
+    la barre du slide actif doit se remplir progressivement pendant la durée d’affichage du slide
+    
+    quand on passe au slide suivant, sa barre commence à se remplir à son tour
+    
+    Style souhaité
+    
+    barres blanches fines et élégantes
+    
+    look minimaliste
+    
+    bien visibles mais pas trop épaisses
+    
+    intégrées dans le visuel, comme un vrai composant premium
+    
+    Interaction
+    
+    cliquer sur un segment/barre permet d’aller au slide correspondant
+    
+    la progression doit se réinitialiser si on change manuellement de slide
+    
+    8) Contrôle rond en bas à droite
+    
+    Je veux aussi un contrôle rond en bas à droite, comme sur l’exemple MOMcozy :
+    
+    il doit servir à pause / reprise
+    
+    il doit aussi montrer visuellement la progression
+    
+    idéalement sous forme de cercle progressif
+    
+    au clic :
+    
+    si autoplay actif → met en pause
+    
+    si en pause → relance l’autoplay
+    
+    Détail du comportement
+    
+    quand le slide joue, le cercle se remplit progressivement
+    
+    quand on met pause, l’animation s’arrête
+    
+    quand on reprend, elle continue proprement
+    
+    l’icône doit changer entre :
+    
+    pause
+    
+    play
+    
+    Style
+    
+    rond blanc ou contour blanc élégant
+    
+    discret mais visible
+    
+    position fixe en bas à droite de la zone du slider
+    
+    9) Navigation du bas avec texte de chaque slide
+    
+    Je veux que chaque slide ait un petit 
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-hero-slider-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    display: block;
+  }
+
+  .ai-hero-slider__slide-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    height: 907px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-hero-slider__slide-{{ ai_gen_id }} {
+      height: 560px;
+    }
+  }
+
+  .ai-hero-slider__image-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .ai-hero-slider__image-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .ai-hero-slider__image-desktop-{{ ai_gen_id }} {
+    display: block;
+  }
+
+  .ai-hero-slider__image-mobile-{{ ai_gen_id }} {
+    display: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-hero-slider__image-desktop-{{ ai_gen_id }} {
+      display: none;
+    }
+
+    .ai-hero-slider__image-mobile-{{ ai_gen_id }} {
+      display: block;
+    }
+  }
+
+  .ai-hero-slider__overlay-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, {{ block.settings.overlay_opacity }});
+    pointer-events: none;
+  }
+
+  .ai-hero-slider__content-{{ ai_gen_id }} {
+    position: absolute;
+    z-index: 2;
+    max-width: {{ block.settings.content_max_width }}px;
+    padding: {{ block.settings.content_padding }}px;
+  }
+
+  .ai-hero-slider__content--left-{{ ai_gen_id }} {
+    left: {{ block.settings.content_offset_horizontal }}px;
+    text-align: left;
+  }
+
+  .ai-hero-slider__content--center-{{ ai_gen_id }} {
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+  }
+
+  .ai-hero-slider__content--right-{{ ai_gen_id }} {
+    right: {{ block.settings.content_offset_horizontal }}px;
+    text-align: right;
+  }
+
+  .ai-hero-slider__content--top-{{ ai_gen_id }} {
+    top: {{ block.settings.content_offset_vertical }}px;
+  }
+
+  .ai-hero-slider__content--middle-{{ ai_gen_id }} {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .ai-hero-slider__content--center-middle-{{ ai_gen_id }} {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .ai-hero-slider__content--bottom-{{ ai_gen_id }} {
+    bottom: {{ block.settings.content_offset_vertical }}px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-hero-slider__content-{{ ai_gen_id }} {
+      max-width: 90%;
+      padding: 20px;
+    }
+
+    .ai-hero-slider__content--left-{{ ai_gen_id }},
+    .ai-hero-slider__content--right-{{ ai_gen_id }} {
+      left: 50%;
+      right: auto;
+      transform: translateX(-50%);
+      text-align: center;
+    }
+  }
+
+  .ai-hero-slider__subtitle-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subtitle_size }}px;
+    margin-bottom: 12px;
+    line-height: 1.4;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-hero-slider__title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    line-height: 1.2;
+    color: {{ block.settings.text_color }};
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-hero-slider__title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_size | times: 0.7 }}px;
+    }
+  }
+
+  .ai-hero-slider__text-{{ ai_gen_id }} {
+    font-size: {{ block.settings.text_size }}px;
+    margin-bottom: 24px;
+    line-height: 1.6;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-hero-slider__button-{{ ai_gen_id }} {
+    display: inline-block;
+    padding: {{ block.settings.button_padding_vertical }}px {{ block.settings.button_padding_horizontal }}px;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-size: {{ block.settings.button_font_size }}px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    background-color: {{ block.settings.button_color }};
+    color: {{ block.settings.button_text_color }};
+  }
+
+  .ai-hero-slider__button-{{ ai_gen_id }}:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+{% endstyle %}
+
+<div class="ai-hero-slider-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-hero-slider__slide-{{ ai_gen_id }}">
+    <div class="ai-hero-slider__image-wrapper-{{ ai_gen_id }}">
+      {% if block.settings.image_desktop %}
+        <img
+          src="{{ block.settings.image_desktop | image_url: width: 1989 }}"
+          alt="{{ block.settings.image_desktop.alt | escape }}"
+          class="ai-hero-slider__image-{{ ai_gen_id }} ai-hero-slider__image-desktop-{{ ai_gen_id }}"
+          loading="eager"
+          width="1989"
+          height="907"
+        >
+      {% else %}
+        <div class="ai-hero-slider__image-placeholder-{{ ai_gen_id }}">
+          {{ 'hero-apparel-1' | placeholder_svg_tag }}
+        </div>
+      {% endif %}
+
+      {% if block.settings.image_mobile %}
+        <img
+          src="{{ block.settings.image_mobile | image_url: width: 400 }}"
+          alt="{{ block.settings.image_mobile.alt | escape }}"
+          class="ai-hero-slider__image-{{ ai_gen_id }} ai-hero-slider__image-mobile-{{ ai_gen_id }}"
+          loading="eager"
+          width="400"
+          height="560"
+        >
+      {% else %}
+        <div class="ai-hero-slider__image-placeholder-{{ ai_gen_id }} ai-hero-slider__image-mobile-{{ ai_gen_id }}">
+          {{ 'hero-apparel-1' | placeholder_svg_tag }}
+        </div>
+      {% endif %}
+
+      <div class="ai-hero-slider__overlay-{{ ai_gen_id }}"></div>
+    </div>
+
+    {% liquid
+      assign h_align = block.settings.content_horizontal_align
+      assign v_align = block.settings.content_vertical_align
+      assign position_class = 'ai-hero-slider__content--' | append: h_align | append: '-' | append: ai_gen_id
+      
+      if h_align == 'center' and v_align == 'middle'
+        assign position_class = 'ai-hero-slider__content--center-middle-' | append: ai_gen_id
+      else
+        assign position_class = position_class | append: ' ai-hero-slider__content--' | append: v_align | append: '-' | append: ai_gen_id
+      endif
+    %}
+
+    <div class="ai-hero-slider__content-{{ ai_gen_id }} {{ position_class }}">
+      {% if block.settings.subtitle != blank %}
+        <div class="ai-hero-slider__subtitle-{{ ai_gen_id }}">
+          {{ block.settings.subtitle }}
+        </div>
+      {% endif %}
+
+      {% if block.settings.title != blank %}
+        <h2 class="ai-hero-slider__title-{{ ai_gen_id }}">
+          {{ block.settings.title }}
+        </h2>
+      {% endif %}
+
+      {% if block.settings.text != blank %}
+        <div class="ai-hero-slider__text-{{ ai_gen_id }}">
+          {{ block.settings.text }}
+        </div>
+      {% endif %}
+
+      {% if block.settings.button_text != blank and block.settings.button_link != blank %}
+        <a
+          href="{{ block.settings.button_link }}"
+          class="ai-hero-slider__button-{{ ai_gen_id }}"
+        >
+          {{ block.settings.button_text }}
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Hero slide premium",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_desktop",
+      "label": "Image desktop"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Image mobile"
+    },
+    {
+      "type": "header",
+      "content": "Overlay"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Opacité overlay",
+      "min": 0,
+      "max": 0.5,
+      "step": 0.1,
+      "default": 0.2
+    },
+    {
+      "type": "header",
+      "content": "Contenu"
+    },
+    {
+      "type": "richtext",
+      "id": "subtitle",
+      "label": "Sous-titre",
+      "default": "<p>Nouvelle collection</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Titre",
+      "default": "<p>Découvrez notre <strong>collection premium</strong></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Texte",
+      "default": "<p>Des produits élégants et confortables pour vous accompagner au quotidien</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Texte du bouton",
+      "default": "Découvrir"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Lien du bouton"
+    },
+    {
+      "type": "header",
+      "content": "Position du contenu"
+    },
+    {
+      "type": "select",
+      "id": "content_horizontal_align",
+      "label": "Alignement horizontal",
+      "options": [
+        {
+          "value": "left",
+          "label": "Gauche"
+        },
+        {
+          "value": "center",
+          "label": "Centre"
+        },
+        {
+          "value": "right",
+          "label": "Droite"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "content_vertical_align",
+      "label": "Alignement vertical",
+      "options": [
+        {
+          "value": "top",
+          "label": "Haut"
+        },
+        {
+          "value": "middle",
+          "label": "Centre"
+        },
+        {
+          "value": "bottom",
+          "label": "Bas"
+        }
+      ],
+      "default": "middle"
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Largeur max contenu",
+      "min": 300,
+      "max": 800,
+      "step": 50,
+      "unit": "px",
+      "default": 600
+    },
+    {
+      "type": "range",
+      "id": "content_padding",
+      "label": "Espacement intérieur",
+      "min": 20,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "content_offset_horizontal",
+      "label": "Distance horizontale",
+      "min": 20,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "content_offset_vertical",
+      "label": "Distance verticale",
+      "min": 20,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "header",
+      "content": "Typographie"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "label": "Taille sous-titre",
+      "min": 12,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Taille titre",
+      "min": 24,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Taille texte",
+      "min": 14,
+      "max": 22,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Couleurs"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Couleur texte",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Couleur bouton",
+      "default": "#f9d43d"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Couleur texte bouton",
+      "default": "#171717"
+    },
+    {
+      "type": "header",
+      "content": "Style bouton"
+    },
+    {
+      "type": "range",
+      "id": "button_padding_vertical",
+      "label": "Padding vertical",
+      "min": 10,
+      "max": 25,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "button_padding_horizontal",
+      "label": "Padding horizontal",
+      "min": 20,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "label": "Arrondi bouton",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "label": "Taille police bouton",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero slide premium"
+    }
+  ]
+}
 {% endschema %}
