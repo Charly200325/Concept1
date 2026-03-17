@@ -73,39 +73,6 @@
       "type": "_blocks",
       "settings": {}
     },
-    "17737669660220ed12": {
-      "type": "_blocks",
-      "blocks": {
-        "ai_gen_block_d5d8138_qYhqhD": {
-          "type": "ai_gen_block_d5d8138",
-          "settings": {
-            "overlay_opacity_top": 0.2,
-            "overlay_opacity_bottom": 0.4,
-            "subtitle": "Nouvelle Collection",
-            "title": "Découvrez le Confort Premium",
-            "text": "L'alliance parfaite entre style et fonctionnalité",
-            "button_text": "Découvrir",
-            "button_link": "",
-            "text_color": "#ffffff",
-            "title_size": 64,
-            "subtitle_size": 16,
-            "text_size": 18,
-            "button_bg_color": "#ffffff",
-            "button_text_color": "#171717",
-            "button_hover_bg_color": "#f9d43d",
-            "button_hover_text_color": "#171717",
-            "button_size": 16,
-            "button_radius": 30,
-            "desktop_width_percent": 100
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "ai_gen_block_d5d8138_qYhqhD"
-      ],
-      "settings": {}
-    },
     "featured_collection_jx3eKb": {
       "type": "featured-collection",
       "name": "t:sections.featured-collection.presets.name",
@@ -624,7 +591,6 @@
   "order": [
     "slideshow",
     "1773765906e65e7d6f",
-    "17737669660220ed12",
     "featured_collection_jx3eKb",
     "custom_html_tEBAEn",
     "image_with_text_aehJ7D",
