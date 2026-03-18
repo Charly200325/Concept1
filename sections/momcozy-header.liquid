@@ -247,34 +247,103 @@
 </div>
 
   <div class="ai-header-drawer-overlay-{{ ai_gen_id }} mc-mobile-drawer__overlay" data-mobile-menu-close data-drawer-overlay></div>
+
   <div class="mc-mobile-drawer ai-header-mobile-drawer-{{ ai_gen_id }}" data-mobile-drawer>
     <div class="mc-mobile-drawer__panel">
-      <div class="ai-header-drawer-header-{{ ai_gen_id }}">
-        <div class="ai-header-logo-{{ ai_gen_id }}">
+      <div class="mc-mobile-drawer__header">
+        <div class="mc-mobile-drawer__logo">
           <a href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
             {% if section.settings.logo_mobile != blank %}
               {{ section.settings.logo_mobile | image_url: width: 220 | image_tag: class: 'mc-header__logo-image', loading: 'eager', widths: '120,180,220', alt: shop.name }}
             {% elsif section.settings.logo != blank %}
               {{ section.settings.logo | image_url: width: 220 | image_tag: class: 'mc-header__logo-image', loading: 'eager', widths: '120,180,220', alt: shop.name }}
+            {% else %}
+              <span class="mc-header__logo-text">{{ shop.name }}</span>
             {% endif %}
           </a>
         </div>
-        <button class="mc-mobile-drawer__close ai-header-drawer-close-{{ ai_gen_id }}" type="button" aria-label="Close menu" data-mobile-menu-close data-drawer-close>×</button>
+
+        <button
+          class="mc-mobile-drawer__close ai-header-drawer-close-{{ ai_gen_id }}"
+          type="button"
+          aria-label="Fermer le menu"
+          data-mobile-menu-close
+          data-drawer-close
+        >
+          <span>×</span>
+        </button>
       </div>
 
-      {% if section.settings.enable_account %}
-        <div class="ai-header-drawer-account-{{ ai_gen_id }}">
-          <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}">{% if customer %}Mon compte{% else %}Se connecter{% endif %}</a>
+      {% if section.settings.enable_search %}
+        <div class="mc-mobile-drawer__search">
+          <a href="{{ routes.search_url }}" class="mc-mobile-search-pill" aria-label="Recherche">
+            <svg class="mc-mobile-search-pill__icon" viewBox="0 0 1024 1024" aria-hidden="true">
+              <path d="M472.576 11.264C222.549333 11.264 19.285333 214.698667 19.285333 464.554667s203.434667 453.290667 453.290667 453.290666c86.869333 0 171.349333-24.746667 244.224-71.338666 11.946667-7.68 15.36-23.381333 7.68-35.328s-23.381333-15.36-35.328-7.68a400.469333 400.469333 0 0 1-216.576 63.317333c-221.696 0-402.090667-180.394667-402.090667-402.090667S250.88 62.464 472.576 62.464s402.090667 180.394667 402.090667 402.090667c0 110.933333-44.202667 214.186667-124.416 290.986666a25.6 25.6 0 0 0 35.328 37.034667c90.453333-86.357333 140.288-202.922667 140.288-328.021333C926.037333 214.528 722.602667 11.264 472.576 11.264z"></path>
+              <path d="M997.205333 969.045333l-140.970666-140.970666a25.429333 25.429333 0 0 0-36.181334 0 25.429333 25.429333 0 0 0 0 36.181333l140.970667 140.970667c4.949333 4.949333 11.605333 7.509333 18.090667 7.509333s13.141333-2.56 18.090666-7.509333c10.069333-9.898667 10.069333-26.112 0-36.181334z"></path>
+              <path d="M804.352 490.154667c14.165333 0 25.6-11.434667 25.6-25.6 0-196.949333-160.256-357.205333-357.205333-357.205334-14.165333 0-25.6 11.434667-25.6 25.6s11.434667 25.6 25.6 25.6c168.789333 0 306.005333 137.216 306.005333 306.005334 0 14.165333 11.434667 25.6 25.6 25.6z"></path>
+            </svg>
+            <span>{{ section.settings.search_placeholder }}</span>
+          </a>
+        </div>
+      {% endif %}
+
+      {% if section.settings.enable_account or section.settings.enable_wishlist %}
+        <div class="mc-mobile-drawer__quick-actions">
+          {% if section.settings.enable_account %}
+            <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" class="mc-mobile-quick-link">
+              {% if customer %}Mon compte{% else %}Se connecter{% endif %}
+            </a>
+          {% endif %}
+
+          {% if section.settings.enable_wishlist %}
+            <a href="{% if section.settings.wishlist_link != blank %}{{ section.settings.wishlist_link }}{% else %}/pages/wishlist{% endif %}" class="mc-mobile-quick-link">
+              Favoris
+            </a>
+          {% endif %}
         </div>
       {% endif %}
 
       <nav aria-label="Mobile navigation">
         <ul class="mc-mobile-drawer__list ai-header-drawer-nav-{{ ai_gen_id }}" role="list">
           {% for link in linklists[section.settings.drawer_menu].links %}
-            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+            <li class="mc-mobile-drawer__item {% if link.links != blank %}has-children{% endif %}">
+              <div class="mc-mobile-drawer__row">
+                <a href="{{ link.url }}" class="mc-mobile-drawer__link">{{ link.title }}</a>
+
+                {% if link.links != blank %}
+                  <button
+                    type="button"
+                    class="mc-mobile-drawer__toggle"
+                    aria-expanded="false"
+                    aria-label="Ouvrir le sous-menu {{ link.title }}"
+                    data-mobile-submenu-toggle
+                  >
+                    <svg viewBox="0 0 20 20" aria-hidden="true">
+                      <path d="M5.5 7.5 10 12l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </button>
+                {% endif %}
+              </div>
+
+              {% if link.links != blank %}
+                <ul class="mc-mobile-drawer__submenu" role="list">
+                  {% for child_link in link.links %}
+                    <li>
+                      <a href="{{ child_link.url }}" class="mc-mobile-drawer__sublink">{{ child_link.title }}</a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </li>
           {% endfor %}
         </ul>
       </nav>
+
+      <div class="mc-mobile-drawer__footer">
+        <a href="{{ routes.cart_url }}" class="mc-mobile-drawer__cart-link">
+          Panier <span>({{ cart.item_count }})</span>
+        </a>
+      </div>
     </div>
   </div>
 </header-component-{{ ai_gen_id }}>
@@ -687,7 +756,314 @@
     height: 20px;
   }
 }
+@media screen and (max-width: 989px) {
+  .mc-header {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    border-radius: 0 !important;
+  }
 
+  .mc-header__main {
+    border-bottom: 1px solid rgba(0,0,0,.08);
+  }
+
+  .mc-header__main-inner {
+    grid-template-columns: 40px 1fr auto !important;
+    min-height: 64px !important;
+    column-gap: 10px !important;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+
+  .mc-header__drawer-btn {
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 999px;
+  }
+
+  .mc-header__drawer-btn span {
+    width: 20px;
+    height: 2px;
+  }
+
+  .mc-header__logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+  }
+
+  .mc-header__logo-image {
+    max-width: {{ section.settings.logo_width_mobile }}px !important;
+    width: auto;
+    max-height: 34px;
+    object-fit: contain;
+  }
+
+  .mc-header__right {
+    gap: 10px !important;
+  }
+
+  .mc-header__icons {
+    gap: 10px !important;
+  }
+
+  .mc-header-icon-link {
+    min-width: 40px;
+    min-height: 40px;
+  }
+
+  .mc-header-icon-wrap {
+    width: 22px;
+    height: 22px;
+  }
+
+  .mc-header-icon {
+    width: 21px;
+    height: 21px;
+  }
+
+  /* On cache le wishlist en header mobile pour éviter un header trop chargé */
+  .mc-header__icons a[href*="wishlist"],
+  .mc-header__icons .mc-header-icon--heart {
+    display: none !important;
+  }
+
+  .mc-header-count {
+    top: -6px;
+    right: -8px;
+    min-width: 16px;
+    height: 16px;
+    line-height: 16px;
+    font-size: 9px;
+  }
+
+  .mc-mobile-drawer {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity .25s ease, visibility .25s ease;
+  }
+
+  .mc-mobile-drawer.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .mc-mobile-drawer__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,.42);
+    opacity: 0;
+    transition: opacity .25s ease;
+  }
+
+  .mc-mobile-drawer.is-open .mc-mobile-drawer__overlay {
+    opacity: 1;
+  }
+
+  .mc-mobile-drawer__panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: min(88vw, {{ section.settings.drawer_width }}px);
+    background: #fff;
+    padding: 18px 16px 22px;
+    transform: translateX(-100%);
+    transition: transform .28s ease;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    box-shadow: 8px 0 30px rgba(0,0,0,.12);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mc-mobile-drawer.is-open .mc-mobile-drawer__panel {
+    transform: translateX(0);
+  }
+
+  .mc-mobile-drawer__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(0,0,0,.08);
+    margin-bottom: 16px;
+  }
+
+  .mc-mobile-drawer__logo img {
+    max-width: 130px;
+    max-height: 34px;
+    width: auto;
+    height: auto;
+    display: block;
+  }
+
+  .mc-mobile-drawer__close {
+    width: 40px;
+    height: 40px;
+    border: 0;
+    background: #f5f5f5;
+    border-radius: 999px;
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #111;
+    flex: 0 0 auto;
+  }
+
+  .mc-mobile-drawer__search {
+    margin-bottom: 14px;
+  }
+
+  .mc-mobile-search-pill {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 46px;
+    padding: 0 14px;
+    border: 1px solid rgba(0,0,0,.12);
+    border-radius: 999px;
+    background: #fafafa;
+    color: var(--mc-text);
+    text-decoration: none;
+  }
+
+  .mc-mobile-search-pill__icon {
+    width: 18px;
+    height: 18px;
+    flex: 0 0 auto;
+  }
+
+  .mc-mobile-search-pill span {
+    font-size: 14px;
+    color: #666;
+  }
+
+  .mc-mobile-drawer__quick-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .mc-mobile-quick-link {
+    min-height: 44px;
+    padding: 0 14px;
+    border-radius: 999px;
+    background: #f6f6f6;
+    color: var(--mc-text);
+    font-size: 14px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .mc-mobile-drawer__list {
+    display: grid;
+    gap: 0;
+  }
+
+  .mc-mobile-drawer__item {
+    border-bottom: 1px solid rgba(0,0,0,.08);
+  }
+
+  .mc-mobile-drawer__row {
+    min-height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .mc-mobile-drawer__link {
+    flex: 1 1 auto;
+    color: var(--mc-text);
+    font-size: 16px;
+    font-weight: 700;
+    padding: 16px 0;
+    line-height: 1.2;
+  }
+
+  .mc-mobile-drawer__toggle {
+    width: 40px;
+    height: 40px;
+    border: 0;
+    background: transparent;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--mc-text);
+    cursor: pointer;
+    flex: 0 0 auto;
+  }
+
+  .mc-mobile-drawer__toggle svg {
+    width: 18px;
+    height: 18px;
+    transition: transform .22s ease;
+  }
+
+  .mc-mobile-drawer__item.is-open .mc-mobile-drawer__toggle svg {
+    transform: rotate(180deg);
+  }
+
+  .mc-mobile-drawer__submenu {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 12px 0;
+    display: none;
+  }
+
+  .mc-mobile-drawer__item.is-open .mc-mobile-drawer__submenu {
+    display: block;
+  }
+
+  .mc-mobile-drawer__sublink {
+    display: block;
+    padding: 10px 0 10px 14px;
+    color: #555;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .mc-mobile-drawer__footer {
+    margin-top: auto;
+    padding-top: 18px;
+  }
+
+  .mc-mobile-drawer__cart-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 48px;
+    padding: 0 16px;
+    border-radius: 14px;
+    background: var(--mc-accent);
+    color: #fff;
+    font-weight: 700;
+  }
+
+  .mc-mobile-drawer__cart-link span {
+    font-size: 14px;
+    opacity: .95;
+  }
+}
 </style>
 
 <script>
