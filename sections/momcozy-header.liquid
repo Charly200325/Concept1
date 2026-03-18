@@ -187,16 +187,37 @@
   {% endif %}
 </div>
       <div class="mc-header__icons ai-header-actions-{{ ai_gen_id }}">
-        {% if section.settings.enable_account %}
-          <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" aria-label="Account" class="mc-icon-link ai-header-account-link-{{ ai_gen_id }}">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4 20c1.6-4 5-6 8-6s6.4 2 8 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-          </a>
-        {% endif %}
-        <a href="{{ routes.cart_url }}" aria-label="Cart" class="mc-icon-link mc-cart-link ai-header-cart-link-{{ ai_gen_id }}">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12l-1 11H7L6 7Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 7a3 3 0 0 1 6 0" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
-          <span class="mc-count ai-header-cart-count-{{ ai_gen_id }}">{{ cart.item_count }}</span>
-        </a>
-      </div>
+  {% if section.settings.enable_account %}
+    <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" aria-label="Compte" class="mc-icon-link ai-header-account-link-{{ ai_gen_id }}">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/>
+        <path d="M4 20c1.6-4 5-6 8-6s6.4 2 8 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+      {% if section.settings.show_icon_badges %}
+        <span class="mc-dot"></span>
+      {% endif %}
+    </a>
+  {% endif %}
+
+  {% if section.settings.enable_wishlist %}
+    <a href="{{ section.settings.wishlist_link }}" aria-label="Favoris" class="mc-icon-link ai-header-wishlist-link-{{ ai_gen_id }}">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+      </svg>
+      {% if section.settings.show_icon_badges %}
+        <span class="mc-count mc-count--small">0</span>
+      {% endif %}
+    </a>
+  {% endif %}
+
+  <a href="{{ routes.cart_url }}" aria-label="Panier" class="mc-icon-link mc-cart-link ai-header-cart-link-{{ ai_gen_id }}">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M6 7h12l-1 11H7L6 7Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+      <path d="M9 7a3 3 0 0 1 6 0" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    </svg>
+    <span class="mc-count ai-header-cart-count-{{ ai_gen_id }}">{{ cart.item_count }}</span>
+  </a>
+</div>
     </div>
   </div>
 
