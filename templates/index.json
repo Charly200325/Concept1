@@ -12,30 +12,6 @@
     "momcozy_header_eeMGtm": {
       "type": "momcozy-header",
       "blocks": {
-        "product_card_HyPbrW": {
-          "type": "product_card",
-          "settings": {
-            "heading": "Custom Pumping",
-            "subheading": "M9 Wearable Breast Pump",
-            "link": ""
-          }
-        },
-        "product_card_xCkwtT": {
-          "type": "product_card",
-          "settings": {
-            "heading": "Custom Pumping",
-            "subheading": "M9 Wearable Breast Pump",
-            "link": ""
-          }
-        },
-        "product_card_KkWG9q": {
-          "type": "product_card",
-          "settings": {
-            "heading": "Custom Pumping",
-            "subheading": "M9 Wearable Breast Pump",
-            "link": ""
-          }
-        },
         "product_card_7LRDcR": {
           "type": "product_card",
           "settings": {
@@ -62,9 +38,6 @@
         }
       },
       "block_order": [
-        "product_card_HyPbrW",
-        "product_card_xCkwtT",
-        "product_card_KkWG9q",
         "product_card_7LRDcR",
         "product_card_aC4RBn",
         "product_card_WT78Uc"
@@ -73,7 +46,7 @@
       "settings": {
         "top_menu": "main-menu",
         "main_menu": "main-menu",
-        "search_placeholder": "I am looking for Sound Machine",
+        "search_placeholder": "I am looking for Sound Machine vv",
         "quiz_label": "Quick Quiz",
         "quiz_link": "",
         "section_description": "I work in Healthcare. These have been a lifesaver so far. I am also an active mother of 4, so these came in handy. They are easy to assemble and easy to clean.",

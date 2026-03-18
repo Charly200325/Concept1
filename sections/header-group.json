@@ -130,46 +130,10 @@
             "desktop_width_percent": 100
           },
           "blocks": {}
-        },
-        "ai_gen_block_61e024a_XH8B9e": {
-          "type": "ai_gen_block_61e024a",
-          "disabled": true,
-          "settings": {
-            "logo_width": 120,
-            "logo_width_mobile": 100,
-            "menu": "main-menu",
-            "menu_font_size": 16,
-            "menu_font_weight": "500",
-            "menu_spacing": 30,
-            "menu_text_color": "#171717",
-            "menu_hover_color": "#f9d43d",
-            "show_search": true,
-            "search_label": "Recherche",
-            "typing_texts": "[\"brid\", \"explorer la collection\", \"porte bébé\"]",
-            "typing_speed": 100,
-            "deleting_speed": 50,
-            "pause_duration": 2000,
-            "typing_text_color": "#f9d43d",
-            "show_account": true,
-            "show_cart": true,
-            "icon_size": 24,
-            "icon_spacing": 20,
-            "icon_color": "#171717",
-            "icon_hover_color": "#f9d43d",
-            "icon_hover_bg": "#f4f4f4",
-            "cart_badge_bg": "#e11d48",
-            "cart_badge_text": "#ffffff",
-            "header_bg_color": "#ffffff",
-            "border_color": "#e5e5e5",
-            "header_padding": 20,
-            "page_width": 1600
-          },
-          "blocks": {}
         }
       },
       "block_order": [
-        "ai_gen_block_60a48cf_RYTkF9",
-        "ai_gen_block_61e024a_XH8B9e"
+        "ai_gen_block_60a48cf_RYTkF9"
       ],
       "settings": {}
     },
