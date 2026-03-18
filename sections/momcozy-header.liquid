@@ -200,8 +200,7 @@
   {% endif %}
 
   {% if section.settings.enable_wishlist %}
-    <a href="{{ section.settings.wishlist_link }}" aria-label="Favoris" class="mc-icon-link ai-header-wishlist-link-{{ ai_gen_id }}">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
+<a href="{% if section.settings.wishlist_link != blank %}{{ section.settings.wishlist_link }}{% else %}/pages/wishlist{% endif %}" aria-label="Favoris" class="mc-icon-link ai-header-wishlist-link-{{ ai_gen_id }}">      <svg viewBox="0 0 24 24" aria-hidden="true">
         <path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
       </svg>
       {% if section.settings.show_icon_badges %}
