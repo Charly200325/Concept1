@@ -43,6 +43,7 @@
         "announcement-1",
         "announcement-2"
       ],
+      "disabled": true,
       "settings": {
         "show_social": true,
         "enable_language_selector": true,
@@ -139,6 +140,7 @@
     },
     "header": {
       "type": "header",
+      "disabled": true,
       "custom_css": [],
       "settings": {
         "menu": "main-menu",
@@ -189,7 +191,7 @@
             "mobile_show_locale": false,
             "mobile_show_country": false,
             "enable_transparent": false,
-            "transparent_text_color": "#FFFFFF",
+            "transparent_text_color": "#ffffff",
             "header_bg_color": "#ffffff",
             "header_text_color": "#171717",
             "nav_hover_color": "#6b2c3b",
