@@ -1078,6 +1078,7 @@
           this.closeBtns = this.querySelectorAll('[data-mobile-menu-close], [data-drawer-close]');
           this.typingElement = this.querySelector('[data-typing-text]');
           this.isTransparent = this.dataset.transparent === 'true';
+          this.submenuToggles = this.querySelectorAll('[data-mobile-submenu-toggle]');
 
           try {
             const parsedTexts = JSON.parse({{ section.settings.typing_texts | json }});
@@ -1104,16 +1105,32 @@
 
           this.closeBtns.forEach(btn => {
             btn.addEventListener('click', () => {
-              if (this.drawer) this.drawer.classList.remove('is-open');
-              document.body.style.overflow = '';
+              this.closeDrawer();
             });
           });
 
           document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
-              if (this.drawer) this.drawer.classList.remove('is-open');
-              document.body.style.overflow = '';
+              this.closeDrawer();
             }
+          });
+
+          this.submenuToggles.forEach(toggle => {
+            toggle.addEventListener('click', () => {
+              const item = toggle.closest('.mc-mobile-drawer__item');
+              const isOpen = item.classList.contains('is-open');
+
+              this.querySelectorAll('.mc-mobile-drawer__item.is-open').forEach(openItem => {
+                if (openItem !== item) {
+                  openItem.classList.remove('is-open');
+                  const btn = openItem.querySelector('[data-mobile-submenu-toggle]');
+                  if (btn) btn.setAttribute('aria-expanded', 'false');
+                }
+              });
+
+              item.classList.toggle('is-open');
+              toggle.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+            });
           });
 
           if (this.isTransparent) {
@@ -1128,9 +1145,14 @@
             handleScroll();
           }
 
-          if (this.typingElement && this.typingTexts.length) {
+          if (this.typingElement && this.typingTexts.length && window.innerWidth > 989) {
             this.typeText();
           }
+        }
+
+        closeDrawer() {
+          if (this.drawer) this.drawer.classList.remove('is-open');
+          document.body.style.overflow = '';
         }
 
         typeText() {
