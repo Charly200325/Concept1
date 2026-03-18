@@ -78,7 +78,7 @@
         "show_icon_badges": true,
         "top_menu": "main-menu",
         "main_menu": "main-menu",
-        "drawer_menu": "",
+        "drawer_menu": "main-menu",
         "enable_search": true,
         "search_label": "I am looking for",
         "search_placeholder": "Rechercher un produit...",
