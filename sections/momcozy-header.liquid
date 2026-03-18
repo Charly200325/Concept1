@@ -54,89 +54,157 @@
     </div>
   </div>
 
-   <div class="mc-header__main">
+  <div class="mc-header__main">
     <div class="page-width mc-header__main-inner ai-header-container-{{ ai_gen_id }}">
       <button class="mc-header__drawer-btn ai-header-menu-btn-{{ ai_gen_id }}" type="button" aria-label="Open menu" data-mobile-menu-toggle>
         <span></span><span></span><span></span>
       </button>
 
       <div class="mc-header__logo ai-header-logo-{{ ai_gen_id }}">
-        <a href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
-          {% if section.settings.logo != blank %}
-            <img
-              src="{{ section.settings.logo | image_url: width: 320 }}"
-              alt="{{ shop.name }}"
-              class="mc-header__logo-image ai-header-logo-normal-{{ ai_gen_id }}"
-              loading="eager"
-              width="320"
-            >
-          {% endif %}
+  <a href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
+    {% if section.settings.logo != blank %}
+      <img
+        src="{{ section.settings.logo | image_url: width: 320 }}"
+        alt="{{ shop.name }}"
+        class="mc-header__logo-image ai-header-logo-normal-{{ ai_gen_id }}"
+        loading="eager"
+        width="320"
+      >
+    {% endif %}
 
-          {% if section.settings.white_logo != blank %}
-            <img
-              src="{{ section.settings.white_logo | image_url: width: 320 }}"
-              alt="{{ shop.name }}"
-              class="mc-header__logo-image ai-header-logo-white-{{ ai_gen_id }}"
-              loading="eager"
-              width="320"
-            >
-          {% elsif section.settings.logo != blank %}
-            <img
-              src="{{ section.settings.logo | image_url: width: 320 }}"
-              alt="{{ shop.name }}"
-              class="mc-header__logo-image ai-header-logo-white-{{ ai_gen_id }}"
-              loading="eager"
-              width="320"
-            >
-          {% endif %}
+    {% if section.settings.white_logo != blank %}
+      <img
+        src="{{ section.settings.white_logo | image_url: width: 320 }}"
+        alt="{{ shop.name }}"
+        class="mc-header__logo-image ai-header-logo-white-{{ ai_gen_id }}"
+        loading="eager"
+        width="320"
+      >
+    {% elsif section.settings.logo != blank %}
+      <img
+        src="{{ section.settings.logo | image_url: width: 320 }}"
+        alt="{{ shop.name }}"
+        class="mc-header__logo-image ai-header-logo-white-{{ ai_gen_id }}"
+        loading="eager"
+        width="320"
+      >
+    {% endif %}
 
-          {% if section.settings.logo == blank and section.settings.white_logo == blank %}
-            <span class="mc-header__logo-text">{{ shop.name }}</span>
-          {% endif %}
-        </a>
-      </div>
+    {% if section.settings.logo == blank and section.settings.white_logo == blank %}
+      <span class="mc-header__logo-text">{{ shop.name }}</span>
+    {% endif %}
+  </a>
+</div>
 
       <nav class="mc-header__nav ai-header-nav-{{ ai_gen_id }}" aria-label="Main navigation">
-        ...
+        <ul class="mc-header__nav-list ai-header-nav-list-{{ ai_gen_id }}" role="list">
+          {% for link in linklists[section.settings.main_menu].links %}
+            <li class="mc-header__nav-item ai-header-nav-item-{{ ai_gen_id }}{% if link.links != blank %} has-dropdown{% endif %}">
+              <a href="{{ link.url }}" class="mc-header__nav-link ai-header-nav-link-{{ ai_gen_id }}{% if link.current %} is-active{% endif %}">
+                <span>{{ link.title }}</span>
+                {% if link.links != blank and section.settings.show_nav_arrows %}
+                  <svg class="ai-header-nav-arrow-{{ ai_gen_id }}" viewBox="0 0 20 20" aria-hidden="true"><path d="M5.5 7.5 10 12l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                {% endif %}
+              </a>
+
+              {% if link.links != blank %}
+                <div class="mc-mega-menu ai-header-dropdown-{{ ai_gen_id }}">
+                  <div class="mc-mega-menu__inner page-width ai-header-container-{{ ai_gen_id }}">
+                    <div class="mc-mega-menu__content">
+                      <div class="mc-mega-menu__quicklinks">
+                        <p class="mc-mega-menu__label">Quick links:</p>
+                        <div class="mc-mega-menu__chips">
+                          {% for child_link in link.links limit: 8 %}
+                            <a href="{{ child_link.url }}" class="mc-chip">{{ child_link.title }}</a>
+                          {% endfor %}
+                        </div>
+                      </div>
+
+                      <div class="mc-mega-menu__grid">
+                        <div class="mc-mega-menu__products">
+                          <div class="mc-mega-menu__section-head">
+                            <h3>{{ link.title }}</h3>
+                            {% if section.settings.quiz_label != blank and section.settings.quiz_link != blank %}
+                              <a href="{{ section.settings.quiz_link }}" class="mc-outline-btn">{{ section.settings.quiz_label }}</a>
+                            {% endif %}
+                          </div>
+
+                          {% if section.settings.section_description != blank %}
+                            <p class="mc-mega-menu__desc">{{ section.settings.section_description }}</p>
+                          {% endif %}
+
+                          <div class="mc-product-cards">
+                            {% for block in section.blocks %}
+                              {% if block.type == 'product_card' %}
+                                <a href="{{ block.settings.link }}" class="mc-product-card" {{ block.shopify_attributes }}>
+                                  <div class="mc-product-card__image">
+                                    {% if block.settings.image != blank %}
+                                      {{ block.settings.image | image_url: width: 180 | image_tag: loading: 'lazy', widths: '90,120,180', alt: block.settings.heading }}
+                                    {% endif %}
+                                  </div>
+                                  <div class="mc-product-card__content">
+                                    <h4>{{ block.settings.heading }}</h4>
+                                    <p>{{ block.settings.subheading }}</p>
+                                  </div>
+                                </a>
+                              {% endif %}
+                            {% endfor %}
+                          </div>
+
+                          {% if section.settings.shop_all_label != blank and section.settings.shop_all_link != blank %}
+                            <a href="{{ section.settings.shop_all_link }}" class="mc-shop-all">{{ section.settings.shop_all_label }}</a>
+                          {% endif %}
+                        </div>
+
+                        <aside class="mc-mega-menu__sidebar">
+                          {% if section.settings.sidebar_heading != blank %}
+                            <h3 class="mc-sidebar-title">{{ section.settings.sidebar_heading }}</h3>
+                          {% endif %}
+
+                          <div class="mc-sidebar-card mc-sidebar-card--large">
+                            {% if section.settings.sidebar_image_1 != blank %}
+                              {{ section.settings.sidebar_image_1 | image_url: width: 700 | image_tag: loading: 'lazy', widths: '320,480,700', alt: section.settings.sidebar_title_1 }}
+                            {% endif %}
+                            <div class="mc-sidebar-card__body">
+                              <h4>{{ section.settings.sidebar_title_1 }}</h4>
+                              <p>{{ section.settings.sidebar_text_1 }}</p>
+                            </div>
+                          </div>
+
+                          <div class="mc-sidebar-card mc-sidebar-card--small">
+                            {% if section.settings.sidebar_image_2 != blank %}
+                              {{ section.settings.sidebar_image_2 | image_url: width: 500 | image_tag: loading: 'lazy', widths: '240,360,500', alt: section.settings.sidebar_title_2 }}
+                            {% endif %}
+                            <div class="mc-sidebar-card__body">
+                              <h4>{{ section.settings.sidebar_title_2 }}</h4>
+                              <p>{{ section.settings.sidebar_text_2 }}</p>
+                            </div>
+                          </div>
+                        </aside>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
       </nav>
 
-      <div class="mc-header__right">
-        {% if section.settings.enable_search %}
-          <a href="{{ routes.search_url }}" class="mc-search-pill" aria-label="Recherche">
-            <svg class="mc-search-pill__icon" viewBox="0 0 1024 1024" aria-hidden="true">
-              <path d="M472.576 11.264C222.549333 11.264 19.285333 214.698667 19.285333 464.554667s203.434667 453.290667 453.290667 453.290666c86.869333 0 171.349333-24.746667 244.224-71.338666 11.946667-7.68 15.36-23.381333 7.68-35.328s-23.381333-15.36-35.328-7.68a400.469333 400.469333 0 0 1-216.576 63.317333c-221.696 0-402.090667-180.394667-402.090667-402.090667S250.88 62.464 472.576 62.464s402.090667 180.394667 402.090667 402.090667c0 110.933333-44.202667 214.186667-124.416 290.986666a25.6 25.6 0 0 0 35.328 37.034667c90.453333-86.357333 140.288-202.922667 140.288-328.021333C926.037333 214.528 722.602667 11.264 472.576 11.264z"></path>
-              <path d="M997.205333 969.045333l-140.970666-140.970666a25.429333 25.429333 0 0 0-36.181334 0 25.429333 25.429333 0 0 0 0 36.181333l140.970667 140.970667c4.949333 4.949333 11.605333 7.509333 18.090667 7.509333s13.141333-2.56 18.090666-7.509333c10.069333-9.898667 10.069333-26.112 0-36.181334z"></path>
-              <path d="M804.352 490.154667c14.165333 0 25.6-11.434667 25.6-25.6 0-196.949333-160.256-357.205333-357.205333-357.205334-14.165333 0-25.6 11.434667-25.6 25.6s11.434667 25.6 25.6 25.6c168.789333 0 306.005333 137.216 306.005333 306.005334 0 14.165333 11.434667 25.6 25.6 25.6z"></path>
-            </svg>
+    <div class="mc-header__right">
+  {% if section.settings.enable_search %}
+    <a href="{{ routes.search_url }}" class="mc-search-pill" aria-label="Recherche">
+      <svg class="mc-search-pill__icon" viewBox="0 0 1024 1024" aria-hidden="true">
+        <path d="M472.576 11.264C222.549333 11.264 19.285333 214.698667 19.285333 464.554667s203.434667 453.290667 453.290667 453.290666c86.869333 0 171.349333-24.746667 244.224-71.338666 11.946667-7.68 15.36-23.381333 7.68-35.328s-23.381333-15.36-35.328-7.68a400.469333 400.469333 0 0 1-216.576 63.317333c-221.696 0-402.090667-180.394667-402.090667-402.090667S250.88 62.464 472.576 62.464s402.090667 180.394667 402.090667 402.090667c0 110.933333-44.202667 214.186667-124.416 290.986666a25.6 25.6 0 0 0 35.328 37.034667c90.453333-86.357333 140.288-202.922667 140.288-328.021333C926.037333 214.528 722.602667 11.264 472.576 11.264z"></path>
+        <path d="M997.205333 969.045333l-140.970666-140.970666a25.429333 25.429333 0 0 0-36.181334 0 25.429333 25.429333 0 0 0 0 36.181333l140.970667 140.970667c4.949333 4.949333 11.605333 7.509333 18.090667 7.509333s13.141333-2.56 18.090666-7.509333c10.069333-9.898667 10.069333-26.112 0-36.181334z"></path>
+        <path d="M804.352 490.154667c14.165333 0 25.6-11.434667 25.6-25.6 0-196.949333-160.256-357.205333-357.205333-357.205334-14.165333 0-25.6 11.434667-25.6 25.6s11.434667 25.6 25.6 25.6c168.789333 0 306.005333 137.216 306.005333 306.005334 0 14.165333 11.434667 25.6 25.6 25.6z"></path>
+      </svg>
 
-            <span class="mc-search-pill__label">{{ section.settings.search_label }}</span>
-            <span class="mc-search-pill__typing" data-typing-text></span>
-            <span class="mc-search-pill__cursor"></span>
-          </a>
-        {% endif %}
-
-        <div class="mc-header__icons">
-          ...
-        </div>
-      </div>
-    </div>
-
-    {% if section.settings.enable_search %}
-      <div class="mc-header__mobile-search">
-        <a href="{{ routes.search_url }}" class="mc-search-pill mc-search-pill--mobile" aria-label="Recherche">
-          <svg class="mc-search-pill__icon" viewBox="0 0 1024 1024" aria-hidden="true">
-            <path d="M472.576 11.264C222.549333 11.264 19.285333 214.698667 19.285333 464.554667s203.434667 453.290667 453.290667 453.290666c86.869333 0 171.349333-24.746667 244.224-71.338666 11.946667-7.68 15.36-23.381333 7.68-35.328s-23.381333-15.36-35.328-7.68a400.469333 400.469333 0 0 1-216.576 63.317333c-221.696 0-402.090667-180.394667-402.090667-402.090667S250.88 62.464 472.576 62.464s402.090667 180.394667 402.090667 402.090667c0 110.933333-44.202667 214.186667-124.416 290.986666a25.6 25.6 0 0 0 35.328 37.034667c90.453333-86.357333 140.288-202.922667 140.288-328.021333C926.037333 214.528 722.602667 11.264 472.576 11.264z"></path>
-            <path d="M997.205333 969.045333l-140.970666-140.970666a25.429333 25.429333 0 0 0-36.181334 0 25.429333 25.429333 0 0 0 0 36.181333l140.970667 140.970667c4.949333 4.949333 11.605333 7.509333 18.090667 7.509333s13.141333-2.56 18.090666-7.509333c10.069333-9.898667 10.069333-26.112 0-36.181334z"></path>
-            <path d="M804.352 490.154667c14.165333 0 25.6-11.434667 25.6-25.6 0-196.949333-160.256-357.205333-357.205333-357.205334-14.165333 0-25.6 11.434667-25.6 25.6s11.434667 25.6 25.6 25.6c168.789333 0 306.005333 137.216 306.005333 306.005334 0 14.165333 11.434667 25.6 25.6 25.6z"></path>
-          </svg>
-
-          <span class="mc-search-pill__label">{{ section.settings.search_label }}</span>
-          <span class="mc-search-pill__typing" data-typing-text-mobile></span>
-          <span class="mc-search-pill__cursor"></span>
-        </a>
-      </div>
-    {% endif %}
-  </div>
+      <span class="mc-search-pill__label">{{ section.settings.search_label }}</span>
+      <span class="mc-search-pill__typing" data-typing-text></span>
+      <span class="mc-search-pill__cursor"></span>
+    </a>
+  {% endif %}
 
   <div class="mc-header__icons">
     {% if section.settings.enable_account %}
@@ -1290,7 +1358,7 @@
           this.openBtn = this.querySelector('[data-mobile-menu-toggle]');
           this.closeBtns = this.querySelectorAll('[data-mobile-menu-close], [data-drawer-close]');
           this.typingElement = this.querySelector('[data-typing-text]');
-this.typingElementMobile = this.querySelector('[data-typing-text-mobile]');
+          this.typingElementMobile = this.querySelector('[data-typing-text-mobile]');
           this.isTransparent = this.dataset.transparent === 'true';
           this.submenuToggles = this.querySelectorAll('[data-mobile-submenu-toggle]');
 
@@ -1332,6 +1400,8 @@ this.typingElementMobile = this.querySelector('[data-typing-text-mobile]');
           this.submenuToggles.forEach(toggle => {
             toggle.addEventListener('click', () => {
               const item = toggle.closest('.mc-mobile-drawer__item');
+              if (!item) return;
+
               const isOpen = item.classList.contains('is-open');
 
               this.querySelectorAll('.mc-mobile-drawer__item.is-open').forEach(openItem => {
@@ -1355,63 +1425,60 @@ this.typingElementMobile = this.querySelector('[data-typing-text-mobile]');
                 this.classList.add('transparent');
               }
             };
+
             window.addEventListener('scroll', handleScroll);
             handleScroll();
           }
 
           if ((this.typingElement || this.typingElementMobile) && this.typingTexts.length) {
-  this.typeText();
-}
+            this.typeText();
           }
         }
 
         closeDrawer() {
-          if (this.drawer) this.drawer.classList.remove('is-open');
+          if (this.drawer) {
+            this.drawer.classList.remove('is-open');
+          }
           document.body.style.overflow = '';
         }
 
+        updateTypingText(text) {
+          if (this.typingElement) {
+            this.typingElement.textContent = text;
+          }
+
+          if (this.typingElementMobile) {
+            this.typingElementMobile.textContent = text;
+          }
+        }
+
         typeText() {
-  const currentText = this.typingTexts[this.currentTextIndex];
+          const currentText = this.typingTexts[this.currentTextIndex];
 
-  if (!this.isDeleting) {
-    this.currentCharIndex++;
+          if (!this.isDeleting) {
+            this.currentCharIndex++;
+            this.updateTypingText(currentText.slice(0, this.currentCharIndex));
 
-    if (this.typingElement) {
-      this.typingElement.textContent = currentText.slice(0, this.currentCharIndex);
-    }
+            if (this.currentCharIndex >= currentText.length) {
+              this.isDeleting = true;
+              setTimeout(() => this.typeText(), this.pauseDuration);
+              return;
+            }
 
-    if (this.typingElementMobile) {
-      this.typingElementMobile.textContent = currentText.slice(0, this.currentCharIndex);
-    }
+            setTimeout(() => this.typeText(), this.typingSpeed);
+          } else {
+            this.currentCharIndex--;
+            this.updateTypingText(currentText.slice(0, this.currentCharIndex));
 
-    if (this.currentCharIndex === currentText.length) {
-      this.isDeleting = true;
-      setTimeout(() => this.typeText(), this.pauseDuration);
-      return;
-    }
+            if (this.currentCharIndex <= 0) {
+              this.currentCharIndex = 0;
+              this.isDeleting = false;
+              this.currentTextIndex = (this.currentTextIndex + 1) % this.typingTexts.length;
+              setTimeout(() => this.typeText(), 300);
+              return;
+            }
 
-    setTimeout(() => this.typeText(), this.typingSpeed);
-  } else {
-    this.currentCharIndex--;
-
-    if (this.typingElement) {
-      this.typingElement.textContent = currentText.slice(0, this.currentCharIndex);
-    }
-
-    if (this.typingElementMobile) {
-      this.typingElementMobile.textContent = currentText.slice(0, this.currentCharIndex);
-    }
-
-    if (this.currentCharIndex === 0) {
-      this.isDeleting = false;
-      this.currentTextIndex = (this.currentTextIndex + 1) % this.typingTexts.length;
-      setTimeout(() => this.typeText(), 300);
-      return;
-    }
-
-    setTimeout(() => this.typeText(), this.deletingSpeed);
-  }
-}
+            setTimeout(() => this.typeText(), this.deletingSpeed);
           }
         }
       }
