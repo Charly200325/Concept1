@@ -50,7 +50,7 @@
         "enable_search": true,
         "search_label": "recherche",
         "search_placeholder": "",
-        "typing_texts": "[\"brid\", \"explorer la collection\", \"porte bébé\"]",
+        "typing_texts": "[\"test\", \"bonjour\", \"salut\"]",
         "typing_speed": 100,
         "deleting_speed": 50,
         "pause_duration": 2000,
