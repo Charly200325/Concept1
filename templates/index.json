@@ -12,23 +12,11 @@
     "ss_slideshow_9_fDtK8k": {
       "type": "ss-slideshow-9",
       "blocks": {
-        "slide_xnCJbK": {
-          "type": "slide",
-          "settings": {
-            "image_alt": "Slide image",
-            "thumb_title": "New In: Lavender",
-            "heading_tag": "h2",
-            "heading": "New In: Lavender",
-            "text": "<p>Lavender is widely known for its unique scent and versatile uses, making it a top choice among essential oils.</p>",
-            "button_1_label": "Shop this",
-            "button_1_link": "",
-            "button_2_label": "Shop all",
-            "button_2_link": ""
-          }
-        },
         "slide_TN3tqd": {
           "type": "slide",
           "settings": {
+            "image_desktop": "shopify://shop_images/wildride-toddler-carrier-black-rib-outdoors-banner2_1.webp",
+            "image_mobile": "shopify://shop_images/wildride-toddler-carrier-black-rib-outdoors-banner2_1.webp",
             "image_alt": "Slide image",
             "thumb_title": "Single Oils",
             "heading_tag": "h2",
@@ -56,7 +44,6 @@
         }
       },
       "block_order": [
-        "slide_xnCJbK",
         "slide_TN3tqd",
         "slide_D7dRnM"
       ],
@@ -105,6 +92,7 @@
     },
     "custom_html_RPBiPN": {
       "type": "custom-html",
+      "disabled": true,
       "name": "Custom HTML",
       "settings": {
         "title": "",
