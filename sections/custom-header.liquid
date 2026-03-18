@@ -1,0 +1,497 @@
+{% liquid
+  assign logo = section.settings.logo
+  assign menu = section.settings.menu
+%}
+
+{% style %}
+  #shopify-section-{{ section.id }} {
+    --bg: {{ section.settings.bg_color }};
+    --text: {{ section.settings.text_color }};
+    --accent: {{ section.settings.accent_color }};
+    --border: {{ section.settings.border_color }};
+    --topbar-bg: {{ section.settings.topbar_bg }};
+    --topbar-text: {{ section.settings.topbar_text }};
+    --menu-size: {{ section.settings.menu_font_size }}px;
+    --announcement-size: {{ section.settings.announcement_size }}px;
+    --heading-size: {{ section.settings.heading_size }}px;
+    --header-padding-y: {{ section.settings.padding_y }}px;
+    --header-padding-x: {{ section.settings.padding_x }}px;
+    --logo-width: {{ section.settings.logo_width }}px;
+    --radius: {{ section.settings.button_radius }}px;
+  }
+
+  #shopify-section-{{ section.id }} .custom-header {
+    background: var(--bg);
+    color: var(--text);
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    z-index: 20;
+  }
+
+  #shopify-section-{{ section.id }} .custom-header,
+  #shopify-section-{{ section.id }} .custom-header * {
+    {% if section.settings.heading_font != blank %}
+      font-family: {{ section.settings.heading_font.family }}, {{ section.settings.heading_font.fallback_families }};
+      font-style: {{ section.settings.heading_font.style }};
+      font-weight: {{ section.settings.heading_font.weight }};
+    {% endif %}
+  }
+
+  #shopify-section-{{ section.id }} .custom-header__topbar {
+    background: var(--topbar-bg);
+    color: var(--topbar-text);
+    text-align: center;
+    padding: 10px 16px;
+    font-size: var(--announcement-size);
+    line-height: 1.4;
+  }
+
+  #shopify-section-{{ section.id }} .custom-header__wrap {
+    max-width: {{ section.settings.page_width }}px;
+    margin: 0 auto;
+    padding: var(--header-padding-y) var(--header-padding-x);
+  }
+
+  #shopify-section-{{ section.id }} .custom-header__inner {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 24px;
+  }
+
+  #shopify-section-{{ section.id }} .custom-header__logo {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--text);
+  }
+
+  #shopify-section-{{ section.id }} .custom-header__logo img {
+    width: 100%;
+    max-width: var(--logo-width);
+    height: auto;
+    display: block;
+  }
+
+  #shopify-section-{{ section.id }} .custom-header__logo-text {
+    font-size: var(--heading-size);
+    font-weight: 700;
+    line-height: 1;
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  #shopify-section-{{ section.id }} .custom-header__nav {
+    display: flex;
+    justify-content: center;
+  }
+
+  #shopify-section-{{ section.id }} .custom-header__menu {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 22px;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+  }
+
+  #shopify-section-{{ section.id }} .custom-header__menu a {
+    color: var(--text);
+    text-decoration: none;
+    font-size: var(--menu-size);
+    transition: color .2s ease;
+  }
+
+  #shopify-section-{{ section.id }} .custom-header__menu a:hover {
+    color: var(--accent);
+  }
+
+  #shopify-section-{{ section.id }} .custom-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    justify-content: flex-end;
+  }
+
+  #shopify-section-{{ section.id }} .custom-header__icon {
+    color: var(--text);
+    text-decoration: none;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #shopify-section-{{ section.id }} .custom-header__icon svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  #shopify-section-{{ section.id }} .custom-header__button {
+    background: var(--accent);
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 16px;
+    border-radius: var(--radius);
+    font-size: {{ section.settings.button_font_size }}px;
+    line-height: 1.2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity .2s ease;
+  }
+
+  #shopify-section-{{ section.id }} .custom-header__button:hover {
+    opacity: .9;
+  }
+
+  #shopify-section-{{ section.id }} .custom-header__mobile-toggle {
+    display: none;
+    background: none;
+    border: 0;
+    padding: 0;
+    color: var(--text);
+    cursor: pointer;
+  }
+
+  #shopify-section-{{ section.id }} .custom-header__mobile-toggle svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  @media screen and (max-width: 989px) {
+    #shopify-section-{{ section.id }} .custom-header__inner {
+      grid-template-columns: auto 1fr auto;
+      gap: 14px;
+    }
+
+    #shopify-section-{{ section.id }} .custom-header__mobile-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #shopify-section-{{ section.id }} .custom-header__nav {
+      display: none;
+      grid-column: 1 / -1;
+      width: 100%;
+      margin-top: 14px;
+    }
+
+    #shopify-section-{{ section.id }} .custom-header__nav.is-open {
+      display: block;
+    }
+
+    #shopify-section-{{ section.id }} .custom-header__menu {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+      padding-top: 8px;
+    }
+
+    #shopify-section-{{ section.id }} .custom-header__actions {
+      gap: 10px;
+    }
+
+    #shopify-section-{{ section.id }} .custom-header__button {
+      display: none;
+    }
+  }
+{% endstyle %}
+
+<div class="custom-header">
+  {% if section.settings.show_topbar and section.settings.announcement_text != blank %}
+    <div class="custom-header__topbar">
+      {{ section.settings.announcement_text }}
+    </div>
+  {% endif %}
+
+  <div class="custom-header__wrap">
+    <div class="custom-header__inner">
+      <button class="custom-header__mobile-toggle" type="button" aria-label="Ouvrir le menu" data-mobile-toggle>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M3 6h18M3 12h18M3 18h18"/>
+        </svg>
+      </button>
+
+      <a href="{{ routes.root_url }}" class="custom-header__logo">
+        {% if logo != blank %}
+          {{ logo | image_url: width: 500 | image_tag: loading: 'lazy', alt: shop.name }}
+        {% else %}
+          <span class="custom-header__logo-text">
+            {{ section.settings.logo_text | default: shop.name }}
+          </span>
+        {% endif %}
+      </a>
+
+      <nav class="custom-header__nav" data-mobile-nav>
+        {% if menu != blank %}
+          <ul class="custom-header__menu">
+            {% for link in menu.links %}
+              <li>
+                <a href="{{ link.url }}">{{ link.title }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </nav>
+
+      <div class="custom-header__actions">
+        {% if section.settings.show_search %}
+          <a class="custom-header__icon" href="{{ routes.search_url }}" aria-label="Recherche">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <circle cx="11" cy="11" r="7"></circle>
+              <path d="M20 20l-3.5-3.5"></path>
+            </svg>
+          </a>
+        {% endif %}
+
+        {% if section.settings.show_account %}
+          <a class="custom-header__icon" href="{{ routes.account_url }}" aria-label="Compte">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M20 21a8 8 0 0 0-16 0"></path>
+              <circle cx="12" cy="8" r="4"></circle>
+            </svg>
+          </a>
+        {% endif %}
+
+        {% if section.settings.show_cart %}
+          <a class="custom-header__icon" href="{{ routes.cart_url }}" aria-label="Panier">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <circle cx="9" cy="20" r="1.5"></circle>
+              <circle cx="18" cy="20" r="1.5"></circle>
+              <path d="M3 4h2l2.2 10.5a1 1 0 0 0 1 .8h9.8a1 1 0 0 0 1-.8L21 7H7"></path>
+            </svg>
+          </a>
+        {% endif %}
+
+        {% if section.settings.button_text != blank and section.settings.button_link != blank %}
+          <a class="custom-header__button" href="{{ section.settings.button_link }}">
+            {{ section.settings.button_text }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const section = document.getElementById('shopify-section-{{ section.id }}');
+    if (!section) return;
+
+    const toggle = section.querySelector('[data-mobile-toggle]');
+    const nav = section.querySelector('[data-mobile-nav]');
+
+    if (toggle && nav) {
+      toggle.addEventListener('click', function() {
+        nav.classList.toggle('is-open');
+      });
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Custom header",
+  "tag": "section",
+  "class": "section-custom-header",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_topbar",
+      "label": "Afficher la barre du haut",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "announcement_text",
+      "label": "Texte barre du haut",
+      "default": "Livraison offerte dès 49€"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo / image"
+    },
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Texte du logo si aucune image",
+      "default": "Votre marque"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Texte du bouton",
+      "default": "Découvrir"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Lien du bouton"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_search",
+      "label": "Afficher l’icône recherche",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_account",
+      "label": "Afficher l’icône compte",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cart",
+      "label": "Afficher l’icône panier",
+      "default": true
+    },
+    {
+      "type": "font_picker",
+      "id": "heading_font",
+      "label": "Police",
+      "default": "helvetica_n4"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Taille texte logo",
+      "min": 14,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "menu_font_size",
+      "label": "Taille menu",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "announcement_size",
+      "label": "Taille texte barre du haut",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "label": "Taille texte bouton",
+      "min": 10,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "label": "Largeur du logo",
+      "min": 60,
+      "max": 260,
+      "step": 10,
+      "unit": "px",
+      "default": 140
+    },
+    {
+      "type": "range",
+      "id": "page_width",
+      "label": "Largeur du contenu",
+      "min": 900,
+      "max": 1600,
+      "step": 20,
+      "unit": "px",
+      "default": 1300
+    },
+    {
+      "type": "range",
+      "id": "padding_y",
+      "label": "Padding vertical",
+      "min": 8,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "padding_x",
+      "label": "Padding horizontal",
+      "min": 8,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "button_radius",
+      "label": "Arrondi bouton",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Couleur de fond",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Couleur du texte",
+      "default": "#222222"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Couleur accent / bouton",
+      "default": "#9c5455"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Couleur bordure",
+      "default": "#eeeeee"
+    },
+    {
+      "type": "color",
+      "id": "topbar_bg",
+      "label": "Fond barre du haut",
+      "default": "#9c5455"
+    },
+    {
+      "type": "color",
+      "id": "topbar_text",
+      "label": "Texte barre du haut",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom header"
+    }
+  ]
+}
+{% endschema %}
