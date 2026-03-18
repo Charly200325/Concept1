@@ -255,6 +255,58 @@
 </header-component-{{ ai_gen_id }}>
 
 <style>
+  .mc-header__icons {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex: 0 0 auto;
+}
+
+.mc-icon-link {
+  position: relative;
+  color: var(--mc-text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mc-icon-link svg {
+  width: 24px;
+  height: 24px;
+}
+
+.mc-dot {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: {{ section.settings.cart_badge_color }};
+}
+
+.mc-count {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: {{ section.settings.cart_badge_color }};
+  color: {{ section.settings.cart_badge_text_color }};
+  font-size: 11px;
+  line-height: 18px;
+  text-align: center;
+  font-weight: 700;
+  padding: 0 4px;
+}
+
+.mc-count--small {
+  min-width: 16px;
+  height: 16px;
+  font-size: 10px;
+  line-height: 16px;
+}
   .mc-header {
     --mc-accent: {{ section.settings.accent_color }};
     --mc-text: {{ section.settings.header_text_color }};
@@ -521,7 +573,10 @@
 {
   "name": "Momcozy header",
   "settings": [
-    { "type": "image_picker", "id": "logo", "label": "Logo" },
+    { "type": "checkbox", "id": "enable_wishlist", "label": "Afficher le coup de coeur", "default": true },
+{ "type": "url", "id": "wishlist_link", "label": "Lien du coup de coeur" },
+{ "type": "checkbox", "id": "show_icon_badges", "label": "Afficher les badges sur les icônes", "default": true },
+{ "type": "image_picker", "id": "logo", "label": "Logo" },
     { "type": "image_picker", "id": "logo_mobile", "label": "Logo mobile" },
     { "type": "image_picker", "id": "white_logo", "label": "Logo blanc" },
     { "type": "link_list", "id": "top_menu", "label": "Top menu" },
