@@ -1189,6 +1189,67 @@
     opacity: .95;
   }
 }
+.mc-header__mobile-search {
+  display: none;
+}
+
+@media screen and (max-width: 989px) {
+  .mc-header__main {
+    padding-bottom: 12px;
+  }
+
+  .mc-header__mobile-search {
+    display: block;
+    width: 100%;
+    padding: 0 14px;
+    margin-top: 6px;
+  }
+
+  .mc-search-pill--mobile {
+    display: flex !important;
+    align-items: center;
+    gap: 10px;
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    height: 52px;
+    padding: 0 16px;
+    border: 2px solid rgba(34,34,34,.45);
+    border-radius: 999px;
+    background: #fff;
+    color: var(--mc-text);
+    text-decoration: none;
+    overflow: hidden;
+  }
+
+  .mc-search-pill--mobile .mc-search-pill__icon {
+    width: 20px;
+    height: 20px;
+    flex: 0 0 auto;
+  }
+
+  .mc-search-pill--mobile .mc-search-pill__label {
+    font-size: 12px;
+    color: #666;
+    white-space: nowrap;
+    flex: 0 0 auto;
+  }
+
+  .mc-search-pill--mobile .mc-search-pill__typing {
+    font-size: 12px;
+    color: #222;
+    font-style: italic;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
+    min-width: 20px;
+    max-width: 160px;
+  }
+
+  .mc-search-pill--mobile .mc-search-pill__cursor {
+    height: 15px;
+  }
+}
 </style>
 
 <script>
