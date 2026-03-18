@@ -61,21 +61,40 @@
       </button>
 
       <div class="mc-header__logo ai-header-logo-{{ ai_gen_id }}">
-        <a href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
-          {% if section.settings.logo != blank %}
-{{ section.settings.logo | image_url: width: 320 | image_tag: class: 'mc-header__logo-image', loading: 'eager', widths: '160,240,320', alt: shop.name }}          {% endif %}
+  <a href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
+    {% if section.settings.logo != blank %}
+      <img
+        src="{{ section.settings.logo | image_url: width: 320 }}"
+        alt="{{ shop.name }}"
+        class="mc-header__logo-image ai-header-logo-normal-{{ ai_gen_id }}"
+        loading="eager"
+        width="320"
+      >
+    {% endif %}
 
-          {% if section.settings.white_logo != blank %}
-            {{ section.settings.white_logo | image_url: width: 320 | image_tag: class: 'mc-header__logo-image ai-header-logo-white-' | append: ai_gen_id, loading: 'eager', widths: '160,240,320', alt: shop.name }}
-          {% elsif section.settings.logo != blank %}
-            {{ section.settings.logo | image_url: width: 320 | image_tag: class: 'mc-header__logo-image ai-header-logo-white-' | append: ai_gen_id, loading: 'eager', widths: '160,240,320', alt: shop.name }}
-          {% endif %}
+    {% if section.settings.white_logo != blank %}
+      <img
+        src="{{ section.settings.white_logo | image_url: width: 320 }}"
+        alt="{{ shop.name }}"
+        class="mc-header__logo-image ai-header-logo-white-{{ ai_gen_id }}"
+        loading="eager"
+        width="320"
+      >
+    {% elsif section.settings.logo != blank %}
+      <img
+        src="{{ section.settings.logo | image_url: width: 320 }}"
+        alt="{{ shop.name }}"
+        class="mc-header__logo-image ai-header-logo-white-{{ ai_gen_id }}"
+        loading="eager"
+        width="320"
+      >
+    {% endif %}
 
-          {% if section.settings.logo == blank and section.settings.white_logo == blank %}
-            <span class="mc-header__logo-text">{{ shop.name }}</span>
-          {% endif %}
-        </a>
-      </div>
+    {% if section.settings.logo == blank and section.settings.white_logo == blank %}
+      <span class="mc-header__logo-text">{{ shop.name }}</span>
+    {% endif %}
+  </a>
+</div>
 
       <nav class="mc-header__nav ai-header-nav-{{ ai_gen_id }}" aria-label="Main navigation">
         <ul class="mc-header__nav-list ai-header-nav-list-{{ ai_gen_id }}" role="list">
