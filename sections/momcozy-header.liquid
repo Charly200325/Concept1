@@ -464,6 +464,35 @@
     .mc-mobile-drawer__list a { color:var(--mc-text); font-size:18px; font-weight:700; }
   }
   {{ section.settings.custom_css }}
+  .mc-header__icons {
+  display: flex !important;
+  align-items: center;
+  gap: 18px;
+  flex: 0 0 auto;
+}
+
+.mc-icon-link {
+  position: relative;
+  color: var(--mc-text);
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+.mc-icon-link svg {
+  width: 24px;
+  height: 24px;
+  display: block;
+  stroke: currentColor;
+}
+
+.ai-header-account-link-{{ ai_gen_id }},
+.ai-header-wishlist-link-{{ ai_gen_id }},
+.ai-header-cart-link-{{ ai_gen_id }} {
+  color: var(--mc-text) !important;
+}
 </style>
 
 <script>
