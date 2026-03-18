@@ -15,9 +15,10 @@
         "product_card_7LRDcR": {
           "type": "product_card",
           "settings": {
+            "image": "shopify://shop_images/CopiedeCopiedeCopiedeCopiedeCopiedeCopiedeCopiedeCopiedeCopiedeCopiedeCopiedeWhiteandPurpleModernSkincareBenefitwithSkincarePhotoInstagramPost.png",
             "heading": "Custom Pumping",
             "subheading": "M9 Wearable Breast Pump",
-            "link": ""
+            "link": "shopify://collections/baby-carriers"
           }
         },
         "product_card_aC4RBn": {
@@ -44,6 +45,9 @@
       ],
       "name": "Momcozy header",
       "settings": {
+        "enable_wishlist": true,
+        "wishlist_link": "",
+        "show_icon_badges": true,
         "top_menu": "main-menu",
         "main_menu": "main-menu",
         "drawer_menu": "",
