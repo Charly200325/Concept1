@@ -309,6 +309,7 @@
     },
     "featured_collection_jx3eKb": {
       "type": "featured-collection",
+      "disabled": true,
       "name": "t:sections.featured-collection.presets.name",
       "settings": {
         "collection": "baby-carriers",
