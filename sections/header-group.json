@@ -11,6 +11,123 @@
   "type": "header",
   "name": "t:sections.header-group.name",
   "sections": {
+    "momcozy_header_FBRtmm": {
+      "type": "momcozy-header",
+      "blocks": {
+        "product_card_QjYkhU": {
+          "type": "product_card",
+          "settings": {
+            "heading": "Custom Pumping",
+            "subheading": "M9 Wearable Breast Pump",
+            "link": ""
+          }
+        },
+        "product_card_CQfHHq": {
+          "type": "product_card",
+          "settings": {
+            "heading": "Custom Pumping",
+            "subheading": "M9 Wearable Breast Pump",
+            "link": ""
+          }
+        },
+        "product_card_HTm6nA": {
+          "type": "product_card",
+          "settings": {
+            "heading": "Custom Pumping",
+            "subheading": "M9 Wearable Breast Pump",
+            "link": ""
+          }
+        },
+        "product_card_Qmim9p": {
+          "type": "product_card",
+          "settings": {
+            "heading": "Custom Pumping",
+            "subheading": "M9 Wearable Breast Pump",
+            "link": ""
+          }
+        },
+        "product_card_Vatzm3": {
+          "type": "product_card",
+          "settings": {
+            "heading": "Custom Pumping",
+            "subheading": "M9 Wearable Breast Pump",
+            "link": ""
+          }
+        },
+        "product_card_yeYmdi": {
+          "type": "product_card",
+          "settings": {
+            "heading": "Custom Pumping",
+            "subheading": "M9 Wearable Breast Pump",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "product_card_QjYkhU",
+        "product_card_CQfHHq",
+        "product_card_HTm6nA",
+        "product_card_Qmim9p",
+        "product_card_Vatzm3",
+        "product_card_yeYmdi"
+      ],
+      "name": "Momcozy header",
+      "settings": {
+        "enable_wishlist": true,
+        "wishlist_link": "",
+        "show_icon_badges": true,
+        "top_menu": "main-menu",
+        "main_menu": "main-menu",
+        "drawer_menu": "",
+        "enable_search": true,
+        "search_label": "I am looking for",
+        "search_placeholder": "Rechercher un produit...",
+        "typing_texts": "[\"Sound Machine\",\"Bottle Washer\",\"Baby carrier\"]",
+        "typing_speed": 100,
+        "deleting_speed": 50,
+        "pause_duration": 2000,
+        "enable_account": true,
+        "enable_locale_selector": true,
+        "enable_country_selector": true,
+        "show_country_name": false,
+        "enable_transparent": false,
+        "accent_color": "#9c5a5a",
+        "header_bg_color": "#ffffff",
+        "header_text_color": "#1f1f1f",
+        "nav_hover_color": "#9c5a5a",
+        "cart_badge_color": "#9c5a5a",
+        "cart_badge_text_color": "#ffffff",
+        "typing_text_color": "#6b2c3b",
+        "logo_width": 160,
+        "logo_width_mobile": 140,
+        "container_width": 1450,
+        "container_padding": 24,
+        "desktop_width_percent": 100,
+        "full_width": false,
+        "items_gap": 24,
+        "nav_items_gap": 28,
+        "nav_font_size": 16,
+        "nav_font_weight": "700",
+        "show_nav_arrows": true,
+        "header_sticky": "always",
+        "drawer_width": 340,
+        "shadow_opacity": 10,
+        "section_margin_top": 0,
+        "section_margin_bottom": 0,
+        "rounded_section": false,
+        "quiz_label": "Quick Quiz",
+        "quiz_link": "",
+        "section_description": "I work in Healthcare. These have been a lifesaver so far. I am also an active mother of 4, so these came in handy. They are easy to assemble and easy to clean.",
+        "shop_all_label": "Shop all breast pumps",
+        "shop_all_link": "",
+        "sidebar_heading": "Consider these:",
+        "sidebar_title_1": "Lifestyle feature",
+        "sidebar_text_1": "Use this space for a lifestyle banner like Momcozy.",
+        "sidebar_title_2": "Air 1",
+        "sidebar_text_2": "Ultra-slim breast pump",
+        "custom_css": ""
+      }
+    },
     "announcement-bar": {
       "type": "announcement-bar",
       "blocks": {
@@ -271,6 +388,7 @@
     }
   },
   "order": [
+    "momcozy_header_FBRtmm",
     "announcement-bar",
     "17731801925033a752",
     "header",

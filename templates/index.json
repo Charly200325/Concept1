@@ -43,6 +43,7 @@
         "product_card_aC4RBn",
         "product_card_WT78Uc"
       ],
+      "disabled": true,
       "name": "Momcozy header",
       "settings": {
         "enable_wishlist": true,
