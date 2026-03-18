@@ -1439,31 +1439,47 @@ this.typingElementMobile = this.querySelector('[data-typing-text-mobile]');
         }
 
         typeText() {
-          const currentText = this.typingTexts[this.currentTextIndex];
+  const currentText = this.typingTexts[this.currentTextIndex];
 
-          if (!this.isDeleting) {
-            this.currentCharIndex++;
-            this.typingElement.textContent = currentText.slice(0, this.currentCharIndex);
+  if (!this.isDeleting) {
+    this.currentCharIndex++;
 
-            if (this.currentCharIndex === currentText.length) {
-              this.isDeleting = true;
-              setTimeout(() => this.typeText(), this.pauseDuration);
-              return;
-            }
+    if (this.typingElement) {
+      this.typingElement.textContent = currentText.slice(0, this.currentCharIndex);
+    }
 
-            setTimeout(() => this.typeText(), this.typingSpeed);
-          } else {
-            this.currentCharIndex--;
-            this.typingElement.textContent = currentText.slice(0, this.currentCharIndex);
+    if (this.typingElementMobile) {
+      this.typingElementMobile.textContent = currentText.slice(0, this.currentCharIndex);
+    }
 
-            if (this.currentCharIndex === 0) {
-              this.isDeleting = false;
-              this.currentTextIndex = (this.currentTextIndex + 1) % this.typingTexts.length;
-              setTimeout(() => this.typeText(), 300);
-              return;
-            }
+    if (this.currentCharIndex === currentText.length) {
+      this.isDeleting = true;
+      setTimeout(() => this.typeText(), this.pauseDuration);
+      return;
+    }
 
-            setTimeout(() => this.typeText(), this.deletingSpeed);
+    setTimeout(() => this.typeText(), this.typingSpeed);
+  } else {
+    this.currentCharIndex--;
+
+    if (this.typingElement) {
+      this.typingElement.textContent = currentText.slice(0, this.currentCharIndex);
+    }
+
+    if (this.typingElementMobile) {
+      this.typingElementMobile.textContent = currentText.slice(0, this.currentCharIndex);
+    }
+
+    if (this.currentCharIndex === 0) {
+      this.isDeleting = false;
+      this.currentTextIndex = (this.currentTextIndex + 1) % this.typingTexts.length;
+      setTimeout(() => this.typeText(), 300);
+      return;
+    }
+
+    setTimeout(() => this.typeText(), this.deletingSpeed);
+  }
+}
           }
         }
       }
