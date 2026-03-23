@@ -489,24 +489,25 @@
   #{{ section_id }} .mc-card__tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 12px 10px;
   justify-content: center;
-  min-height: 42px;
-  margin-bottom: 10px;
+  min-height: 54px;
+  margin-bottom: 16px;
 }
 
 #{{ section_id }} .mc-card__tags span {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: #ffffff;
-  color: #555;
+  background: {{ section.settings.tag_bg }};
+  color: {{ section.settings.tag_text }};
   border-radius: 999px;
-  padding: 5px 9px;
-  font-size: 9px;
+  padding: 9px 18px;
+  font-size: 11px;
   line-height: 1;
   text-align: center;
   white-space: nowrap;
+  font-weight: 400;
 }
 
   #{{ section_id }} .mc-card__price {
