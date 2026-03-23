@@ -114,20 +114,20 @@
             </div>
 
             {% if block.settings.show_benefits %}
-              <div class="mc-card__tags">
-                {% assign benefit_count = 0 %}
-                {% for tag in product.tags %}
-                  {% if tag contains 'benefit_' %}
-                    {% assign clean_tag = tag | remove: 'benefit_' %}
-                    <span>{{ clean_tag }}</span>
-                    {% assign benefit_count = benefit_count | plus: 1 %}
-                    {% if benefit_count >= 4 %}
-                      {% break %}
-                    {% endif %}
-                  {% endif %}
-                {% endfor %}
-              </div>
-            {% endif %}
+  {% assign benefit_count = 0 %}
+  <div class="mc-card__tags">
+    {% for tag in product.tags %}
+      {% if tag contains 'benefit_' %}
+        {% assign clean_tag = tag | remove: 'benefit_' %}
+        <span>{{ clean_tag }}</span>
+        {% assign benefit_count = benefit_count | plus: 1 %}
+        {% if benefit_count >= 4 %}
+          {% break %}
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  </div>
+{% endif %}
 
             {% if block.settings.show_price %}
               <div class="mc-card__price">
