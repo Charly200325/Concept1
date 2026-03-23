@@ -55,24 +55,28 @@
 
     {% for i in (1..10) %}
       {% liquid
-        assign product_key = 'product_' | append: i
-        assign title_key = 'custom_title_' | append: i
-        assign show_badge_key = 'show_badge_' | append: i
-        assign badge_text_key = 'badge_text_' | append: i
-        assign benefit_1_key = 'benefit_1_' | append: i
-        assign benefit_2_key = 'benefit_2_' | append: i
-        assign benefit_3_key = 'benefit_3_' | append: i
-        assign benefit_4_key = 'benefit_4_' | append: i
+  assign product_key = 'product_' | append: i
+  assign title_key = 'custom_title_' | append: i
+  assign show_badge_key = 'show_badge_' | append: i
+  assign badge_text_key = 'badge_text_' | append: i
+  assign benefit_1_key = 'benefit_1_' | append: i
+  assign benefit_2_key = 'benefit_2_' | append: i
+  assign benefit_3_key = 'benefit_3_' | append: i
+  assign benefit_4_key = 'benefit_4_' | append: i
+  assign rating_key = 'rating_value_' | append: i
+  assign reviews_key = 'reviews_count_' | append: i
 
-        assign product = block.settings[product_key]
-        assign custom_title = block.settings[title_key]
-        assign show_badge = block.settings[show_badge_key]
-        assign custom_badge_text = block.settings[badge_text_key]
-        assign benefit_1 = block.settings[benefit_1_key]
-        assign benefit_2 = block.settings[benefit_2_key]
-        assign benefit_3 = block.settings[benefit_3_key]
-        assign benefit_4 = block.settings[benefit_4_key]
-      %}
+  assign product = block.settings[product_key]
+  assign custom_title = block.settings[title_key]
+  assign show_badge = block.settings[show_badge_key]
+  assign custom_badge_text = block.settings[badge_text_key]
+  assign benefit_1 = block.settings[benefit_1_key]
+  assign benefit_2 = block.settings[benefit_2_key]
+  assign benefit_3 = block.settings[benefit_3_key]
+  assign benefit_4 = block.settings[benefit_4_key]
+  assign custom_rating = block.settings[rating_key]
+  assign custom_reviews = block.settings[reviews_key]
+%}
 
       {% if product != blank %}
         {% assign rendered_products = rendered_products | plus: 1 %}
