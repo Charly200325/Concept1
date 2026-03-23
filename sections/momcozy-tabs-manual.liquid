@@ -101,13 +101,28 @@
               </h3>
 
               {% if block.settings.show_rating %}
-                <div class="mc-card__rating">
-                  <div class="mc-card__stars" aria-hidden="true">★★★★★</div>
-                  {% if product.metafields.reviews.rating_count != blank %}
-                    <div class="mc-card__reviews">({{ product.metafields.reviews.rating_count }})</div>
-                  {% endif %}
-                </div>
-              {% endif %}
+  {% assign rating_value = custom_rating | default: 5 %}
+  {% assign review_count = custom_reviews %}
+  {% if review_count == blank and product.metafields.reviews.rating_count != blank %}
+    {% assign review_count = product.metafields.reviews.rating_count %}
+  {% endif %}
+
+  <div class="mc-card__rating">
+    <div class="mc-card__stars" aria-hidden="true">
+      {% for star in (1..5) %}
+        {% if star <= rating_value %}
+          <span>★</span>
+        {% else %}
+          <span class="is-empty">★</span>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    {% if review_count != blank %}
+      <div class="mc-card__reviews">({{ review_count }})</div>
+    {% endif %}
+  </div>
+{% endif %}
 
               <div class="mc-card__image-wrap">
                 <a class="mc-card__image-link" href="{{ product.url }}">
