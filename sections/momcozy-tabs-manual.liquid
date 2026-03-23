@@ -418,19 +418,19 @@
   font-weight: 400;
 }
 
-  #{{ section_id }} .mc-card__image-wrap {
+ #{{ section_id }} .mc-card__image-wrap {
   position: relative;
   margin-top: 4px;
-  margin-bottom: 10px;
+  margin-bottom: 16px;
 }
-  #{{ section_id }} .mc-card__image-link {
+
+#{{ section_id }} .mc-card__image-link {
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
   aspect-ratio: 1 / 1.02;
   overflow: hidden;
-  border-radius: 12px;
+  border-radius: 22px;
+  background: transparent;
 }
 
 #{{ section_id }} .mc-card__image {
@@ -441,6 +441,7 @@
   object-fit: contain;
   object-position: center center;
   transition: opacity .28s ease, transform .35s ease;
+}
 }
 
   #{{ section_id }} .mc-card__image--hover {
