@@ -418,7 +418,7 @@
   font-weight: 400;
 }
 
- #{{ section_id }} .mc-card__image-wrap {
+  #{{ section_id }} .mc-card__image-wrap {
   position: relative;
   margin-top: 4px;
   margin-bottom: 16px;
@@ -442,23 +442,28 @@
   object-position: center center;
   transition: opacity .28s ease, transform .35s ease;
 }
+
+#{{ section_id }} .mc-card__image--main {
+  opacity: 1;
+  z-index: 1;
 }
 
-  #{{ section_id }} .mc-card__image--hover {
-    opacity: 0;
-  }
+#{{ section_id }} .mc-card__image--hover {
+  opacity: 0;
+  z-index: 2;
+}
 
-  #{{ section_id }} .mc-card__inner:hover .mc-card__image--hover {
-    opacity: 1;
-  }
+#{{ section_id }} .mc-card__inner:hover .mc-card__image--main {
+  opacity: 0;
+}
 
-  #{{ section_id }} .mc-card__inner:hover .mc-card__image--main {
-    opacity: 0;
-  }
+#{{ section_id }} .mc-card__inner:hover .mc-card__image--hover {
+  opacity: 1;
+}
 
-  #{{ section_id }} .mc-card__inner:hover .mc-card__image {
-    transform: scale(1.02);
-  }
+#{{ section_id }} .mc-card__inner:hover .mc-card__image {
+  transform: scale(1.02);
+}
 
   #{{ section_id }} .mc-card__badge {
   position: absolute;
