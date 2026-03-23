@@ -255,31 +255,6 @@
     "momcozy_tabs_manual_pLGhYp": {
       "type": "momcozy-tabs-manual",
       "blocks": {
-        "tab_mQDE3a": {
-          "type": "tab",
-          "settings": {
-            "tab_title": "Breast Pumps",
-            "view_all_text": "View all breast pumps",
-            "view_all_link": "shopify://products/new-baby-going-out-safety-carrier-simple-leopard-pattern-portable-front-hug-type-back-baby-out-of-the-baby-artifact-waist-stool-115904020828-v0rup",
-            "show_rating": true,
-            "show_price": true,
-            "show_badges": true,
-            "show_benefits": true,
-            "enable_quick_add": true,
-            "quick_add_text": "Ajouter au panier",
-            "button_text": "Shop Now",
-            "banner_1_enable": true,
-            "banner_1_title": "Which Pump Fits You?",
-            "banner_1_text": "Take the quiz to get a personalized pump recommendation!",
-            "banner_1_button": "Quick Quiz!",
-            "banner_1_link": "",
-            "banner_2_enable": true,
-            "banner_2_title": "Find the Right Pump",
-            "banner_2_text": "Compare features and comfort to find your ideal breast pump.",
-            "banner_2_button": "Compare",
-            "banner_2_link": ""
-          }
-        },
         "tab_AVwGMn": {
           "type": "tab",
           "settings": {
@@ -287,7 +262,7 @@
             "view_all_text": "View all breast pumps",
             "view_all_link": "",
             "show_rating": true,
-            "show_price": false,
+            "show_price": true,
             "show_badges": true,
             "show_benefits": true,
             "enable_quick_add": true,
@@ -357,7 +332,6 @@
         }
       },
       "block_order": [
-        "tab_mQDE3a",
         "tab_AVwGMn",
         "tab_xWG9Vk",
         "tab_reCbmj"
