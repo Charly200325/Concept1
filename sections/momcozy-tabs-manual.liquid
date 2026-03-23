@@ -39,11 +39,11 @@
               {% endif %}
             </div>
 
-            {% assign current_collection = collections[block.settings.collection] %}
+            {% assign selected_products = block.settings.selected_products %}
 
 <div class="mc-tabs__products">
-  {% if current_collection != blank %}
-    {% for product in current_collection.products limit: block.settings.products_to_show %}
+  {% if selected_products != blank %}
+    {% for product in selected_products %}
       {% assign hover_image = blank %}
       {% if product.images.size > 1 %}
         {% assign hover_image = product.images[1] %}
@@ -158,12 +158,12 @@
         </div>
       </div>
     {% endfor %}
-  {% else %}
+    {% else %}
     <div class="mc-empty">
-      Sélectionne une collection dans cet onglet.
+      Sélectionne des produits dans cet onglet.
     </div>
   {% endif %}
-</div>∂
+</div>
 
             <div class="mc-tabs__banners">
               {% for i in (1..2) %}
@@ -232,14 +232,14 @@
     }
 
     #{{ section_id }} .mc-tabs__title {
-      margin: 0;
-      font-size: clamp(30px, 4vw, 58px);
-      line-height: 1.05;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      max-width: 700px;
-      white-space: pre-line;
-    }
+  margin: 0;
+  font-size: clamp(30px, 4vw, 58px);
+  line-height: 1.05;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  max-width: 700px;
+  white-space: pre-line;
+}
 
     #{{ section_id }} .mc-tabs__nav {
       display: flex;
@@ -549,7 +549,7 @@
         font-size: 17px;
       }
 
-      #{{ section_id }} .mc-card__button,
+      #{{ section_id }} .mc-card__button, 
       #{{ section_id }} .mc-banner__button {
         font-size: 16px;
       }
@@ -812,19 +812,10 @@
           "label": "Lien du View all"
         },
 
-        {
-  "type": "collection",
-  "id": "collection",
-  "label": "Collection liée à cet onglet"
-},
-{
-  "type": "range",
-  "id": "products_to_show",
-  "label": "Nombre de produits à afficher",
-  "min": 2,
-  "max": 12,
-  "step": 1,
-  "default": 4
+       {
+  "type": "product_list",
+  "id": "selected_products",
+  "label": "Produits à afficher"
 },
 {
   "type": "checkbox",
