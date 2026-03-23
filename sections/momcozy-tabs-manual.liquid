@@ -55,24 +55,28 @@
 
     {% for i in (1..10) %}
       {% liquid
-        assign product_key = 'product_' | append: i
-        assign title_key = 'custom_title_' | append: i
-        assign show_badge_key = 'show_badge_' | append: i
-        assign badge_text_key = 'badge_text_' | append: i
-        assign benefit_1_key = 'benefit_1_' | append: i
-        assign benefit_2_key = 'benefit_2_' | append: i
-        assign benefit_3_key = 'benefit_3_' | append: i
-        assign benefit_4_key = 'benefit_4_' | append: i
+  assign product_key = 'product_' | append: i
+  assign title_key = 'custom_title_' | append: i
+  assign show_badge_key = 'show_badge_' | append: i
+  assign badge_text_key = 'badge_text_' | append: i
+  assign benefit_1_key = 'benefit_1_' | append: i
+  assign benefit_2_key = 'benefit_2_' | append: i
+  assign benefit_3_key = 'benefit_3_' | append: i
+  assign benefit_4_key = 'benefit_4_' | append: i
+  assign rating_key = 'rating_' | append: i
+  assign reviews_count_key = 'reviews_count_' | append: i
 
-        assign product = block.settings[product_key]
-        assign custom_title = block.settings[title_key]
-        assign show_badge = block.settings[show_badge_key]
-        assign custom_badge_text = block.settings[badge_text_key]
-        assign benefit_1 = block.settings[benefit_1_key]
-        assign benefit_2 = block.settings[benefit_2_key]
-        assign benefit_3 = block.settings[benefit_3_key]
-        assign benefit_4 = block.settings[benefit_4_key]
-      %}
+  assign product = block.settings[product_key]
+  assign custom_title = block.settings[title_key]
+  assign show_badge = block.settings[show_badge_key]
+  assign custom_badge_text = block.settings[badge_text_key]
+  assign benefit_1 = block.settings[benefit_1_key]
+  assign benefit_2 = block.settings[benefit_2_key]
+  assign benefit_3 = block.settings[benefit_3_key]
+  assign benefit_4 = block.settings[benefit_4_key]
+  assign custom_rating = block.settings[rating_key] | default: 5
+  assign custom_reviews_count = block.settings[reviews_count_key]
+%}
 
       {% if product != blank %}
         {% assign rendered_products = rendered_products | plus: 1 %}
@@ -97,13 +101,31 @@
               </h3>
 
               {% if block.settings.show_rating %}
-                <div class="mc-card__rating">
-                  <div class="mc-card__stars" aria-hidden="true">★★★★★</div>
-                  {% if product.metafields.reviews.rating_count != blank %}
-                    <div class="mc-card__reviews">({{ product.metafields.reviews.rating_count }})</div>
-                  {% endif %}
-                </div>
-              {% endif %}
+  {% liquid
+    assign rating_key = 'rating_' | append: i
+    assign reviews_count_key = 'reviews_count_' | append: i
+
+    assign custom_rating = block.settings[rating_key] | default: 5
+    assign custom_reviews_count = block.settings[reviews_count_key]
+
+    assign rating_percentage = custom_rating | times: 20
+  %}
+
+  <div class="mc-card__rating">
+    <div
+      class="mc-card__stars"
+      aria-label="Note de {{ custom_rating }} sur 5"
+      style="--rating-percent: {{ rating_percentage }}%;"
+    >
+      <span class="mc-card__stars-bg">★★★★★</span>
+      <span class="mc-card__stars-fill">★★★★★</span>
+    </div>
+
+    {% if custom_reviews_count != blank %}
+      <div class="mc-card__reviews">({{ custom_reviews_count }})</div>
+    {% endif %}
+  </div>
+{% endif %}
 
               <div class="mc-card__image-wrap">
                 <a class="mc-card__image-link" href="{{ product.url }}">
@@ -998,6 +1020,21 @@
           "label": "Titre personnalisé produit 1"
         },
         {
+  "type": "range",
+  "id": "rating_1",
+  "label": "Note produit 1",
+  "min": 0,
+  "max": 5,
+  "step": 0.1,
+  "default": 5
+},
+{
+  "type": "text",
+  "id": "reviews_count_1",
+  "label": "Nombre d'avis produit 1",
+  "default": "128"
+},
+        {
           "type": "checkbox",
           "id": "show_badge_1",
           "label": "Afficher badge produit 1",
@@ -1043,6 +1080,21 @@
           "id": "custom_title_2",
           "label": "Titre personnalisé produit 2"
         },
+        {
+  "type": "range",
+  "id": "rating_2",
+  "label": "Note produit 2",
+  "min": 0,
+  "max": 5,
+  "step": 0.1,
+  "default": 5
+},
+{
+  "type": "text",
+  "id": "reviews_count_2",
+  "label": "Nombre d'avis produit 2",
+  "default": "128"
+},
         {
           "type": "checkbox",
           "id": "show_badge_2",
@@ -1090,6 +1142,21 @@
           "label": "Titre personnalisé produit 3"
         },
         {
+  "type": "range",
+  "id": "rating_3",
+  "label": "Note produit 3",
+  "min": 0,
+  "max": 5,
+  "step": 0.1,
+  "default": 5
+},
+{
+  "type": "text",
+  "id": "reviews_count_3",
+  "label": "Nombre d'avis produit 3",
+  "default": "128"
+},
+        {
           "type": "checkbox",
           "id": "show_badge_3",
           "label": "Afficher badge produit 3",
@@ -1135,6 +1202,21 @@
           "id": "custom_title_4",
           "label": "Titre personnalisé produit 4"
         },
+        {
+  "type": "range",
+  "id": "rating_4",
+  "label": "Note produit 4",
+  "min": 0,
+  "max": 5,
+  "step": 0.1,
+  "default": 5
+},
+{
+  "type": "text",
+  "id": "reviews_count_4",
+  "label": "Nombre d'avis produit 4",
+  "default": "128"
+},
         {
           "type": "checkbox",
           "id": "show_badge_4",
@@ -1182,6 +1264,21 @@
           "label": "Titre personnalisé produit 5"
         },
         {
+  "type": "range",
+  "id": "rating_5",
+  "label": "Note produit 5",
+  "min": 0,
+  "max": 5,
+  "step": 0.1,
+  "default": 5
+},
+{
+  "type": "text",
+  "id": "reviews_count_5",
+  "label": "Nombre d'avis produit 5",
+  "default": "128"
+},
+        {
           "type": "checkbox",
           "id": "show_badge_5",
           "label": "Afficher badge produit 5",
@@ -1227,6 +1324,21 @@
           "id": "custom_title_6",
           "label": "Titre personnalisé produit 6"
         },
+        {
+  "type": "range",
+  "id": "rating_6",
+  "label": "Note produit 6",
+  "min": 0,
+  "max": 5,
+  "step": 0.1,
+  "default": 5
+},
+{
+  "type": "text",
+  "id": "reviews_count_6",
+  "label": "Nombre d'avis produit 6",
+  "default": "128"
+},
         {
           "type": "checkbox",
           "id": "show_badge_6",
@@ -1274,6 +1386,21 @@
           "label": "Titre personnalisé produit 7"
         },
         {
+  "type": "range",
+  "id": "rating_7",
+  "label": "Note produit 7",
+  "min": 0,
+  "max": 5,
+  "step": 0.1,
+  "default": 5
+},
+{
+  "type": "text",
+  "id": "reviews_count_7",
+  "label": "Nombre d'avis produit 7",
+  "default": "128"
+},
+        {
           "type": "checkbox",
           "id": "show_badge_7",
           "label": "Afficher badge produit 7",
@@ -1319,6 +1446,21 @@
           "id": "custom_title_8",
           "label": "Titre personnalisé produit 8"
         },
+        {
+  "type": "range",
+  "id": "rating_8",
+  "label": "Note produit 8",
+  "min": 0,
+  "max": 5,
+  "step": 0.1,
+  "default": 5
+},
+{
+  "type": "text",
+  "id": "reviews_count_8",
+  "label": "Nombre d'avis produit 8",
+  "default": "128"
+},
         {
           "type": "checkbox",
           "id": "show_badge_8",
@@ -1366,6 +1508,21 @@
           "label": "Titre personnalisé produit 9"
         },
         {
+  "type": "range",
+  "id": "rating_9",
+  "label": "Note produit 9",
+  "min": 0,
+  "max": 5,
+  "step": 0.1,
+  "default": 5
+},
+{
+  "type": "text",
+  "id": "reviews_count_9",
+  "label": "Nombre d'avis produit 9",
+  "default": "128"
+},
+        {
           "type": "checkbox",
           "id": "show_badge_9",
           "label": "Afficher badge produit 9",
@@ -1411,6 +1568,21 @@
           "id": "custom_title_10",
           "label": "Titre personnalisé produit 10"
         },
+        {
+  "type": "range",
+  "id": "rating_10",
+  "label": "Note produit 10",
+  "min": 0,
+  "max": 5,
+  "step": 0.1,
+  "default": 5
+},
+{
+  "type": "text",
+  "id": "reviews_count_10",
+  "label": "Nombre d'avis produit 10",
+  "default": "128"
+},
         {
           "type": "checkbox",
           "id": "show_badge_10",
