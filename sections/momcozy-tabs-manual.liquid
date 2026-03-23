@@ -39,140 +39,139 @@
               {% endif %}
             </div>
 
-            {% assign selected_products = block.settings.selected_products %}
+            <div class="mc-tabs__products">
+              {% for i in (1..4) %}
+                {% liquid
+                  assign product_key = 'product_' | append: i
+                  assign current_product = block.settings[product_key]
+                %}
 
-<div class="mc-tabs__products">
-  {% if selected_products != blank %}
-    {% for product in selected_products %}
-      {% assign hover_image = blank %}
-      {% if product.images.size > 1 %}
-        {% assign hover_image = product.images[1] %}
-      {% endif %}
+                {% if current_product != blank %}
+                  {% assign product = all_products[current_product] %}
 
-      {% assign quick_add_variant = product.selected_or_first_available_variant %}
+                  {% if product != blank %}
+                    {% assign hover_image = blank %}
+                    {% if product.images.size > 1 %}
+                      {% assign hover_image = product.images[1] %}
+                    {% endif %}
 
-      <div class="mc-card">
-        <div class="mc-card__inner">
-          <div class="mc-card__content">
-            <h3 class="mc-card__title">
-              <a href="{{ product.url }}">
-                {{ product.title }}
-              </a>
-            </h3>
+                    {% assign quick_add_variant = product.selected_or_first_available_variant %}
+                    {% assign badge_text = blank %}
 
-            {% if block.settings.show_rating %}
-              <div class="mc-card__rating">
-                <div class="mc-card__stars" aria-hidden="true">
-                  ★★★★★
-                </div>
-                {% if product.metafields.reviews.rating_count != blank %}
-                  <div class="mc-card__reviews">({{ product.metafields.reviews.rating_count }})</div>
+                    {% if product.available == false %}
+                      {% assign badge_text = 'Sold out' %}
+                    {% else %}
+                      {% for tag in product.tags %}
+                        {% if tag contains 'badge_' %}
+                          {% assign badge_text = tag | remove: 'badge_' %}
+                          {% break %}
+                        {% endif %}
+                      {% endfor %}
+
+                      {% if badge_text == blank and product.compare_at_price > product.price %}
+                        {% assign discount_percent = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round %}
+                        {% assign badge_text = '-' | append: discount_percent | append: '%' %}
+                      {% endif %}
+                    {% endif %}
+
+                    <div class="mc-card">
+                      <div class="mc-card__inner">
+                        <div class="mc-card__content">
+                          <h3 class="mc-card__title">
+                            <a href="{{ product.url }}">
+                              {{ product.title }}
+                            </a>
+                          </h3>
+
+                          {% if block.settings.show_rating %}
+                            <div class="mc-card__rating">
+                              <div class="mc-card__stars" aria-hidden="true">★★★★★</div>
+                              {% if product.metafields.reviews.rating_count != blank %}
+                                <div class="mc-card__reviews">({{ product.metafields.reviews.rating_count }})</div>
+                              {% endif %}
+                            </div>
+                          {% endif %}
+
+                          <div class="mc-card__image-wrap">
+                            <a class="mc-card__image-link" href="{{ product.url }}">
+                              {% if product.featured_image != blank %}
+                                {{
+                                  product.featured_image
+                                  | image_url: width: 900
+                                  | image_tag:
+                                    loading: 'lazy',
+                                    widths: '320,480,720,900',
+                                    class: 'mc-card__image mc-card__image--main',
+                                    alt: product.title | escape
+                                }}
+                              {% endif %}
+
+                              {% if hover_image != blank %}
+                                {{
+                                  hover_image
+                                  | image_url: width: 900
+                                  | image_tag:
+                                    loading: 'lazy',
+                                    widths: '320,480,720,900',
+                                    class: 'mc-card__image mc-card__image--hover',
+                                    alt: product.title | escape
+                                }}
+                              {% endif %}
+                            </a>
+
+                            {% if block.settings.show_badges and badge_text != blank %}
+                              <div class="mc-card__badge">{{ badge_text }}</div>
+                            {% endif %}
+                          </div>
+
+                          {% if block.settings.show_benefits %}
+                            {% assign benefit_count = 0 %}
+                            <div class="mc-card__tags">
+                              {% for tag in product.tags %}
+                                {% if tag contains 'benefit_' %}
+                                  {% assign clean_tag = tag | remove: 'benefit_' %}
+                                  <span>{{ clean_tag }}</span>
+                                  {% assign benefit_count = benefit_count | plus: 1 %}
+                                  {% if benefit_count >= 4 %}
+                                    {% break %}
+                                  {% endif %}
+                                {% endif %}
+                              {% endfor %}
+                            </div>
+                          {% endif %}
+
+                          {% if block.settings.show_price %}
+                            <div class="mc-card__price">
+                              {% if product.compare_at_price > product.price %}
+                                <span class="mc-card__price-sale">{{ product.price | money }}</span>
+                                <span class="mc-card__price-compare">{{ product.compare_at_price | money }}</span>
+                              {% else %}
+                                <span class="mc-card__price-regular">{{ product.price | money }}</span>
+                              {% endif %}
+                            </div>
+                          {% endif %}
+                        </div>
+
+                        <div class="mc-card__actions">
+                          {% if block.settings.enable_quick_add and quick_add_variant != blank and product.available %}
+                            {% form 'product', product, class: 'mc-card__quick-add-form' %}
+                              <input type="hidden" name="id" value="{{ quick_add_variant.id }}">
+                              <button type="submit" class="mc-card__button">
+                                {{ block.settings.quick_add_text }}
+                              </button>
+                            {% endform %}
+                          {% else %}
+                            <a class="mc-card__button" href="{{ product.url }}">
+                              {{ block.settings.button_text }}
+                            </a>
+                          {% endif %}
+                        </div>
+                      </div>
+                    </div>
+                  {% endif %}
                 {% endif %}
-              </div>
-            {% endif %}
-
-            <div class="mc-card__image-wrap">
-              <a class="mc-card__image-link" href="{{ product.url }}">
-                {% if product.featured_image != blank %}
-                  {{
-                    product.featured_image
-                    | image_url: width: 900
-                    | image_tag:
-                      loading: 'lazy',
-                      widths: '320,480,720,900',
-                      class: 'mc-card__image mc-card__image--main',
-                      alt: product.title | escape
-                  }}
-                {% endif %}
-
-                {% if hover_image != blank %}
-                  {{
-                    hover_image
-                    | image_url: width: 900
-                    | image_tag:
-                      loading: 'lazy',
-                      widths: '320,480,720,900',
-                      class: 'mc-card__image mc-card__image--hover',
-                      alt: product.title | escape
-                  }}
-                {% endif %}
-              </a>
-
-              {% if block.settings.show_badges %}
-  {% assign badge_text = blank %}
-
-  {% if product.available == false %}
-    {% assign badge_text = 'Sold out' %}
-  {% else %}
-    {% for tag in product.tags %}
-      {% if tag contains 'badge_' %}
-        {% assign badge_text = tag | remove: 'badge_' %}
-        {% break %}
-      {% endif %}
-    {% endfor %}
-
-    {% if badge_text == blank and product.compare_at_price > product.price %}
-      {% assign discount_percent = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round %}
-      {% assign badge_text = '-' | append: discount_percent | append: '%' %}
-    {% endif %}
-  {% endif %}
-
-  {% if badge_text != blank %}
-    <div class="mc-card__badge">{{ badge_text }}</div>
-  {% endif %}
-{% endif %}
-
-            {% if block.settings.show_benefits %}
-  {% assign benefit_count = 0 %}
-  <div class="mc-card__tags">
-    {% for tag in product.tags %}
-      {% if tag contains 'benefit_' %}
-        {% assign clean_tag = tag | remove: 'benefit_' %}
-        <span>{{ clean_tag }}</span>
-        {% assign benefit_count = benefit_count | plus: 1 %}
-        {% if benefit_count >= 4 %}
-          {% break %}
-        {% endif %}
-      {% endif %}
-    {% endfor %}
-  </div>
-{% endif %}
-
-            {% if block.settings.show_price %}
-              <div class="mc-card__price">
-                {% if product.compare_at_price > product.price %}
-                  <span class="mc-card__price-sale">{{ product.price | money }}</span>
-                  <span class="mc-card__price-compare">{{ product.compare_at_price | money }}</span>
-                {% else %}
-                  <span class="mc-card__price-regular">{{ product.price | money }}</span>
-                {% endif %}
-              </div>
-            {% endif %}
-          </div>
-
-          <div class="mc-card__actions">
-            {% if block.settings.enable_quick_add and quick_add_variant != blank and product.available %}
-              {% form 'product', product, class: 'mc-card__quick-add-form' %}
-                <input type="hidden" name="id" value="{{ quick_add_variant.id }}">
-                <button type="submit" class="mc-card__button">
-                  {{ block.settings.quick_add_text }}
-                </button>
-              {% endform %}
-            {% else %}
-              <a class="mc-card__button" href="{{ product.url }}">
-                {{ block.settings.button_text }}
-              </a>
-            {% endif %}
-          </div>
-        </div>
-      </div>
-    {% endfor %}
-    {% else %}
-    <div class="mc-empty">
-      Sélectionne des produits dans cet onglet.
-    </div>
-  {% endif %}
-</div>
+              {% endfor %}
+            </div>
 
             <div class="mc-tabs__banners">
               {% for i in (1..2) %}
@@ -241,14 +240,14 @@
     }
 
     #{{ section_id }} .mc-tabs__title {
-  margin: 0;
-  font-size: clamp(30px, 4vw, 58px);
-  line-height: 1.05;
-  font-weight: 600;
-  letter-spacing: -0.03em;
-  max-width: 700px;
-  white-space: pre-line;
-}
+      margin: 0;
+      font-size: clamp(30px, 4vw, 58px);
+      line-height: 1.05;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      max-width: 700px;
+      white-space: pre-line;
+    }
 
     #{{ section_id }} .mc-tabs__nav {
       display: flex;
@@ -351,10 +350,6 @@
       line-height: 1;
     }
 
-    #{{ section_id }} .mc-card__stars .is-empty {
-      opacity: .25;
-    }
-
     #{{ section_id }} .mc-card__reviews {
       font-size: 13px;
       color: {{ section.settings.muted_text }};
@@ -439,7 +434,34 @@
       text-align: center;
     }
 
+    #{{ section_id }} .mc-card__price {
+      text-align: center;
+      margin-bottom: 14px;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    #{{ section_id }} .mc-card__price-sale {
+      color: {{ section.settings.text_color }};
+      margin-right: 8px;
+    }
+
+    #{{ section_id }} .mc-card__price-compare {
+      color: {{ section.settings.muted_text }};
+      text-decoration: line-through;
+      font-weight: 500;
+    }
+
+    #{{ section_id }} .mc-card__price-regular {
+      color: {{ section.settings.text_color }};
+    }
+
     #{{ section_id }} .mc-card__actions {
+      display: flex;
+      justify-content: center;
+    }
+
+    #{{ section_id }} .mc-card__quick-add-form {
       display: flex;
       justify-content: center;
     }
@@ -457,6 +479,8 @@
       font-size: 18px;
       font-weight: 700;
       transition: .25s ease;
+      border: 0;
+      cursor: pointer;
     }
 
     #{{ section_id }} .mc-card__button:hover {
@@ -558,45 +582,11 @@
         font-size: 17px;
       }
 
-      #{{ section_id }} .mc-card__button, 
+      #{{ section_id }} .mc-card__button,
       #{{ section_id }} .mc-banner__button {
         font-size: 16px;
       }
     }
-    #{{ section_id }} .mc-card__price {
-  text-align: center;
-  margin-bottom: 14px;
-  font-size: 16px;
-  font-weight: 700;
-}
-
-#{{ section_id }} .mc-card__price-sale {
-  color: {{ section.settings.text_color }};
-  margin-right: 8px;
-}
-
-#{{ section_id }} .mc-card__price-compare {
-  color: {{ section.settings.muted_text }};
-  text-decoration: line-through;
-  font-weight: 500;
-}
-
-#{{ section_id }} .mc-card__price-regular {
-  color: {{ section.settings.text_color }};
-}
-
-#{{ section_id }} .mc-card__quick-add-form {
-  display: flex;
-  justify-content: center;
-}
-
-#{{ section_id }} .mc-empty {
-  grid-column: 1 / -1;
-  background: #fff;
-  border-radius: 18px;
-  padding: 30px;
-  text-align: center;
-}
   </style>
 
   <script>
@@ -820,55 +810,68 @@
           "id": "view_all_link",
           "label": "Lien du View all"
         },
-
-       {
-  "type": "product_list",
-  "id": "selected_products",
-  "label": "Produits à afficher"
-},
-{
-  "type": "checkbox",
-  "id": "show_rating",
-  "label": "Afficher les étoiles",
-  "default": true
-},
-{
-  "type": "checkbox",
-  "id": "show_price",
-  "label": "Afficher le prix",
-  "default": false
-},
-{
-  "type": "checkbox",
-  "id": "show_badges",
-  "label": "Afficher les badges",
-  "default": true
-},
-{
-  "type": "checkbox",
-  "id": "show_benefits",
-  "label": "Afficher les bénéfices rapides",
-  "default": true
-},
-{
-  "type": "checkbox",
-  "id": "enable_quick_add",
-  "label": "Activer l'ajout panier rapide",
-  "default": true
-},
-{
-  "type": "text",
-  "id": "quick_add_text",
-  "label": "Texte bouton ajout rapide",
-  "default": "Ajouter au panier"
-},
-{
-  "type": "text",
-  "id": "button_text",
-  "label": "Texte bouton lien produit",
-  "default": "Shop Now"
-},
-
+        {
+          "type": "product",
+          "id": "product_1",
+          "label": "Produit 1"
+        },
+        {
+          "type": "product",
+          "id": "product_2",
+          "label": "Produit 2"
+        },
+        {
+          "type": "product",
+          "id": "product_3",
+          "label": "Produit 3"
+        },
+        {
+          "type": "product",
+          "id": "product_4",
+          "label": "Produit 4"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_rating",
+          "label": "Afficher les étoiles",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_price",
+          "label": "Afficher le prix",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "show_badges",
+          "label": "Afficher les badges",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_benefits",
+          "label": "Afficher les bénéfices rapides",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_quick_add",
+          "label": "Activer l'ajout panier rapide",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "quick_add_text",
+          "label": "Texte bouton ajout rapide",
+          "default": "Ajouter au panier"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Texte bouton lien produit",
+          "default": "Shop Now"
+        },
         {
           "type": "header",
           "content": "Bannière 1"
@@ -907,7 +910,6 @@
           "id": "banner_1_link",
           "label": "Lien bannière 1"
         },
-
         {
           "type": "header",
           "content": "Bannière 2"
