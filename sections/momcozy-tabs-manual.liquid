@@ -1,270 +1,202 @@
-{% assign section_id = 'tabs-collections-v2-' | append: section.id %}
+{% assign section_id = 'momcozy-tabs-manual-' | append: section.id %}
 
-<section id="{{ section_id }}" class="tabs-v2-section">
-  <div class="tabs-v2__inner page-width">
+<section id="{{ section_id }}" class="mc-tabs">
+  <div class="page-width">
     {% if section.settings.heading != blank %}
-      <div class="tabs-v2__header">
-        <h2 class="tabs-v2__title">{{ section.settings.heading }}</h2>
+      <div class="mc-tabs__header">
+        <h2 class="mc-tabs__title">{{ section.settings.heading }}</h2>
       </div>
     {% endif %}
 
-    {% assign tab_blocks = section.blocks | where: 'type', 'tab' %}
-
-    {% if tab_blocks.size > 0 %}
-      <div class="tabs-v2__nav-wrapper">
-        <div class="tabs-v2__nav" role="tablist">
-          {% for block in tab_blocks %}
-            <button
-              type="button"
-              class="tabs-v2__nav-btn{% if forloop.first %} is-active{% endif %}"
-              data-tab-target="tab-{{ block.id }}"
-              role="tab"
-              aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
-              {{ block.shopify_attributes }}
-            >
-              {{ block.settings.tab_title }}
-            </button>
-          {% endfor %}
-        </div>
-      </div>
-
-      <div class="tabs-v2__content">
-        {% for block in tab_blocks %}
-          {% assign collection = collections[block.settings.collection] %}
-
-          <div
-            id="tab-{{ block.id }}"
-            class="tabs-v2__panel{% if forloop.first %} is-active{% endif %}"
-            role="tabpanel"
+    {% if section.blocks.size > 0 %}
+      <div class="mc-tabs__nav" role="tablist">
+        {% for block in section.blocks %}
+          <button
+            type="button"
+            class="mc-tabs__tab{% if forloop.first %} is-active{% endif %}"
+            data-tab-target="mc-tab-{{ block.id }}"
+            aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
             {{ block.shopify_attributes }}
           >
-            {% if collection != blank %}
-              <div class="tabs-v2__topbar">
-                {% if block.settings.view_all_text != blank %}
-                  <a class="tabs-v2__view-all" href="{{ collection.url }}">
-                    <span>{{ block.settings.view_all_text }}</span>
-                    <svg viewBox="0 0 14 10" fill="none" aria-hidden="true">
-                      <path d="M8.5 1L13 5L8.5 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-                      <path d="M12.5 5H1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-                    </svg>
-                  </a>
-                {% endif %}
-              </div>
+            {{ block.settings.tab_title }}
+          </button>
+        {% endfor %}
+      </div>
 
-              <div class="tabs-v2__products grid-cols-{{ block.settings.products_per_row }}">
-                {% for product in collection.products limit: block.settings.products_limit %}
-                  {% assign first_variant = product.selected_or_first_available_variant %}
-                  {% assign second_image = blank %}
-                  {% if product.images.size > 1 %}
-                    {% assign second_image = product.images[1] %}
-                  {% endif %}
+      <div class="mc-tabs__panels">
+        {% for block in section.blocks %}
+          <div
+            id="mc-tab-{{ block.id }}"
+            class="mc-tabs__panel{% if forloop.first %} is-active{% endif %}"
+            {{ block.shopify_attributes }}
+          >
+            <div class="mc-tabs__topbar">
+              {% if block.settings.view_all_text != blank %}
+                <a class="mc-tabs__view-all" href="{{ block.settings.view_all_link | default: '#' }}">
+                  {{ block.settings.view_all_text }}
+                  <span aria-hidden="true">→</span>
+                </a>
+              {% endif %}
+            </div>
 
-                  {% assign promo_tag_1 = product.metafields.custom.promo_tag_1 %}
-                  {% assign promo_tag_2 = product.metafields.custom.promo_tag_2 %}
-                  {% assign promo_tag_3 = product.metafields.custom.promo_tag_3 %}
-                  {% assign promo_tag_4 = product.metafields.custom.promo_tag_4 %}
-                  {% assign series_title = product.metafields.custom.series_title %}
-                  {% assign learn_more_link = product.metafields.custom.learn_more_link %}
-                  {% assign custom_badge = product.metafields.custom.custom_badge %}
-                  {% assign custom_rating = product.metafields.custom.rating.value %}
-                  {% assign custom_rating_count = product.metafields.custom.rating_count.value %}
+            <div class="mc-tabs__products">
+              {% for i in (1..4) %}
+                {% liquid
+                  assign enable_key = 'product_' | append: i | append: '_enable'
+                  assign title_key = 'product_' | append: i | append: '_title'
+                  assign image_key = 'product_' | append: i | append: '_image'
+                  assign image2_key = 'product_' | append: i | append: '_image_hover'
+                  assign link_key = 'product_' | append: i | append: '_link'
+                  assign badge_key = 'product_' | append: i | append: '_badge'
+                  assign rating_key = 'product_' | append: i | append: '_rating'
+                  assign reviews_key = 'product_' | append: i | append: '_reviews'
+                  assign tag1_key = 'product_' | append: i | append: '_tag_1'
+                  assign tag2_key = 'product_' | append: i | append: '_tag_2'
+                  assign tag3_key = 'product_' | append: i | append: '_tag_3'
+                  assign tag4_key = 'product_' | append: i | append: '_tag_4'
+                  assign button_key = 'product_' | append: i | append: '_button_text'
+                %}
 
-                  <div class="tabs-v2__product-card">
-                    <div class="tabs-v2__product-wrap">
-                      <div class="tabs-v2__product-main">
-                        <div class="tabs-v2__product-info">
-                          {% if series_title != blank %}
-                            <div class="tabs-v2__series">{{ series_title }}</div>
-                          {% endif %}
-
-                          <h3 class="tabs-v2__product-title">
-                            <a href="{{ product.url }}">{{ product.title }}</a>
-                          </h3>
-
-                          {% if custom_rating != blank %}
-                            <div class="tabs-v2__rating" aria-label="Rated {{ custom_rating }} out of 5">
-                              <div class="tabs-v2__rating-score">{{ custom_rating }}</div>
-                              <div class="tabs-v2__stars" aria-hidden="true">
-                                {% assign rating_times_20 = custom_rating | times: 20 %}
-                                <div class="tabs-v2__stars-bg">★★★★★</div>
-                                <div class="tabs-v2__stars-fill" style="width: {{ rating_times_20 }}%;">★★★★★</div>
-                              </div>
-                              {% if custom_rating_count != blank %}
-                                <div class="tabs-v2__rating-count">({{ custom_rating_count }})</div>
-                              {% endif %}
-                            </div>
-                          {% endif %}
-
-                          <div class="tabs-v2__image-wrap">
-                            <a class="tabs-v2__image-link" href="{{ product.url }}">
-                              {% if product.featured_image %}
-                                {{
-                                  product.featured_image
-                                  | image_url: width: 900
-                                  | image_tag:
-                                    loading: 'lazy',
-                                    widths: '220,320,440,550,720,900',
-                                    class: 'tabs-v2__image tabs-v2__image--primary',
-                                    alt: product.featured_image.alt | escape
-                                }}
-                              {% endif %}
-
-                              {% if second_image != blank %}
-                                {{
-                                  second_image
-                                  | image_url: width: 900
-                                  | image_tag:
-                                    loading: 'lazy',
-                                    widths: '220,320,440,550,720,900',
-                                    class: 'tabs-v2__image tabs-v2__image--secondary',
-                                    alt: second_image.alt | escape
-                                }}
-                              {% endif %}
-                            </a>
-
-                            <div class="tabs-v2__badges">
-                              {% if custom_badge != blank %}
-                                <span class="tabs-v2__badge tabs-v2__badge--custom">
-                                  {{ custom_badge }}
-                                </span>
-                              {% endif %}
-
-                              {% if product.compare_at_price > product.price %}
-                                {% assign sale_percent = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round %}
-                                <span class="tabs-v2__badge tabs-v2__badge--sale">
-                                  -{{ sale_percent }}%
-                                </span>
-                              {% endif %}
-
-                              {% if product.available == false %}
-                                <span class="tabs-v2__badge tabs-v2__badge--soldout">
-                                  Sold out
-                                </span>
-                              {% endif %}
-                            </div>
-                          </div>
-
-                          {% if promo_tag_1 != blank or promo_tag_2 != blank or promo_tag_3 != blank or promo_tag_4 != blank %}
-                            <div class="tabs-v2__promo-tags">
-                              {% if promo_tag_1 != blank %}<span>{{ promo_tag_1 }}</span>{% endif %}
-                              {% if promo_tag_2 != blank %}<span>{{ promo_tag_2 }}</span>{% endif %}
-                              {% if promo_tag_3 != blank %}<span>{{ promo_tag_3 }}</span>{% endif %}
-                              {% if promo_tag_4 != blank %}<span>{{ promo_tag_4 }}</span>{% endif %}
-                            </div>
-                          {% endif %}
-
-                          <a class="tabs-v2__full-link" href="{{ product.url }}" aria-label="{{ product.title }}"></a>
-                        </div>
-
-                        <div class="tabs-v2__actions">
-                          {% if learn_more_link != blank %}
-                            <a class="tabs-v2__btn tabs-v2__btn--secondary" href="{{ learn_more_link }}">
-                              <span>{{ block.settings.learn_more_text }}</span>
-                            </a>
-                          {% endif %}
-
-                          <a class="tabs-v2__btn tabs-v2__btn--primary" href="{{ product.url }}">
-                            <span>{{ block.settings.shop_now_text }}</span>
+                {% if block.settings[enable_key] %}
+                  <div class="mc-card">
+                    <div class="mc-card__inner">
+                      <div class="mc-card__content">
+                        <h3 class="mc-card__title">
+                          <a href="{{ block.settings[link_key] | default: '#' }}">
+                            {{ block.settings[title_key] }}
                           </a>
+                        </h3>
+
+                        {% if block.settings[rating_key] != blank or block.settings[reviews_key] != blank %}
+  <div class="mc-card__rating">
+    {% assign rating_value = block.settings[rating_key] | default: 0 %}
+    {% assign full_stars = rating_value | floor %}
+    {% assign decimal = rating_value | minus: full_stars %}
+    {% assign has_half = false %}
+    {% if decimal >= 0.5 %}
+      {% assign has_half = true %}
+    {% endif %}
+    {% assign next_star = full_stars | plus: 1 %}
+
+    <div class="mc-card__stars" aria-hidden="true">
+      {% for s in (1..5) %}
+        {% if s <= full_stars %}
+          <span>★</span>
+        {% elsif has_half and s == next_star %}
+          <span>★</span>
+        {% else %}
+          <span class="is-empty">★</span>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    {% if block.settings[reviews_key] != blank %}
+      <div class="mc-card__reviews">({{ block.settings[reviews_key] }})</div>
+    {% endif %}
+  </div>
+{% endif %}
+
+                        <div class="mc-card__image-wrap">
+                          <a class="mc-card__image-link" href="{{ block.settings[link_key] | default: '#' }}">
+                            {% if block.settings[image_key] != blank %}
+                              {{
+                                block.settings[image_key]
+                                | image_url: width: 900
+                                | image_tag:
+                                  loading: 'lazy',
+                                  widths: '320,480,720,900',
+                                  class: 'mc-card__image mc-card__image--main',
+                                  alt: block.settings[title_key] | escape
+                              }}
+                            {% endif %}
+
+                            {% if block.settings[image2_key] != blank %}
+                              {{
+                                block.settings[image2_key]
+                                | image_url: width: 900
+                                | image_tag:
+                                  loading: 'lazy',
+                                  widths: '320,480,720,900',
+                                  class: 'mc-card__image mc-card__image--hover',
+                                  alt: block.settings[title_key] | escape
+                              }}
+                            {% endif %}
+                          </a>
+
+                          {% if block.settings[badge_key] != blank %}
+                            <div class="mc-card__badge">
+                              {{ block.settings[badge_key] }}
+                            </div>
+                          {% endif %}
                         </div>
+
+                        <div class="mc-card__tags">
+                          {% if block.settings[tag1_key] != blank %}<span>{{ block.settings[tag1_key] }}</span>{% endif %}
+                          {% if block.settings[tag2_key] != blank %}<span>{{ block.settings[tag2_key] }}</span>{% endif %}
+                          {% if block.settings[tag3_key] != blank %}<span>{{ block.settings[tag3_key] }}</span>{% endif %}
+                          {% if block.settings[tag4_key] != blank %}<span>{{ block.settings[tag4_key] }}</span>{% endif %}
+                        </div>
+                      </div>
+
+                      <div class="mc-card__actions">
+                        <a class="mc-card__button" href="{{ block.settings[link_key] | default: '#' }}">
+                          {{ block.settings[button_key] | default: 'Shop Now' }}
+                        </a>
                       </div>
                     </div>
                   </div>
-                {% endfor %}
-              </div>
+                {% endif %}
+              {% endfor %}
+            </div>
 
-              {% if block.settings.banner_1_image != blank or block.settings.banner_2_image != blank %}
-                <div class="tabs-v2__banners">
-                  {% if block.settings.banner_1_image != blank %}
-                    <div class="tabs-v2__banner">
-                      <div class="tabs-v2__banner-figure">
-                        {% if block.settings.banner_1_link != blank %}
-                          <a href="{{ block.settings.banner_1_link }}" class="tabs-v2__banner-image-link">
+            <div class="mc-tabs__banners">
+              {% for i in (1..2) %}
+                {% liquid
+                  assign b_enable = 'banner_' | append: i | append: '_enable'
+                  assign b_image = 'banner_' | append: i | append: '_image'
+                  assign b_title = 'banner_' | append: i | append: '_title'
+                  assign b_text = 'banner_' | append: i | append: '_text'
+                  assign b_button = 'banner_' | append: i | append: '_button'
+                  assign b_link = 'banner_' | append: i | append: '_link'
+                %}
+
+                {% if block.settings[b_enable] %}
+                  <div class="mc-banner">
+                    <div class="mc-banner__inner">
+                      {% if block.settings[b_image] != blank %}
+                        <a href="{{ block.settings[b_link] | default: '#' }}" class="mc-banner__image-link">
+                          {{
+                            block.settings[b_image]
+                            | image_url: width: 1400
+                            | image_tag:
+                              loading: 'lazy',
+                              widths: '480,720,960,1200,1400',
+                              class: 'mc-banner__image',
+                              alt: block.settings[b_title] | escape
+                          }}
+                        </a>
+                      {% endif %}
+
+                      <div class="mc-banner__overlay">
+                        {% if block.settings[b_title] != blank %}
+                          <h3 class="mc-banner__title">{{ block.settings[b_title] }}</h3>
                         {% endif %}
 
-                        {{
-                          block.settings.banner_1_image
-                          | image_url: width: 1400
-                          | image_tag:
-                            loading: 'lazy',
-                            widths: '320,480,720,900,1200,1400',
-                            class: 'tabs-v2__banner-image',
-                            alt: block.settings.banner_1_heading | escape
-                        }}
+                        {% if block.settings[b_text] != blank %}
+                          <div class="mc-banner__text">{{ block.settings[b_text] }}</div>
+                        {% endif %}
 
-                        {% if block.settings.banner_1_link != blank %}
+                        {% if block.settings[b_button] != blank %}
+                          <a class="mc-banner__button" href="{{ block.settings[b_link] | default: '#' }}">
+                            {{ block.settings[b_button] }}
                           </a>
                         {% endif %}
-
-                        <div class="tabs-v2__banner-content">
-                          {% if block.settings.banner_1_heading != blank %}
-                            <h3 class="tabs-v2__banner-heading">{{ block.settings.banner_1_heading }}</h3>
-                          {% endif %}
-
-                          {% if block.settings.banner_1_text != blank %}
-                            <div class="tabs-v2__banner-text">{{ block.settings.banner_1_text }}</div>
-                          {% endif %}
-
-                          {% if block.settings.banner_1_button != blank %}
-                            <div class="tabs-v2__banner-buttons">
-                              <a class="tabs-v2__banner-btn" href="{{ block.settings.banner_1_link | default: '#' }}">
-                                {{ block.settings.banner_1_button }}
-                              </a>
-                            </div>
-                          {% endif %}
-                        </div>
                       </div>
                     </div>
-                  {% endif %}
-
-                  {% if block.settings.banner_2_image != blank %}
-                    <div class="tabs-v2__banner">
-                      <div class="tabs-v2__banner-figure">
-                        {% if block.settings.banner_2_link != blank %}
-                          <a href="{{ block.settings.banner_2_link }}" class="tabs-v2__banner-image-link">
-                        {% endif %}
-
-                        {{
-                          block.settings.banner_2_image
-                          | image_url: width: 1400
-                          | image_tag:
-                            loading: 'lazy',
-                            widths: '320,480,720,900,1200,1400',
-                            class: 'tabs-v2__banner-image',
-                            alt: block.settings.banner_2_heading | escape
-                        }}
-
-                        {% if block.settings.banner_2_link != blank %}
-                          </a>
-                        {% endif %}
-
-                        <div class="tabs-v2__banner-content">
-                          {% if block.settings.banner_2_heading != blank %}
-                            <h3 class="tabs-v2__banner-heading">{{ block.settings.banner_2_heading }}</h3>
-                          {% endif %}
-
-                          {% if block.settings.banner_2_text != blank %}
-                            <div class="tabs-v2__banner-text">{{ block.settings.banner_2_text }}</div>
-                          {% endif %}
-
-                          {% if block.settings.banner_2_button != blank %}
-                            <div class="tabs-v2__banner-buttons">
-                              <a class="tabs-v2__banner-btn" href="{{ block.settings.banner_2_link | default: '#' }}">
-                                {{ block.settings.banner_2_button }}
-                              </a>
-                            </div>
-                          {% endif %}
-                        </div>
-                      </div>
-                    </div>
-                  {% endif %}
-                </div>
-              {% endif %}
-            {% else %}
-              <div class="tabs-v2__empty">
-                Collection non trouvée pour cet onglet.
-              </div>
-            {% endif %}
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
           </div>
         {% endfor %}
       </div>
@@ -273,463 +205,305 @@
 
   <style>
     #{{ section_id }} {
-      --tabs-text: {{ section.settings.text_color }};
-      --tabs-accent: {{ section.settings.accent_color }};
-      --tabs-bg: {{ section.settings.background_color }};
-      --tabs-border: {{ section.settings.border_color }};
-      --tabs-muted: {{ section.settings.muted_color }};
-      --tabs-badge-bg: {{ section.settings.badge_bg }};
-      --tabs-badge-text: {{ section.settings.badge_text }};
-      --tabs-card-bg: {{ section.settings.card_bg }};
-      --tabs-btn-bg: {{ section.settings.button_bg }};
-      --tabs-btn-text: {{ section.settings.button_text }};
-      --tabs-btn-secondary-border: {{ section.settings.secondary_button_border }};
-      --tabs-btn-secondary-text: {{ section.settings.secondary_button_text }};
-      background: var(--tabs-bg);
-      color: var(--tabs-text);
+      background: {{ section.settings.bg_color }};
       padding-top: {{ section.settings.padding_top }}px;
       padding-bottom: {{ section.settings.padding_bottom }}px;
+      color: {{ section.settings.text_color }};
     }
 
-    #{{ section_id }} .tabs-v2__header {
-      text-align: center;
-      margin-bottom: 30px;
+    #{{ section_id }} .mc-tabs__header {
+      margin-bottom: 26px;
     }
 
-    #{{ section_id }} .tabs-v2__title {
+    #{{ section_id }} .mc-tabs__title {
       margin: 0;
-      font-size: clamp(30px, 4vw, 52px);
-      line-height: 1.12;
-      font-weight: 700;
+      font-size: clamp(30px, 4vw, 58px);
+      line-height: 1.05;
+      font-weight: 800;
       letter-spacing: -0.02em;
+      max-width: 700px;
       white-space: pre-line;
     }
 
-    #{{ section_id }} .tabs-v2__nav-wrapper {
-      margin-bottom: 36px;
-    }
-
-    #{{ section_id }} .tabs-v2__nav {
+    #{{ section_id }} .mc-tabs__nav {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       flex-wrap: wrap;
-      justify-content: center;
-      align-items: center;
+      margin-bottom: 26px;
     }
 
-    #{{ section_id }} .tabs-v2__nav-btn {
+    #{{ section_id }} .mc-tabs__tab {
       appearance: none;
-      border: 1px solid var(--tabs-border);
-      background: transparent;
-      color: var(--tabs-text);
-      padding: 11px 20px;
-      min-height: 44px;
+      border: 0;
+      background: {{ section.settings.tab_bg }};
+      color: {{ section.settings.tab_text }};
       border-radius: 999px;
+      padding: 12px 18px;
       font-size: 14px;
-      font-weight: 600;
       line-height: 1;
+      font-weight: 600;
       cursor: pointer;
-      transition: all .25s ease;
+      transition: .25s ease;
     }
 
-    #{{ section_id }} .tabs-v2__nav-btn:hover,
-    #{{ section_id }} .tabs-v2__nav-btn.is-active {
-      background: var(--tabs-accent);
-      border-color: var(--tabs-accent);
-      color: #fff;
+    #{{ section_id }} .mc-tabs__tab.is-active,
+    #{{ section_id }} .mc-tabs__tab:hover {
+      background: {{ section.settings.tab_active_bg }};
+      color: {{ section.settings.tab_active_text }};
     }
 
-    #{{ section_id }} .tabs-v2__panel {
+    #{{ section_id }} .mc-tabs__panel {
       display: none;
     }
 
-    #{{ section_id }} .tabs-v2__panel.is-active {
+    #{{ section_id }} .mc-tabs__panel.is-active {
       display: block;
     }
 
-    #{{ section_id }} .tabs-v2__topbar {
+    #{{ section_id }} .mc-tabs__topbar {
       display: flex;
-      justify-content: center;
-      margin-bottom: 28px;
+      justify-content: flex-end;
+      margin-bottom: 18px;
     }
 
-    #{{ section_id }} .tabs-v2__view-all {
+    #{{ section_id }} .mc-tabs__view-all {
+      text-decoration: none;
+      color: {{ section.settings.text_color }};
+      font-size: 15px;
+      font-weight: 500;
       display: inline-flex;
       align-items: center;
-      justify-content: center;
-      gap: 10px;
-      text-decoration: none;
-      color: var(--tabs-text);
-      border: 1px solid var(--tabs-text);
-      padding: 12px 20px;
-      border-radius: 999px;
-      font-size: 14px;
-      font-weight: 600;
-      transition: all .25s ease;
+      gap: 6px;
+      border-bottom: 1px solid currentColor;
+      padding-bottom: 2px;
     }
 
-    #{{ section_id }} .tabs-v2__view-all svg {
-      width: 14px;
-      height: 10px;
-    }
-
-    #{{ section_id }} .tabs-v2__view-all:hover {
-      background: var(--tabs-text);
-      color: #fff;
-    }
-
-    #{{ section_id }} .tabs-v2__products {
+    #{{ section_id }} .mc-tabs__products {
       display: grid;
-      gap: 18px;
-      margin-bottom: 32px;
-    }
-
-    #{{ section_id }} .tabs-v2__products.grid-cols-2 {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    #{{ section_id }} .tabs-v2__products.grid-cols-3 {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    #{{ section_id }} .tabs-v2__products.grid-cols-4 {
       grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+      margin-bottom: 18px;
     }
 
-    #{{ section_id }} .tabs-v2__product-card {
-      min-width: 0;
-    }
-
-    #{{ section_id }} .tabs-v2__product-wrap {
-      background: var(--tabs-card-bg);
-      border-radius: 18px;
+    #{{ section_id }} .mc-card__inner {
+      background: {{ section.settings.card_bg }};
+      border-radius: 24px;
+      padding: 22px 18px 18px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
       overflow: hidden;
-      border: 1px solid rgba(0,0,0,.06);
-      height: 100%;
-      display: flex;
-      flex-direction: column;
     }
 
-    #{{ section_id }} .tabs-v2__product-main {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
+    #{{ section_id }} .mc-card__title {
+      margin: 0 0 8px;
+      text-align: center;
+      font-size: 19px;
+      line-height: 1.25;
+      font-weight: 500;
+      min-height: 52px;
     }
 
-    #{{ section_id }} .tabs-v2__product-info {
-      position: relative;
-      padding: 18px 18px 12px;
-      flex: 1 1 auto;
-    }
-
-    #{{ section_id }} .tabs-v2__series {
-      font-size: 13px;
-      line-height: 1.2;
-      color: var(--tabs-muted);
-      margin-bottom: 6px;
-      font-weight: 600;
-    }
-
-    #{{ section_id }} .tabs-v2__product-title {
-      margin: 0 0 10px;
-      font-size: 18px;
-      line-height: 1.35;
-      font-weight: 700;
-      position: relative;
-      z-index: 2;
-    }
-
-    #{{ section_id }} .tabs-v2__product-title a {
+    #{{ section_id }} .mc-card__title a {
       color: inherit;
       text-decoration: none;
     }
 
-    #{{ section_id }} .tabs-v2__rating {
-      display: inline-flex;
+    #{{ section_id }} .mc-card__rating {
+      display: flex;
+      justify-content: center;
       align-items: center;
       gap: 8px;
-      margin-bottom: 14px;
-      position: relative;
-      z-index: 2;
+      margin-bottom: 16px;
     }
 
-    #{{ section_id }} .tabs-v2__rating-score,
-    #{{ section_id }} .tabs-v2__rating-count {
-      font-size: 13px;
-      color: var(--tabs-text);
-    }
-
-    #{{ section_id }} .tabs-v2__stars {
-      position: relative;
-      line-height: 1;
-      font-size: 14px;
+    #{{ section_id }} .mc-card__stars {
+      color: {{ section.settings.star_color }};
+      font-size: 18px;
       letter-spacing: 1px;
+      line-height: 1;
     }
 
-    #{{ section_id }} .tabs-v2__stars-bg {
-      color: rgba(0,0,0,.16);
+    #{{ section_id }} .mc-card__stars .is-empty {
+      opacity: .25;
     }
 
-    #{{ section_id }} .tabs-v2__stars-fill {
-      position: absolute;
-      inset: 0 auto 0 0;
-      overflow: hidden;
-      white-space: nowrap;
-      color: #111;
+    #{{ section_id }} .mc-card__reviews {
+      font-size: 13px;
+      color: {{ section.settings.muted_text }};
     }
 
-    #{{ section_id }} .tabs-v2__image-wrap {
+    #{{ section_id }} .mc-card__image-wrap {
       position: relative;
       margin-bottom: 16px;
-      border-radius: 16px;
-      overflow: hidden;
-      background: #f6f6f6;
     }
 
-    #{{ section_id }} .tabs-v2__image-link {
-      display: block;
+    #{{ section_id }} .mc-card__image-link {
       position: relative;
-      aspect-ratio: 0.8 / 1;
+      display: block;
+      aspect-ratio: 0.92 / 1;
       overflow: hidden;
+      border-radius: 18px;
     }
 
-    #{{ section_id }} .tabs-v2__image {
+    #{{ section_id }} .mc-card__image {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      transition: opacity .35s ease, transform .45s ease;
+      object-fit: contain;
+      transition: opacity .3s ease, transform .4s ease;
     }
 
-    #{{ section_id }} .tabs-v2__image--secondary {
+    #{{ section_id }} .mc-card__image--hover {
       opacity: 0;
     }
 
-    #{{ section_id }} .tabs-v2__product-wrap:hover .tabs-v2__image--secondary {
+    #{{ section_id }} .mc-card__inner:hover .mc-card__image--hover {
       opacity: 1;
     }
 
-    #{{ section_id }} .tabs-v2__product-wrap:hover .tabs-v2__image--primary {
+    #{{ section_id }} .mc-card__inner:hover .mc-card__image--main {
       opacity: 0;
     }
 
-    #{{ section_id }} .tabs-v2__product-wrap:hover .tabs-v2__image {
+    #{{ section_id }} .mc-card__inner:hover .mc-card__image {
       transform: scale(1.03);
     }
 
-    #{{ section_id }} .tabs-v2__badges {
+    #{{ section_id }} .mc-card__badge {
       position: absolute;
-      top: 12px;
-      left: 12px;
+      right: 8px;
+      top: 8px;
+      width: 62px;
+      height: 62px;
+      border-radius: 999px;
+      background: {{ section.settings.badge_bg }};
+      color: {{ section.settings.badge_text }};
       display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      z-index: 3;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 13px;
+      line-height: 1.05;
+      font-weight: 700;
+      padding: 8px;
     }
 
-    #{{ section_id }} .tabs-v2__badge {
+    #{{ section_id }} .mc-card__tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      justify-content: center;
+      min-height: 62px;
+      margin-bottom: 16px;
+    }
+
+    #{{ section_id }} .mc-card__tags span {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 28px;
-      padding: 5px 10px;
+      background: {{ section.settings.tag_bg }};
+      color: {{ section.settings.tag_text }};
       border-radius: 999px;
-      font-size: 11px;
-      font-weight: 700;
-      line-height: 1;
-      letter-spacing: .02em;
-    }
-
-    #{{ section_id }} .tabs-v2__badge--custom,
-    #{{ section_id }} .tabs-v2__badge--sale,
-    #{{ section_id }} .tabs-v2__badge--soldout {
-      background: var(--tabs-badge-bg);
-      color: var(--tabs-badge-text);
-    }
-
-    #{{ section_id }} .tabs-v2__promo-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 12px;
-      position: relative;
-      z-index: 2;
-    }
-
-    #{{ section_id }} .tabs-v2__promo-tags span {
-      display: inline-flex;
-      align-items: center;
-      min-height: 30px;
       padding: 6px 10px;
-      border-radius: 999px;
-      background: #f3f3f3;
-      font-size: 12px;
-      line-height: 1.2;
-      color: var(--tabs-text);
+      font-size: 11px;
+      line-height: 1.1;
+      text-align: center;
     }
 
-    #{{ section_id }} .tabs-v2__full-link {
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-    }
-
-    #{{ section_id }} .tabs-v2__actions {
+    #{{ section_id }} .mc-card__actions {
       display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      padding: 0 18px 18px;
-      position: relative;
-      z-index: 2;
+      justify-content: center;
     }
 
-    #{{ section_id }} .tabs-v2__btn {
-      position: relative;
-      z-index: 3;
+    #{{ section_id }} .mc-card__button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 44px;
-      padding: 10px 16px;
-      border-radius: 999px;
+      min-height: 48px;
+      background: {{ section.settings.button_bg }};
+      color: {{ section.settings.button_text }};
       text-decoration: none;
-      font-size: 14px;
+      border-radius: 999px;
+      padding: 0 22px;
+      font-size: 18px;
       font-weight: 700;
-      transition: all .25s ease;
+      transition: .25s ease;
     }
 
-    #{{ section_id }} .tabs-v2__btn--primary {
-      background: var(--tabs-btn-bg);
-      color: var(--tabs-btn-text);
-    }
-
-    #{{ section_id }} .tabs-v2__btn--primary:hover {
-      opacity: .9;
+    #{{ section_id }} .mc-card__button:hover {
       transform: translateY(-1px);
+      opacity: .92;
     }
 
-    #{{ section_id }} .tabs-v2__btn--secondary {
-      background: transparent;
-      color: var(--tabs-btn-secondary-text);
-      border: 1px solid var(--tabs-btn-secondary-border);
-    }
-
-    #{{ section_id }} .tabs-v2__btn--secondary:hover {
-      background: var(--tabs-btn-secondary-border);
-      color: #fff;
-    }
-
-    #{{ section_id }} .tabs-v2__banners {
+    #{{ section_id }} .mc-tabs__banners {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 18px;
     }
 
-    #{{ section_id }} .tabs-v2__banner {
-      min-width: 0;
-    }
-
-    #{{ section_id }} .tabs-v2__banner-figure {
+    #{{ section_id }} .mc-banner__inner {
       position: relative;
+      border-radius: 24px;
       overflow: hidden;
-      border-radius: 18px;
-      background: #f5f5f5;
-      min-height: 100%;
+      background: #efe6e0;
+      min-height: 380px;
     }
 
-    #{{ section_id }} .tabs-v2__banner-image-link {
+    #{{ section_id }} .mc-banner__image-link,
+    #{{ section_id }} .mc-banner__image {
       display: block;
-    }
-
-    #{{ section_id }} .tabs-v2__banner-image {
       width: 100%;
-      height: auto;
-      display: block;
-      transition: transform .45s ease;
+      height: 100%;
     }
 
-    #{{ section_id }} .tabs-v2__banner-figure:hover .tabs-v2__banner-image {
-      transform: scale(1.03);
+    #{{ section_id }} .mc-banner__image {
+      object-fit: cover;
     }
 
-    #{{ section_id }} .tabs-v2__banner-content {
+    #{{ section_id }} .mc-banner__overlay {
       position: absolute;
       left: 24px;
-      right: 24px;
       bottom: 24px;
+      max-width: 65%;
       z-index: 2;
-      max-width: 72%;
     }
 
-    #{{ section_id }} .tabs-v2__banner-heading {
+    #{{ section_id }} .mc-banner__title {
       margin: 0 0 8px;
-      font-size: clamp(22px, 2.4vw, 30px);
-      line-height: 1.1;
-      color: #fff;
-      font-weight: 700;
-      text-shadow: 0 2px 10px rgba(0,0,0,.22);
+      color: {{ section.settings.banner_title_color }};
+      font-size: clamp(26px, 2vw, 42px);
+      line-height: 1.05;
+      font-weight: 800;
     }
 
-    #{{ section_id }} .tabs-v2__banner-text {
-      margin: 0 0 14px;
-      font-size: 14px;
-      line-height: 1.45;
-      color: #fff;
-      text-shadow: 0 2px 10px rgba(0,0,0,.22);
+    #{{ section_id }} .mc-banner__text {
+      margin-bottom: 16px;
+      color: {{ section.settings.banner_text_color }};
+      font-size: 16px;
+      line-height: 1.4;
     }
 
-    #{{ section_id }} .tabs-v2__banner-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    #{{ section_id }} .tabs-v2__banner-btn {
+    #{{ section_id }} .mc-banner__button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 42px;
-      padding: 10px 16px;
+      min-height: 48px;
+      padding: 0 24px;
       border-radius: 999px;
-      background: #fff;
-      color: #111;
       text-decoration: none;
-      font-size: 14px;
+      background: {{ section.settings.banner_button_bg }};
+      color: {{ section.settings.banner_button_text }};
       font-weight: 700;
-      transition: all .25s ease;
-    }
-
-    #{{ section_id }} .tabs-v2__banner-btn:hover {
-      transform: translateY(-1px);
-      opacity: .95;
-    }
-
-    #{{ section_id }} .tabs-v2__empty {
-      text-align: center;
-      padding: 24px;
-      border: 1px dashed var(--tabs-border);
-      border-radius: 12px;
+      font-size: 18px;
     }
 
     @media screen and (max-width: 1199px) {
-      #{{ section_id }} .tabs-v2__products.grid-cols-4 {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
-    }
-
-    @media screen and (max-width: 989px) {
-      #{{ section_id }} .tabs-v2__products.grid-cols-4,
-      #{{ section_id }} .tabs-v2__products.grid-cols-3 {
+      #{{ section_id }} .mc-tabs__products {
         grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      #{{ section_id }} .tabs-v2__banners {
-        grid-template-columns: 1fr;
-      }
-
-      #{{ section_id }} .tabs-v2__banner-content {
-        max-width: 78%;
       }
     }
 
@@ -739,56 +513,29 @@
         padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
       }
 
-      #{{ section_id }} .tabs-v2__header {
-        margin-bottom: 24px;
+      #{{ section_id }} .mc-tabs__products,
+      #{{ section_id }} .mc-tabs__banners {
+        grid-template-columns: 1fr;
       }
 
-      #{{ section_id }} .tabs-v2__nav {
-        gap: 8px;
+      #{{ section_id }} .mc-tabs__topbar {
+        justify-content: flex-start;
       }
 
-      #{{ section_id }} .tabs-v2__nav-btn {
-        padding: 10px 14px;
-        font-size: 13px;
-      }
-
-      #{{ section_id }} .tabs-v2__products.grid-cols-4,
-      #{{ section_id }} .tabs-v2__products.grid-cols-3,
-      #{{ section_id }} .tabs-v2__products.grid-cols-2 {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 12px;
-      }
-
-      #{{ section_id }} .tabs-v2__product-info {
-        padding: 14px 14px 10px;
-      }
-
-      #{{ section_id }} .tabs-v2__actions {
-        padding: 0 14px 14px;
-      }
-
-      #{{ section_id }} .tabs-v2__product-title {
-        font-size: 15px;
-      }
-
-      #{{ section_id }} .tabs-v2__promo-tags span {
-        font-size: 11px;
-        padding: 6px 8px;
-      }
-
-      #{{ section_id }} .tabs-v2__banner-content {
+      #{{ section_id }} .mc-banner__overlay {
         left: 18px;
         right: 18px;
         bottom: 18px;
-        max-width: 88%;
+        max-width: 85%;
       }
 
-      #{{ section_id }} .tabs-v2__banner-heading {
-        font-size: 22px;
+      #{{ section_id }} .mc-card__title {
+        font-size: 17px;
       }
 
-      #{{ section_id }} .tabs-v2__banner-text {
-        font-size: 13px;
+      #{{ section_id }} .mc-card__button,
+      #{{ section_id }} .mc-banner__button {
+        font-size: 16px;
       }
     }
   </style>
@@ -798,26 +545,26 @@
       var section = document.getElementById('{{ section_id }}');
       if (!section) return;
 
-      var buttons = section.querySelectorAll('.tabs-v2__nav-btn');
-      var panels = section.querySelectorAll('.tabs-v2__panel');
+      var tabs = section.querySelectorAll('.mc-tabs__tab');
+      var panels = section.querySelectorAll('.mc-tabs__panel');
 
-      buttons.forEach(function (button) {
-        button.addEventListener('click', function () {
-          var targetId = this.getAttribute('data-tab-target');
+      tabs.forEach(function(tab) {
+        tab.addEventListener('click', function() {
+          var target = this.getAttribute('data-tab-target');
 
-          buttons.forEach(function (btn) {
+          tabs.forEach(function(btn) {
             btn.classList.remove('is-active');
             btn.setAttribute('aria-selected', 'false');
           });
 
-          panels.forEach(function (panel) {
+          panels.forEach(function(panel) {
             panel.classList.remove('is-active');
           });
 
           this.classList.add('is-active');
           this.setAttribute('aria-selected', 'true');
 
-          var activePanel = section.querySelector('#' + targetId);
+          var activePanel = section.querySelector('#' + target);
           if (activePanel) {
             activePanel.classList.add('is-active');
           }
@@ -829,184 +576,530 @@
 
 {% schema %}
 {
-  "name": "Tabs collections V2",
+  "name": "Momcozy tabs manual",
   "settings": [
     {
       "type": "textarea",
       "id": "heading",
-      "label": "Titre",
+      "label": "Titre principal",
       "default": "Maximizing Comfort\nfor Moms at Every Step."
     },
     {
       "type": "color",
-      "id": "background_color",
-      "label": "Couleur de fond",
-      "default": "#ffffff"
+      "id": "bg_color",
+      "label": "Fond section",
+      "default": "#f5f5f5"
     },
     {
       "type": "color",
       "id": "text_color",
-      "label": "Couleur du texte",
-      "default": "#1b1b1b"
-    },
-    {
-      "type": "color",
-      "id": "accent_color",
-      "label": "Couleur active des onglets",
-      "default": "#9c5455"
-    },
-    {
-      "type": "color",
-      "id": "border_color",
-      "label": "Couleur des bordures",
-      "default": "#d9d9d9"
-    },
-    {
-      "type": "color",
-      "id": "muted_color",
-      "label": "Couleur du sous-texte",
-      "default": "#6d6d6d"
-    },
-    {
-      "type": "color",
-      "id": "card_bg",
-      "label": "Fond des cartes produit",
-      "default": "#ffffff"
-    },
-    {
-      "type": "color",
-      "id": "badge_bg",
-      "label": "Fond des badges",
+      "label": "Couleur texte",
       "default": "#111111"
     },
     {
       "type": "color",
-      "id": "badge_text",
-      "label": "Texte des badges",
+      "id": "muted_text",
+      "label": "Couleur texte secondaire",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "tab_bg",
+      "label": "Fond onglet",
+      "default": "#ececec"
+    },
+    {
+      "type": "color",
+      "id": "tab_text",
+      "label": "Texte onglet",
+      "default": "#1b1b1b"
+    },
+    {
+      "type": "color",
+      "id": "tab_active_bg",
+      "label": "Fond onglet actif",
+      "default": "#a35c5f"
+    },
+    {
+      "type": "color",
+      "id": "tab_active_text",
+      "label": "Texte onglet actif",
       "default": "#ffffff"
     },
     {
       "type": "color",
+      "id": "card_bg",
+      "label": "Fond carte produit",
+      "default": "#f1f1f1"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Couleur étoiles",
+      "default": "#b33b63"
+    },
+    {
+      "type": "color",
+      "id": "badge_bg",
+      "label": "Fond badge",
+      "default": "#a35c5f"
+    },
+    {
+      "type": "color",
+      "id": "badge_text",
+      "label": "Texte badge",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "tag_bg",
+      "label": "Fond tags",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "tag_text",
+      "label": "Texte tags",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
       "id": "button_bg",
-      "label": "Fond bouton Shop now",
+      "label": "Fond bouton carte",
       "default": "#111111"
     },
     {
       "type": "color",
       "id": "button_text",
-      "label": "Texte bouton Shop now",
+      "label": "Texte bouton carte",
       "default": "#ffffff"
     },
     {
       "type": "color",
-      "id": "secondary_button_border",
-      "label": "Bordure bouton secondaire",
-      "default": "#111111"
+      "id": "banner_title_color",
+      "label": "Couleur titre bannière",
+      "default": "#6e3040"
     },
     {
       "type": "color",
-      "id": "secondary_button_text",
-      "label": "Texte bouton secondaire",
+      "id": "banner_text_color",
+      "label": "Couleur texte bannière",
+      "default": "#6e3040"
+    },
+    {
+      "type": "color",
+      "id": "banner_button_bg",
+      "label": "Fond bouton bannière",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "banner_button_text",
+      "label": "Texte bouton bannière",
       "default": "#111111"
     },
     {
       "type": "range",
       "id": "padding_top",
+      "label": "Padding haut desktop",
       "min": 0,
       "max": 160,
       "step": 4,
       "unit": "px",
-      "label": "Padding haut desktop",
-      "default": 80
+      "default": 60
     },
     {
       "type": "range",
       "id": "padding_bottom",
+      "label": "Padding bas desktop",
       "min": 0,
       "max": 160,
       "step": 4,
       "unit": "px",
-      "label": "Padding bas desktop",
-      "default": 80
+      "default": 60
     },
     {
       "type": "range",
       "id": "padding_top_mobile",
+      "label": "Padding haut mobile",
       "min": 0,
       "max": 120,
       "step": 4,
       "unit": "px",
-      "label": "Padding haut mobile",
-      "default": 48
+      "default": 32
     },
     {
       "type": "range",
       "id": "padding_bottom_mobile",
+      "label": "Padding bas mobile",
       "min": 0,
       "max": 120,
       "step": 4,
       "unit": "px",
-      "label": "Padding bas mobile",
-      "default": 48
+      "default": 32
     }
   ],
   "blocks": [
     {
       "type": "tab",
-      "name": "Onglet",
+      "name": "Onglet complet",
       "settings": [
         {
           "type": "text",
           "id": "tab_title",
-          "label": "Titre de l'onglet",
+          "label": "Titre onglet",
           "default": "Breast Pumps"
-        },
-        {
-          "type": "collection",
-          "id": "collection",
-          "label": "Collection"
         },
         {
           "type": "text",
           "id": "view_all_text",
-          "label": "Texte bouton Voir tout",
-          "default": "View all"
+          "label": "Texte lien en haut à droite",
+          "default": "View all breast pumps"
+        },
+        {
+          "type": "url",
+          "id": "view_all_link",
+          "label": "Lien du View all"
+        },
+
+        {
+          "type": "header",
+          "content": "Carte produit 1"
+        },
+        {
+          "type": "checkbox",
+          "id": "product_1_enable",
+          "label": "Afficher la carte 1",
+          "default": true
         },
         {
           "type": "text",
-          "id": "shop_now_text",
-          "label": "Texte bouton Shop now",
-          "default": "Shop Now"
+          "id": "product_1_title",
+          "label": "Titre produit 1",
+          "default": "Momcozy Air 1 Ultra-slim Breast Pump"
+        },
+        {
+          "type": "image_picker",
+          "id": "product_1_image",
+          "label": "Image produit 1"
+        },
+        {
+          "type": "image_picker",
+          "id": "product_1_image_hover",
+          "label": "Image hover produit 1"
+        },
+        {
+          "type": "url",
+          "id": "product_1_link",
+          "label": "Lien produit 1"
         },
         {
           "type": "text",
-          "id": "learn_more_text",
-          "label": "Texte bouton Learn more",
-          "default": "Learn More"
+          "id": "product_1_badge",
+          "label": "Badge produit 1"
         },
         {
           "type": "range",
-          "id": "products_limit",
-          "label": "Nombre de produits",
-          "min": 2,
-          "max": 12,
-          "step": 1,
-          "default": 4
+          "id": "product_1_rating",
+          "label": "Note produit 1",
+          "min": 0,
+          "max": 5,
+          "step": 0.5,
+          "default": 4.5
         },
         {
-          "type": "select",
-          "id": "products_per_row",
-          "label": "Produits par ligne desktop",
-          "default": "4",
-          "options": [
-            { "value": "2", "label": "2" },
-            { "value": "3", "label": "3" },
-            { "value": "4", "label": "4" }
-          ]
+          "type": "text",
+          "id": "product_1_reviews",
+          "label": "Nombre d'avis produit 1",
+          "default": "37"
         },
+        {
+          "type": "text",
+          "id": "product_1_tag_1",
+          "label": "Tag 1 produit 1",
+          "default": "Ultra-slim"
+        },
+        {
+          "type": "text",
+          "id": "product_1_tag_2",
+          "label": "Tag 2 produit 1",
+          "default": "Wireless Charging"
+        },
+        {
+          "type": "text",
+          "id": "product_1_tag_3",
+          "label": "Tag 3 produit 1",
+          "default": "Effortless Alignment"
+        },
+        {
+          "type": "text",
+          "id": "product_1_tag_4",
+          "label": "Tag 4 produit 1",
+          "default": "Silent & Smart"
+        },
+        {
+          "type": "text",
+          "id": "product_1_button_text",
+          "label": "Texte bouton produit 1",
+          "default": "Shop Now"
+        },
+
+        {
+          "type": "header",
+          "content": "Carte produit 2"
+        },
+        {
+          "type": "checkbox",
+          "id": "product_2_enable",
+          "label": "Afficher la carte 2",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "product_2_title",
+          "label": "Titre produit 2",
+          "default": "All-in-one M5 Wearable Breast Pump - Painlessly Pump"
+        },
+        {
+          "type": "image_picker",
+          "id": "product_2_image",
+          "label": "Image produit 2"
+        },
+        {
+          "type": "image_picker",
+          "id": "product_2_image_hover",
+          "label": "Image hover produit 2"
+        },
+        {
+          "type": "url",
+          "id": "product_2_link",
+          "label": "Lien produit 2"
+        },
+        {
+          "type": "text",
+          "id": "product_2_badge",
+          "label": "Badge produit 2",
+          "default": "Best Seller"
+        },
+        {
+          "type": "range",
+          "id": "product_2_rating",
+          "label": "Note produit 2",
+          "min": 0,
+          "max": 5,
+          "step": 0.5,
+          "default": 4.5
+        },
+        {
+          "type": "text",
+          "id": "product_2_reviews",
+          "label": "Nombre d'avis produit 2",
+          "default": "204"
+        },
+        {
+          "type": "text",
+          "id": "product_2_tag_1",
+          "label": "Tag 1 produit 2",
+          "default": "More Comfort"
+        },
+        {
+          "type": "text",
+          "id": "product_2_tag_2",
+          "label": "Tag 2 produit 2",
+          "default": "High Efficiency"
+        },
+        {
+          "type": "text",
+          "id": "product_2_tag_3",
+          "label": "Tag 3 produit 2",
+          "default": "Portable"
+        },
+        {
+          "type": "text",
+          "id": "product_2_tag_4",
+          "label": "Tag 4 produit 2",
+          "default": "More Discreet"
+        },
+        {
+          "type": "text",
+          "id": "product_2_button_text",
+          "label": "Texte bouton produit 2",
+          "default": "Shop Now"
+        },
+
+        {
+          "type": "header",
+          "content": "Carte produit 3"
+        },
+        {
+          "type": "checkbox",
+          "id": "product_3_enable",
+          "label": "Afficher la carte 3",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "product_3_title",
+          "label": "Titre produit 3",
+          "default": "Momcozy Mobile Style™ Hands-free Slim Breast Pump | M6"
+        },
+        {
+          "type": "image_picker",
+          "id": "product_3_image",
+          "label": "Image produit 3"
+        },
+        {
+          "type": "image_picker",
+          "id": "product_3_image_hover",
+          "label": "Image hover produit 3"
+        },
+        {
+          "type": "url",
+          "id": "product_3_link",
+          "label": "Lien produit 3"
+        },
+        {
+          "type": "text",
+          "id": "product_3_badge",
+          "label": "Badge produit 3"
+        },
+        {
+          "type": "range",
+          "id": "product_3_rating",
+          "label": "Note produit 3",
+          "min": 0,
+          "max": 5,
+          "step": 0.5,
+          "default": 4.5
+        },
+        {
+          "type": "text",
+          "id": "product_3_reviews",
+          "label": "Nombre d'avis produit 3",
+          "default": "536"
+        },
+        {
+          "type": "text",
+          "id": "product_3_tag_1",
+          "label": "Tag 1 produit 3",
+          "default": "More Milk"
+        },
+        {
+          "type": "text",
+          "id": "product_3_tag_2",
+          "label": "Tag 2 produit 3",
+          "default": "More Discreet"
+        },
+        {
+          "type": "text",
+          "id": "product_3_tag_3",
+          "label": "Tag 3 produit 3",
+          "default": "Powerful Suction"
+        },
+        {
+          "type": "text",
+          "id": "product_3_tag_4",
+          "label": "Tag 4 produit 3",
+          "default": "Comfort"
+        },
+        {
+          "type": "text",
+          "id": "product_3_button_text",
+          "label": "Texte bouton produit 3",
+          "default": "Shop Now"
+        },
+
+        {
+          "type": "header",
+          "content": "Carte produit 4"
+        },
+        {
+          "type": "checkbox",
+          "id": "product_4_enable",
+          "label": "Afficher la carte 4",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "product_4_title",
+          "label": "Titre produit 4",
+          "default": "Momcozy Mobile Flow™ Hands-Free Breast Pump | M9"
+        },
+        {
+          "type": "image_picker",
+          "id": "product_4_image",
+          "label": "Image produit 4"
+        },
+        {
+          "type": "image_picker",
+          "id": "product_4_image_hover",
+          "label": "Image hover produit 4"
+        },
+        {
+          "type": "url",
+          "id": "product_4_link",
+          "label": "Lien produit 4"
+        },
+        {
+          "type": "text",
+          "id": "product_4_badge",
+          "label": "Badge produit 4"
+        },
+        {
+          "type": "range",
+          "id": "product_4_rating",
+          "label": "Note produit 4",
+          "min": 0,
+          "max": 5,
+          "step": 0.5,
+          "default": 4.5
+        },
+        {
+          "type": "text",
+          "id": "product_4_reviews",
+          "label": "Nombre d'avis produit 4",
+          "default": "461"
+        },
+        {
+          "type": "text",
+          "id": "product_4_tag_1",
+          "label": "Tag 1 produit 4",
+          "default": "High Efficiency"
+        },
+        {
+          "type": "text",
+          "id": "product_4_tag_2",
+          "label": "Tag 2 produit 4",
+          "default": "Multiple Modes"
+        },
+        {
+          "type": "text",
+          "id": "product_4_tag_3",
+          "label": "Tag 3 produit 4",
+          "default": "APP Control"
+        },
+        {
+          "type": "text",
+          "id": "product_4_tag_4",
+          "label": "Tag 4 produit 4",
+          "default": "Long Battery"
+        },
+        {
+          "type": "text",
+          "id": "product_4_button_text",
+          "label": "Texte bouton produit 4",
+          "default": "Shop Now"
+        },
+
         {
           "type": "header",
           "content": "Bannière 1"
+        },
+        {
+          "type": "checkbox",
+          "id": "banner_1_enable",
+          "label": "Afficher bannière 1",
+          "default": true
         },
         {
           "type": "image_picker",
@@ -1015,7 +1108,7 @@
         },
         {
           "type": "text",
-          "id": "banner_1_heading",
+          "id": "banner_1_title",
           "label": "Titre bannière 1",
           "default": "Which Pump Fits You?"
         },
@@ -1036,9 +1129,16 @@
           "id": "banner_1_link",
           "label": "Lien bannière 1"
         },
+
         {
           "type": "header",
           "content": "Bannière 2"
+        },
+        {
+          "type": "checkbox",
+          "id": "banner_2_enable",
+          "label": "Afficher bannière 2",
+          "default": true
         },
         {
           "type": "image_picker",
@@ -1047,7 +1147,7 @@
         },
         {
           "type": "text",
-          "id": "banner_2_heading",
+          "id": "banner_2_title",
           "label": "Titre bannière 2",
           "default": "Find the Right Pump"
         },
@@ -1073,30 +1173,27 @@
   ],
   "presets": [
     {
-      "name": "Tabs collections V2",
+      "name": "Momcozy tabs manual",
       "blocks": [
         {
           "type": "tab",
           "settings": {
             "tab_title": "Breast Pumps",
-            "products_per_row": "4",
-            "products_limit": 4
+            "view_all_text": "View all breast pumps"
           }
         },
         {
           "type": "tab",
           "settings": {
             "tab_title": "Maternity",
-            "products_per_row": "3",
-            "products_limit": 6
+            "view_all_text": "View all maternity"
           }
         },
         {
           "type": "tab",
           "settings": {
             "tab_title": "Bras",
-            "products_per_row": "4",
-            "products_limit": 4
+            "view_all_text": "View all bras"
           }
         }
       ]
