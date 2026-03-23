@@ -366,7 +366,7 @@
             "enable_desktop_slider": false,
             "enable_mobile_slider": false,
             "show_rating": true,
-            "show_price": true,
+            "show_price": false,
             "show_badges": true,
             "show_benefits": true,
             "enable_quick_add": true,
