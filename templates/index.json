@@ -342,7 +342,7 @@
             "benefit_3_10": "",
             "benefit_4_10": "",
             "show_rating": true,
-            "show_price": false,
+            "show_price": true,
             "show_badges": true,
             "show_benefits": true,
             "enable_quick_add": true,
