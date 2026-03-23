@@ -619,76 +619,146 @@
   }
 
   @media screen and (max-width: 989px) {
-    #{{ section_id }} {
-      padding-top: {{ section.settings.padding_top_mobile }}px;
-      padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
-    }
-
-    #{{ section_id }} .mc-tabs__title {
-      font-size: clamp(26px, 8vw, 50px);
-      max-width: 520px;
-    }
-
-    #{{ section_id }} .mc-tabs__topbar {
-      justify-content: flex-start;
-    }
-
-    #{{ section_id }} .mc-tabs__products.grid-m-1 {
-      grid-template-columns: 1fr;
-    }
-
-    #{{ section_id }} .mc-tabs__products.grid-m-2 {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    #{{ section_id }} .mc-tabs__banners {
-      grid-template-columns: 1fr;
-    }
-
-    #{{ section_id }} .mc-banner__overlay {
-      left: 18px;
-      right: 18px;
-      bottom: 18px;
-      max-width: 86%;
-    }
-
-    #{{ section_id }} .mc-card__title {
-      font-size: 16px;
-    }
-
-    #{{ section_id }} .mc-card__button,
-    #{{ section_id }} .mc-banner__button {
-      font-size: 14px;
-    }
-
-    #{{ section_id }} .mc-tabs__products-wrap.is-mobile-slider {
-      overflow-x: auto;
-      overflow-y: hidden;
-      padding-bottom: 4px;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-      scroll-snap-type: x mandatory;
-    }
-
-    #{{ section_id }} .mc-tabs__products-wrap.is-mobile-slider::-webkit-scrollbar {
-      display: none;
-    }
-
-    #{{ section_id }} .mc-tabs__products-wrap.is-mobile-slider .mc-tabs__products {
-      display: flex;
-      flex-wrap: nowrap;
-      gap: 14px;
-      width: max-content;
-      min-width: 100%;
-    }
-
-    #{{ section_id }} .mc-tabs__products-wrap.is-mobile-slider .mc-card {
-      width: 78vw;
-      max-width: 320px;
-      flex: 0 0 auto;
-      scroll-snap-align: start;
-    }
+  #{{ section_id }} {
+    padding-top: {{ section.settings.padding_top_mobile }}px;
+    padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
   }
+
+  #{{ section_id }} .mc-tabs__title {
+    font-size: clamp(24px, 7vw, 44px);
+    line-height: 1.02;
+    max-width: 360px;
+    margin-bottom: 2px;
+  }
+
+  #{{ section_id }} .mc-tabs__nav {
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  #{{ section_id }} .mc-tabs__tab {
+    padding: 12px 16px;
+    font-size: 14px;
+  }
+
+  #{{ section_id }} .mc-tabs__topbar {
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+
+  #{{ section_id }} .mc-tabs__view-all {
+    font-size: 15px;
+  }
+
+  #{{ section_id }} .mc-tabs__products.grid-m-1 {
+    grid-template-columns: 1fr;
+  }
+
+  #{{ section_id }} .mc-tabs__products.grid-m-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  #{{ section_id }} .mc-card__inner {
+    border-radius: 22px;
+    padding: 16px 12px 14px;
+  }
+
+  #{{ section_id }} .mc-card__title {
+    font-size: 15px;
+    min-height: 54px;
+    margin-bottom: 2px;
+  }
+
+  #{{ section_id }} .mc-card__rating {
+    margin-bottom: 6px;
+  }
+
+  #{{ section_id }} .mc-card__stars {
+    font-size: 14px;
+  }
+
+  #{{ section_id }} .mc-card__reviews {
+    font-size: 12px;
+  }
+
+  #{{ section_id }} .mc-card__image-link {
+    aspect-ratio: 1 / 1.28;
+  }
+
+  #{{ section_id }} .mc-card__badge {
+    right: 4px;
+    top: 4px;
+    min-width: 44px;
+    min-height: 44px;
+    font-size: 9px;
+    padding: 6px;
+  }
+
+  #{{ section_id }} .mc-card__price {
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+
+  #{{ section_id }} .mc-card__button {
+    min-height: 38px;
+    font-size: 12px;
+    padding: 0 18px;
+  }
+
+  #{{ section_id }} .mc-tabs__banners {
+    grid-template-columns: 1fr;
+  }
+
+  #{{ section_id }} .mc-banner__overlay {
+    left: 18px;
+    right: 18px;
+    bottom: 18px;
+    max-width: 86%;
+  }
+
+  #{{ section_id }} .mc-banner__title {
+    font-size: 24px;
+  }
+
+  #{{ section_id }} .mc-banner__text {
+    font-size: 14px;
+  }
+
+  #{{ section_id }} .mc-banner__button {
+    font-size: 14px;
+    min-height: 40px;
+  }
+
+  #{{ section_id }} .mc-tabs__products-wrap.is-mobile-slider {
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    scroll-snap-type: x mandatory;
+  }
+
+  #{{ section_id }} .mc-tabs__products-wrap.is-mobile-slider::-webkit-scrollbar {
+    display: none;
+  }
+
+  #{{ section_id }} .mc-tabs__products-wrap.is-mobile-slider .mc-tabs__products {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 12px;
+    width: max-content;
+    min-width: 100%;
+  }
+
+  #{{ section_id }} .mc-tabs__products-wrap.is-mobile-slider .mc-card {
+    width: 44vw;
+    min-width: 170px;
+    max-width: 210px;
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+  }
+}
 </style>
 
   <script>
