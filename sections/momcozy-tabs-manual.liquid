@@ -511,22 +511,24 @@
 }
 
   #{{ section_id }} .mc-card__price {
-    text-align: center;
-    margin-bottom: 14px;
-    font-size: 15px;
-    font-weight: 600;
-  }
+  text-align: center;
+  margin-bottom: 18px;
+  font-size: 17px;
+  font-weight: 600;
+}
 
-  #{{ section_id }} .mc-card__price-sale {
-    color: {{ section.settings.text_color }};
-    margin-right: 8px;
-  }
+#{{ section_id }} .mc-card__price-sale,
+#{{ section_id }} .mc-card__price-regular {
+  color: {{ section.settings.text_color }};
+  font-weight: 600;
+}
 
-  #{{ section_id }} .mc-card__price-compare {
-    color: {{ section.settings.muted_text }};
-    text-decoration: line-through;
-    font-weight: 400;
-  }
+#{{ section_id }} .mc-card__price-compare {
+  color: #7c7c7c;
+  text-decoration: line-through;
+  font-weight: 400;
+  margin-left: 10px;
+}
 
   #{{ section_id }} .mc-card__price-regular {
     color: {{ section.settings.text_color }};
