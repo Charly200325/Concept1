@@ -90,44 +90,39 @@
         <div class="mc-card">
           <div class="mc-card__inner">
             <div class="mc-card__content">
-              <h3 class="mc-card__title">
-                <a href="{{ product.url }}">
-                  {% if custom_title != blank %}
-                    {{ custom_title }}
-                  {% else %}
-                    {{ product.title }}
-                  {% endif %}
-                </a>
-              </h3>
+  <div class="mc-card__header">
+    <h3 class="mc-card__title">
+      <a href="{{ product.url }}">
+        {% if custom_title != blank %}
+          {{ custom_title }}
+        {% else %}
+          {{ product.title }}
+        {% endif %}
+      </a>
+    </h3>
 
-              {% if block.settings.show_rating %}
-  {% liquid
-    assign rating_key = 'rating_' | append: i
-    assign reviews_count_key = 'reviews_count_' | append: i
+    {% if block.settings.show_rating %}
+      {% liquid
+        assign rating_percentage = custom_rating | times: 20
+      %}
+      <div class="mc-card__rating">
+        <div
+          class="mc-card__stars"
+          aria-label="Note de {{ custom_rating }} sur 5"
+          style="--rating-percent: {{ rating_percentage }}%;"
+        >
+          <span class="mc-card__stars-bg">★★★★★</span>
+          <span class="mc-card__stars-fill">★★★★★</span>
+        </div>
 
-    assign custom_rating = block.settings[rating_key] | default: 5
-    assign custom_reviews_count = block.settings[reviews_count_key]
-
-    assign rating_percentage = custom_rating | times: 20
-  %}
-
-  <div class="mc-card__rating">
-    <div
-      class="mc-card__stars"
-      aria-label="Note de {{ custom_rating }} sur 5"
-      style="--rating-percent: {{ rating_percentage }}%;"
-    >
-      <span class="mc-card__stars-bg">★★★★★</span>
-      <span class="mc-card__stars-fill">★★★★★</span>
-    </div>
-
-    {% if custom_reviews_count != blank %}
-      <div class="mc-card__reviews">({{ custom_reviews_count }})</div>
+        {% if custom_reviews_count != blank %}
+          <div class="mc-card__reviews">({{ custom_reviews_count }})</div>
+        {% endif %}
+      </div>
     {% endif %}
   </div>
-{% endif %}
 
-              <div class="mc-card__image-wrap">
+  <div class="mc-card__image-wrap">
                 <a class="mc-card__image-link" href="{{ product.url }}">
                   {% if product.featured_image != blank %}
                     {{
