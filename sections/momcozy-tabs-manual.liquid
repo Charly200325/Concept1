@@ -39,115 +39,131 @@
               {% endif %}
             </div>
 
-            <div class="mc-tabs__products">
-              {% for i in (1..4) %}
-                {% liquid
-                  assign enable_key = 'product_' | append: i | append: '_enable'
-                  assign title_key = 'product_' | append: i | append: '_title'
-                  assign image_key = 'product_' | append: i | append: '_image'
-                  assign image2_key = 'product_' | append: i | append: '_image_hover'
-                  assign link_key = 'product_' | append: i | append: '_link'
-                  assign badge_key = 'product_' | append: i | append: '_badge'
-                  assign rating_key = 'product_' | append: i | append: '_rating'
-                  assign reviews_key = 'product_' | append: i | append: '_reviews'
-                  assign tag1_key = 'product_' | append: i | append: '_tag_1'
-                  assign tag2_key = 'product_' | append: i | append: '_tag_2'
-                  assign tag3_key = 'product_' | append: i | append: '_tag_3'
-                  assign tag4_key = 'product_' | append: i | append: '_tag_4'
-                  assign button_key = 'product_' | append: i | append: '_button_text'
-                %}
+            {% assign current_collection = collections[block.settings.collection] %}
 
-                {% if block.settings[enable_key] %}
-                  <div class="mc-card">
-                    <div class="mc-card__inner">
-                      <div class="mc-card__content">
-                        <h3 class="mc-card__title">
-                          <a href="{{ block.settings[link_key] | default: '#' }}">
-                            {{ block.settings[title_key] }}
-                          </a>
-                        </h3>
+<div class="mc-tabs__products">
+  {% if current_collection != blank %}
+    {% for product in current_collection.products limit: block.settings.products_to_show %}
+      {% assign hover_image = blank %}
+      {% if product.images.size > 1 %}
+        {% assign hover_image = product.images[1] %}
+      {% endif %}
 
-                        {% if block.settings[rating_key] != blank or block.settings[reviews_key] != blank %}
-  <div class="mc-card__rating">
-    {% assign rating_value = block.settings[rating_key] | default: 0 %}
-    {% assign full_stars = rating_value | floor %}
-    {% assign decimal = rating_value | minus: full_stars %}
-    {% assign has_half = false %}
-    {% if decimal >= 0.5 %}
-      {% assign has_half = true %}
-    {% endif %}
-    {% assign next_star = full_stars | plus: 1 %}
+      {% assign quick_add_variant = product.selected_or_first_available_variant %}
 
-    <div class="mc-card__stars" aria-hidden="true">
-      {% for s in (1..5) %}
-        {% if s <= full_stars %}
-          <span>★</span>
-        {% elsif has_half and s == next_star %}
-          <span>★</span>
-        {% else %}
-          <span class="is-empty">★</span>
-        {% endif %}
-      {% endfor %}
-    </div>
+      <div class="mc-card">
+        <div class="mc-card__inner">
+          <div class="mc-card__content">
+            <h3 class="mc-card__title">
+              <a href="{{ product.url }}">
+                {{ product.title }}
+              </a>
+            </h3>
 
-    {% if block.settings[reviews_key] != blank %}
-      <div class="mc-card__reviews">({{ block.settings[reviews_key] }})</div>
-    {% endif %}
-  </div>
-{% endif %}
-
-                        <div class="mc-card__image-wrap">
-                          <a class="mc-card__image-link" href="{{ block.settings[link_key] | default: '#' }}">
-                            {% if block.settings[image_key] != blank %}
-                              {{
-                                block.settings[image_key]
-                                | image_url: width: 900
-                                | image_tag:
-                                  loading: 'lazy',
-                                  widths: '320,480,720,900',
-                                  class: 'mc-card__image mc-card__image--main',
-                                  alt: block.settings[title_key] | escape
-                              }}
-                            {% endif %}
-
-                            {% if block.settings[image2_key] != blank %}
-                              {{
-                                block.settings[image2_key]
-                                | image_url: width: 900
-                                | image_tag:
-                                  loading: 'lazy',
-                                  widths: '320,480,720,900',
-                                  class: 'mc-card__image mc-card__image--hover',
-                                  alt: block.settings[title_key] | escape
-                              }}
-                            {% endif %}
-                          </a>
-
-                          {% if block.settings[badge_key] != blank %}
-                            <div class="mc-card__badge">
-                              {{ block.settings[badge_key] }}
-                            </div>
-                          {% endif %}
-                        </div>
-
-                        <div class="mc-card__tags">
-                          {% if block.settings[tag1_key] != blank %}<span>{{ block.settings[tag1_key] }}</span>{% endif %}
-                          {% if block.settings[tag2_key] != blank %}<span>{{ block.settings[tag2_key] }}</span>{% endif %}
-                          {% if block.settings[tag3_key] != blank %}<span>{{ block.settings[tag3_key] }}</span>{% endif %}
-                          {% if block.settings[tag4_key] != blank %}<span>{{ block.settings[tag4_key] }}</span>{% endif %}
-                        </div>
-                      </div>
-
-                      <div class="mc-card__actions">
-                        <a class="mc-card__button" href="{{ block.settings[link_key] | default: '#' }}">
-                          {{ block.settings[button_key] | default: 'Shop Now' }}
-                        </a>
-                      </div>
-                    </div>
-                  </div>
+            {% if block.settings.show_rating %}
+              <div class="mc-card__rating">
+                <div class="mc-card__stars" aria-hidden="true">
+                  ★★★★★
+                </div>
+                {% if product.metafields.reviews.rating_count != blank %}
+                  <div class="mc-card__reviews">({{ product.metafields.reviews.rating_count }})</div>
                 {% endif %}
-              {% endfor %}
+              </div>
+            {% endif %}
+
+            <div class="mc-card__image-wrap">
+              <a class="mc-card__image-link" href="{{ product.url }}">
+                {% if product.featured_image != blank %}
+                  {{
+                    product.featured_image
+                    | image_url: width: 900
+                    | image_tag:
+                      loading: 'lazy',
+                      widths: '320,480,720,900',
+                      class: 'mc-card__image mc-card__image--main',
+                      alt: product.title | escape
+                  }}
+                {% endif %}
+
+                {% if hover_image != blank %}
+                  {{
+                    hover_image
+                    | image_url: width: 900
+                    | image_tag:
+                      loading: 'lazy',
+                      widths: '320,480,720,900',
+                      class: 'mc-card__image mc-card__image--hover',
+                      alt: product.title | escape
+                  }}
+                {% endif %}
+              </a>
+
+              {% if block.settings.show_badges %}
+                {% if product.available == false %}
+                  <div class="mc-card__badge">Sold out</div>
+                {% elsif product.compare_at_price > product.price %}
+                  <div class="mc-card__badge">
+                    -{{ product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round }}%
+                  </div>
+                {% elsif product.tags contains 'best-seller' %}
+                  <div class="mc-card__badge">Best Seller</div>
+                {% elsif product.tags contains 'new' %}
+                  <div class="mc-card__badge">New</div>
+                {% endif %}
+              {% endif %}
             </div>
+
+            {% if block.settings.show_benefits %}
+              <div class="mc-card__tags">
+                {% assign benefit_count = 0 %}
+                {% for tag in product.tags %}
+                  {% if tag contains 'benefit_' %}
+                    {% assign clean_tag = tag | remove: 'benefit_' %}
+                    <span>{{ clean_tag }}</span>
+                    {% assign benefit_count = benefit_count | plus: 1 %}
+                    {% if benefit_count >= 4 %}
+                      {% break %}
+                    {% endif %}
+                  {% endif %}
+                {% endfor %}
+              </div>
+            {% endif %}
+
+            {% if block.settings.show_price %}
+              <div class="mc-card__price">
+                {% if product.compare_at_price > product.price %}
+                  <span class="mc-card__price-sale">{{ product.price | money }}</span>
+                  <span class="mc-card__price-compare">{{ product.compare_at_price | money }}</span>
+                {% else %}
+                  <span class="mc-card__price-regular">{{ product.price | money }}</span>
+                {% endif %}
+              </div>
+            {% endif %}
+          </div>
+
+          <div class="mc-card__actions">
+            {% if block.settings.enable_quick_add and quick_add_variant != blank and product.available %}
+              {% form 'product', product, class: 'mc-card__quick-add-form' %}
+                <input type="hidden" name="id" value="{{ quick_add_variant.id }}">
+                <button type="submit" class="mc-card__button">
+                  {{ block.settings.quick_add_text }}
+                </button>
+              {% endform %}
+            {% else %}
+              <a class="mc-card__button" href="{{ product.url }}">
+                {{ block.settings.button_text }}
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="mc-empty">
+      Sélectionne une collection dans cet onglet.
+    </div>
+  {% endif %}
+</div>∂
 
             <div class="mc-tabs__banners">
               {% for i in (1..2) %}
@@ -763,333 +779,61 @@
         },
 
         {
-          "type": "header",
-          "content": "Carte produit 1"
-        },
-        {
-          "type": "checkbox",
-          "id": "product_1_enable",
-          "label": "Afficher la carte 1",
-          "default": true
-        },
-        {
-          "type": "text",
-          "id": "product_1_title",
-          "label": "Titre produit 1",
-          "default": "Momcozy Air 1 Ultra-slim Breast Pump"
-        },
-        {
-          "type": "image_picker",
-          "id": "product_1_image",
-          "label": "Image produit 1"
-        },
-        {
-          "type": "image_picker",
-          "id": "product_1_image_hover",
-          "label": "Image hover produit 1"
-        },
-        {
-          "type": "url",
-          "id": "product_1_link",
-          "label": "Lien produit 1"
-        },
-        {
-          "type": "text",
-          "id": "product_1_badge",
-          "label": "Badge produit 1"
-        },
-        {
-          "type": "range",
-          "id": "product_1_rating",
-          "label": "Note produit 1",
-          "min": 0,
-          "max": 5,
-          "step": 0.5,
-          "default": 4.5
-        },
-        {
-          "type": "text",
-          "id": "product_1_reviews",
-          "label": "Nombre d'avis produit 1",
-          "default": "37"
-        },
-        {
-          "type": "text",
-          "id": "product_1_tag_1",
-          "label": "Tag 1 produit 1",
-          "default": "Ultra-slim"
-        },
-        {
-          "type": "text",
-          "id": "product_1_tag_2",
-          "label": "Tag 2 produit 1",
-          "default": "Wireless Charging"
-        },
-        {
-          "type": "text",
-          "id": "product_1_tag_3",
-          "label": "Tag 3 produit 1",
-          "default": "Effortless Alignment"
-        },
-        {
-          "type": "text",
-          "id": "product_1_tag_4",
-          "label": "Tag 4 produit 1",
-          "default": "Silent & Smart"
-        },
-        {
-          "type": "text",
-          "id": "product_1_button_text",
-          "label": "Texte bouton produit 1",
-          "default": "Shop Now"
-        },
-
-        {
-          "type": "header",
-          "content": "Carte produit 2"
-        },
-        {
-          "type": "checkbox",
-          "id": "product_2_enable",
-          "label": "Afficher la carte 2",
-          "default": true
-        },
-        {
-          "type": "text",
-          "id": "product_2_title",
-          "label": "Titre produit 2",
-          "default": "All-in-one M5 Wearable Breast Pump - Painlessly Pump"
-        },
-        {
-          "type": "image_picker",
-          "id": "product_2_image",
-          "label": "Image produit 2"
-        },
-        {
-          "type": "image_picker",
-          "id": "product_2_image_hover",
-          "label": "Image hover produit 2"
-        },
-        {
-          "type": "url",
-          "id": "product_2_link",
-          "label": "Lien produit 2"
-        },
-        {
-          "type": "text",
-          "id": "product_2_badge",
-          "label": "Badge produit 2",
-          "default": "Best Seller"
-        },
-        {
-          "type": "range",
-          "id": "product_2_rating",
-          "label": "Note produit 2",
-          "min": 0,
-          "max": 5,
-          "step": 0.5,
-          "default": 4.5
-        },
-        {
-          "type": "text",
-          "id": "product_2_reviews",
-          "label": "Nombre d'avis produit 2",
-          "default": "204"
-        },
-        {
-          "type": "text",
-          "id": "product_2_tag_1",
-          "label": "Tag 1 produit 2",
-          "default": "More Comfort"
-        },
-        {
-          "type": "text",
-          "id": "product_2_tag_2",
-          "label": "Tag 2 produit 2",
-          "default": "High Efficiency"
-        },
-        {
-          "type": "text",
-          "id": "product_2_tag_3",
-          "label": "Tag 3 produit 2",
-          "default": "Portable"
-        },
-        {
-          "type": "text",
-          "id": "product_2_tag_4",
-          "label": "Tag 4 produit 2",
-          "default": "More Discreet"
-        },
-        {
-          "type": "text",
-          "id": "product_2_button_text",
-          "label": "Texte bouton produit 2",
-          "default": "Shop Now"
-        },
-
-        {
-          "type": "header",
-          "content": "Carte produit 3"
-        },
-        {
-          "type": "checkbox",
-          "id": "product_3_enable",
-          "label": "Afficher la carte 3",
-          "default": true
-        },
-        {
-          "type": "text",
-          "id": "product_3_title",
-          "label": "Titre produit 3",
-          "default": "Momcozy Mobile Style™ Hands-free Slim Breast Pump | M6"
-        },
-        {
-          "type": "image_picker",
-          "id": "product_3_image",
-          "label": "Image produit 3"
-        },
-        {
-          "type": "image_picker",
-          "id": "product_3_image_hover",
-          "label": "Image hover produit 3"
-        },
-        {
-          "type": "url",
-          "id": "product_3_link",
-          "label": "Lien produit 3"
-        },
-        {
-          "type": "text",
-          "id": "product_3_badge",
-          "label": "Badge produit 3"
-        },
-        {
-          "type": "range",
-          "id": "product_3_rating",
-          "label": "Note produit 3",
-          "min": 0,
-          "max": 5,
-          "step": 0.5,
-          "default": 4.5
-        },
-        {
-          "type": "text",
-          "id": "product_3_reviews",
-          "label": "Nombre d'avis produit 3",
-          "default": "536"
-        },
-        {
-          "type": "text",
-          "id": "product_3_tag_1",
-          "label": "Tag 1 produit 3",
-          "default": "More Milk"
-        },
-        {
-          "type": "text",
-          "id": "product_3_tag_2",
-          "label": "Tag 2 produit 3",
-          "default": "More Discreet"
-        },
-        {
-          "type": "text",
-          "id": "product_3_tag_3",
-          "label": "Tag 3 produit 3",
-          "default": "Powerful Suction"
-        },
-        {
-          "type": "text",
-          "id": "product_3_tag_4",
-          "label": "Tag 4 produit 3",
-          "default": "Comfort"
-        },
-        {
-          "type": "text",
-          "id": "product_3_button_text",
-          "label": "Texte bouton produit 3",
-          "default": "Shop Now"
-        },
-
-        {
-          "type": "header",
-          "content": "Carte produit 4"
-        },
-        {
-          "type": "checkbox",
-          "id": "product_4_enable",
-          "label": "Afficher la carte 4",
-          "default": true
-        },
-        {
-          "type": "text",
-          "id": "product_4_title",
-          "label": "Titre produit 4",
-          "default": "Momcozy Mobile Flow™ Hands-Free Breast Pump | M9"
-        },
-        {
-          "type": "image_picker",
-          "id": "product_4_image",
-          "label": "Image produit 4"
-        },
-        {
-          "type": "image_picker",
-          "id": "product_4_image_hover",
-          "label": "Image hover produit 4"
-        },
-        {
-          "type": "url",
-          "id": "product_4_link",
-          "label": "Lien produit 4"
-        },
-        {
-          "type": "text",
-          "id": "product_4_badge",
-          "label": "Badge produit 4"
-        },
-        {
-          "type": "range",
-          "id": "product_4_rating",
-          "label": "Note produit 4",
-          "min": 0,
-          "max": 5,
-          "step": 0.5,
-          "default": 4.5
-        },
-        {
-          "type": "text",
-          "id": "product_4_reviews",
-          "label": "Nombre d'avis produit 4",
-          "default": "461"
-        },
-        {
-          "type": "text",
-          "id": "product_4_tag_1",
-          "label": "Tag 1 produit 4",
-          "default": "High Efficiency"
-        },
-        {
-          "type": "text",
-          "id": "product_4_tag_2",
-          "label": "Tag 2 produit 4",
-          "default": "Multiple Modes"
-        },
-        {
-          "type": "text",
-          "id": "product_4_tag_3",
-          "label": "Tag 3 produit 4",
-          "default": "APP Control"
-        },
-        {
-          "type": "text",
-          "id": "product_4_tag_4",
-          "label": "Tag 4 produit 4",
-          "default": "Long Battery"
-        },
-        {
-          "type": "text",
-          "id": "product_4_button_text",
-          "label": "Texte bouton produit 4",
-          "default": "Shop Now"
-        },
+  "type": "collection",
+  "id": "collection",
+  "label": "Collection liée à cet onglet"
+},
+{
+  "type": "range",
+  "id": "products_to_show",
+  "label": "Nombre de produits à afficher",
+  "min": 2,
+  "max": 12,
+  "step": 1,
+  "default": 4
+},
+{
+  "type": "checkbox",
+  "id": "show_rating",
+  "label": "Afficher les étoiles",
+  "default": true
+},
+{
+  "type": "checkbox",
+  "id": "show_price",
+  "label": "Afficher le prix",
+  "default": false
+},
+{
+  "type": "checkbox",
+  "id": "show_badges",
+  "label": "Afficher les badges",
+  "default": true
+},
+{
+  "type": "checkbox",
+  "id": "show_benefits",
+  "label": "Afficher les bénéfices rapides",
+  "default": true
+},
+{
+  "type": "checkbox",
+  "id": "enable_quick_add",
+  "label": "Activer l'ajout panier rapide",
+  "default": true
+},
+{
+  "type": "text",
+  "id": "quick_add_text",
+  "label": "Texte bouton ajout rapide",
+  "default": "Ajouter au panier"
+},
+{
+  "type": "text",
+  "id": "button_text",
+  "label": "Texte bouton lien produit",
+  "default": "Shop Now"
+},
 
         {
           "type": "header",
