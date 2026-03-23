@@ -554,6 +554,40 @@
         font-size: 16px;
       }
     }
+    #{{ section_id }} .mc-card__price {
+  text-align: center;
+  margin-bottom: 14px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+#{{ section_id }} .mc-card__price-sale {
+  color: {{ section.settings.text_color }};
+  margin-right: 8px;
+}
+
+#{{ section_id }} .mc-card__price-compare {
+  color: {{ section.settings.muted_text }};
+  text-decoration: line-through;
+  font-weight: 500;
+}
+
+#{{ section_id }} .mc-card__price-regular {
+  color: {{ section.settings.text_color }};
+}
+
+#{{ section_id }} .mc-card__quick-add-form {
+  display: flex;
+  justify-content: center;
+}
+
+#{{ section_id }} .mc-empty {
+  grid-column: 1 / -1;
+  background: #fff;
+  border-radius: 18px;
+  padding: 30px;
+  text-align: center;
+}
   </style>
 
   <script>
