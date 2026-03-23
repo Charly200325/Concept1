@@ -384,9 +384,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   margin-top: 0;
-  margin-bottom: 8px;
+  margin-bottom: 0;
 }
 
 #{{ section_id }} .mc-card__stars {
@@ -411,11 +411,12 @@
   white-space: nowrap;
 }
 
-  #{{ section_id }} .mc-card__reviews {
-    font-size: 13px;
-    color: {{ section.settings.muted_text }};
-    line-height: 1;
-  }
+#{{ section_id }} .mc-card__reviews {
+  font-size: 13px;
+  color: #555;
+  line-height: 1;
+  font-weight: 400;
+}
 
   #{{ section_id }} .mc-card__image-wrap {
   position: relative;
