@@ -1,109 +1,172 @@
-{% assign section_id = 'tabs-collections-' | append: section.id %}
+{% assign section_id = 'tabs-collections-v2-' | append: section.id %}
 
-<section id="{{ section_id }}" class="tabs-collections-custom">
-  <div class="page-width">
+<section id="{{ section_id }}" class="tabs-v2-section">
+  <div class="tabs-v2__inner page-width">
     {% if section.settings.heading != blank %}
-      <div class="section-header">
-        <h2>{{ section.settings.heading }}</h2>
+      <div class="tabs-v2__header">
+        <h2 class="tabs-v2__title">{{ section.settings.heading }}</h2>
       </div>
     {% endif %}
 
-    {% assign tab_blocks = section.blocks | where: "type", "tab" %}
+    {% assign tab_blocks = section.blocks | where: 'type', 'tab' %}
 
     {% if tab_blocks.size > 0 %}
-      <div class="tabs-nav">
-        {% for block in tab_blocks %}
-          <button
-            class="tab-button{% if forloop.first %} is-active{% endif %}"
-            type="button"
-            data-tab-target="tab-{{ block.id }}"
-            {{ block.shopify_attributes }}
-          >
-            {{ block.settings.tab_title }}
-          </button>
-        {% endfor %}
+      <div class="tabs-v2__nav-wrapper">
+        <div class="tabs-v2__nav" role="tablist">
+          {% for block in tab_blocks %}
+            <button
+              type="button"
+              class="tabs-v2__nav-btn{% if forloop.first %} is-active{% endif %}"
+              data-tab-target="tab-{{ block.id }}"
+              role="tab"
+              aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+              {{ block.shopify_attributes }}
+            >
+              {{ block.settings.tab_title }}
+            </button>
+          {% endfor %}
+        </div>
       </div>
 
-      <div class="tabs-content">
+      <div class="tabs-v2__content">
         {% for block in tab_blocks %}
           {% assign collection = collections[block.settings.collection] %}
+
           <div
             id="tab-{{ block.id }}"
-            class="tab-panel{% if forloop.first %} is-active{% endif %}"
+            class="tabs-v2__panel{% if forloop.first %} is-active{% endif %}"
+            role="tabpanel"
             {{ block.shopify_attributes }}
           >
             {% if collection != blank %}
-              <div class="tab-top">
+              <div class="tabs-v2__topbar">
                 {% if block.settings.view_all_text != blank %}
-                  <a class="view-all-btn" href="{{ collection.url }}">
-                    {{ block.settings.view_all_text }}
+                  <a class="tabs-v2__view-all" href="{{ collection.url }}">
+                    <span>{{ block.settings.view_all_text }}</span>
+                    <svg viewBox="0 0 14 10" fill="none" aria-hidden="true">
+                      <path d="M8.5 1L13 5L8.5 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M12.5 5H1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+                    </svg>
                   </a>
                 {% endif %}
               </div>
 
-              <div class="products-grid columns-{{ block.settings.products_per_row }}">
+              <div class="tabs-v2__products grid-cols-{{ block.settings.products_per_row }}">
                 {% for product in collection.products limit: block.settings.products_limit %}
-                  <div class="product-card">
-                    <a class="product-image-wrap" href="{{ product.url }}">
-                      {% if product.featured_image %}
-                        {{
-                          product.featured_image
-                          | image_url: width: 800
-                          | image_tag:
-                            loading: 'lazy',
-                            widths: '240,360,480,720,800',
-                            class: 'product-image',
-                            alt: product.featured_image.alt | escape
-                        }}
-                      {% endif %}
+                  {% assign first_variant = product.selected_or_first_available_variant %}
+                  {% assign second_image = blank %}
+                  {% if product.images.size > 1 %}
+                    {% assign second_image = product.images[1] %}
+                  {% endif %}
 
-                      {% if product.compare_at_price > product.price %}
-                        <span class="badge badge-sale">
-                          -
-                          {{ product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round }}%
-                        </span>
-                      {% endif %}
-                    </a>
+                  {% assign promo_tag_1 = product.metafields.custom.promo_tag_1 %}
+                  {% assign promo_tag_2 = product.metafields.custom.promo_tag_2 %}
+                  {% assign promo_tag_3 = product.metafields.custom.promo_tag_3 %}
+                  {% assign promo_tag_4 = product.metafields.custom.promo_tag_4 %}
+                  {% assign series_title = product.metafields.custom.series_title %}
+                  {% assign learn_more_link = product.metafields.custom.learn_more_link %}
+                  {% assign custom_badge = product.metafields.custom.custom_badge %}
+                  {% assign custom_rating = product.metafields.custom.rating.value %}
+                  {% assign custom_rating_count = product.metafields.custom.rating_count.value %}
 
-                    <div class="product-card__content">
-                      {% if product.metafields.custom.series_title != blank %}
-                        <div class="series-title">
-                          {{ product.metafields.custom.series_title }}
+                  <div class="tabs-v2__product-card">
+                    <div class="tabs-v2__product-wrap">
+                      <div class="tabs-v2__product-main">
+                        <div class="tabs-v2__product-info">
+                          {% if series_title != blank %}
+                            <div class="tabs-v2__series">{{ series_title }}</div>
+                          {% endif %}
+
+                          <h3 class="tabs-v2__product-title">
+                            <a href="{{ product.url }}">{{ product.title }}</a>
+                          </h3>
+
+                          {% if custom_rating != blank %}
+                            <div class="tabs-v2__rating" aria-label="Rated {{ custom_rating }} out of 5">
+                              <div class="tabs-v2__rating-score">{{ custom_rating }}</div>
+                              <div class="tabs-v2__stars" aria-hidden="true">
+                                {% assign rating_times_20 = custom_rating | times: 20 %}
+                                <div class="tabs-v2__stars-bg">★★★★★</div>
+                                <div class="tabs-v2__stars-fill" style="width: {{ rating_times_20 }}%;">★★★★★</div>
+                              </div>
+                              {% if custom_rating_count != blank %}
+                                <div class="tabs-v2__rating-count">({{ custom_rating_count }})</div>
+                              {% endif %}
+                            </div>
+                          {% endif %}
+
+                          <div class="tabs-v2__image-wrap">
+                            <a class="tabs-v2__image-link" href="{{ product.url }}">
+                              {% if product.featured_image %}
+                                {{
+                                  product.featured_image
+                                  | image_url: width: 900
+                                  | image_tag:
+                                    loading: 'lazy',
+                                    widths: '220,320,440,550,720,900',
+                                    class: 'tabs-v2__image tabs-v2__image--primary',
+                                    alt: product.featured_image.alt | escape
+                                }}
+                              {% endif %}
+
+                              {% if second_image != blank %}
+                                {{
+                                  second_image
+                                  | image_url: width: 900
+                                  | image_tag:
+                                    loading: 'lazy',
+                                    widths: '220,320,440,550,720,900',
+                                    class: 'tabs-v2__image tabs-v2__image--secondary',
+                                    alt: second_image.alt | escape
+                                }}
+                              {% endif %}
+                            </a>
+
+                            <div class="tabs-v2__badges">
+                              {% if custom_badge != blank %}
+                                <span class="tabs-v2__badge tabs-v2__badge--custom">
+                                  {{ custom_badge }}
+                                </span>
+                              {% endif %}
+
+                              {% if product.compare_at_price > product.price %}
+                                {% assign sale_percent = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round %}
+                                <span class="tabs-v2__badge tabs-v2__badge--sale">
+                                  -{{ sale_percent }}%
+                                </span>
+                              {% endif %}
+
+                              {% if product.available == false %}
+                                <span class="tabs-v2__badge tabs-v2__badge--soldout">
+                                  Sold out
+                                </span>
+                              {% endif %}
+                            </div>
+                          </div>
+
+                          {% if promo_tag_1 != blank or promo_tag_2 != blank or promo_tag_3 != blank or promo_tag_4 != blank %}
+                            <div class="tabs-v2__promo-tags">
+                              {% if promo_tag_1 != blank %}<span>{{ promo_tag_1 }}</span>{% endif %}
+                              {% if promo_tag_2 != blank %}<span>{{ promo_tag_2 }}</span>{% endif %}
+                              {% if promo_tag_3 != blank %}<span>{{ promo_tag_3 }}</span>{% endif %}
+                              {% if promo_tag_4 != blank %}<span>{{ promo_tag_4 }}</span>{% endif %}
+                            </div>
+                          {% endif %}
+
+                          <a class="tabs-v2__full-link" href="{{ product.url }}" aria-label="{{ product.title }}"></a>
                         </div>
-                      {% endif %}
 
-                      <h3 class="product-title">
-                        <a href="{{ product.url }}">{{ product.title }}</a>
-                      </h3>
+                        <div class="tabs-v2__actions">
+                          {% if learn_more_link != blank %}
+                            <a class="tabs-v2__btn tabs-v2__btn--secondary" href="{{ learn_more_link }}">
+                              <span>{{ block.settings.learn_more_text }}</span>
+                            </a>
+                          {% endif %}
 
-                      <div class="product-price">
-                        {% if product.compare_at_price > product.price %}
-                          <span class="price price--sale">{{ product.price | money }}</span>
-                          <span class="price price--compare">{{ product.compare_at_price | money }}</span>
-                        {% else %}
-                          <span class="price">{{ product.price | money }}</span>
-                        {% endif %}
-                      </div>
-
-                      {% if product.metafields.custom.promo_tags != blank %}
-                        {% assign promo_tags = product.metafields.custom.promo_tags.value %}
-                        <div class="promo-tags">
-                          {% for tag in promo_tags %}
-                            <span>{{ tag }}</span>
-                          {% endfor %}
-                        </div>
-                      {% endif %}
-
-                      <div class="product-actions">
-                        {% if product.metafields.custom.learn_more_link != blank %}
-                          <a class="btn btn-secondary" href="{{ product.metafields.custom.learn_more_link }}">
-                            Learn More
+                          <a class="tabs-v2__btn tabs-v2__btn--primary" href="{{ product.url }}">
+                            <span>{{ block.settings.shop_now_text }}</span>
                           </a>
-                        {% endif %}
-
-                        <a class="btn btn-primary" href="{{ product.url }}">
-                          Shop Now
-                        </a>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -111,68 +174,96 @@
               </div>
 
               {% if block.settings.banner_1_image != blank or block.settings.banner_2_image != blank %}
-                <div class="promo-banners">
+                <div class="tabs-v2__banners">
                   {% if block.settings.banner_1_image != blank %}
-                    <div class="promo-banner">
-                      <a href="{{ block.settings.banner_1_link | default: '#' }}">
+                    <div class="tabs-v2__banner">
+                      <div class="tabs-v2__banner-figure">
+                        {% if block.settings.banner_1_link != blank %}
+                          <a href="{{ block.settings.banner_1_link }}" class="tabs-v2__banner-image-link">
+                        {% endif %}
+
                         {{
                           block.settings.banner_1_image
-                          | image_url: width: 1200
+                          | image_url: width: 1400
                           | image_tag:
                             loading: 'lazy',
-                            widths: '360,550,720,960,1200',
-                            class: 'promo-banner__image',
+                            widths: '320,480,720,900,1200,1400',
+                            class: 'tabs-v2__banner-image',
                             alt: block.settings.banner_1_heading | escape
                         }}
-                      </a>
-                      <div class="promo-banner__content">
-                        {% if block.settings.banner_1_heading != blank %}
-                          <h3>{{ block.settings.banner_1_heading }}</h3>
-                        {% endif %}
-                        {% if block.settings.banner_1_text != blank %}
-                          <p>{{ block.settings.banner_1_text }}</p>
-                        {% endif %}
-                        {% if block.settings.banner_1_button != blank %}
-                          <a class="btn btn-primary" href="{{ block.settings.banner_1_link | default: '#' }}">
-                            {{ block.settings.banner_1_button }}
+
+                        {% if block.settings.banner_1_link != blank %}
                           </a>
                         {% endif %}
+
+                        <div class="tabs-v2__banner-content">
+                          {% if block.settings.banner_1_heading != blank %}
+                            <h3 class="tabs-v2__banner-heading">{{ block.settings.banner_1_heading }}</h3>
+                          {% endif %}
+
+                          {% if block.settings.banner_1_text != blank %}
+                            <div class="tabs-v2__banner-text">{{ block.settings.banner_1_text }}</div>
+                          {% endif %}
+
+                          {% if block.settings.banner_1_button != blank %}
+                            <div class="tabs-v2__banner-buttons">
+                              <a class="tabs-v2__banner-btn" href="{{ block.settings.banner_1_link | default: '#' }}">
+                                {{ block.settings.banner_1_button }}
+                              </a>
+                            </div>
+                          {% endif %}
+                        </div>
                       </div>
                     </div>
                   {% endif %}
 
                   {% if block.settings.banner_2_image != blank %}
-                    <div class="promo-banner">
-                      <a href="{{ block.settings.banner_2_link | default: '#' }}">
+                    <div class="tabs-v2__banner">
+                      <div class="tabs-v2__banner-figure">
+                        {% if block.settings.banner_2_link != blank %}
+                          <a href="{{ block.settings.banner_2_link }}" class="tabs-v2__banner-image-link">
+                        {% endif %}
+
                         {{
                           block.settings.banner_2_image
-                          | image_url: width: 1200
+                          | image_url: width: 1400
                           | image_tag:
                             loading: 'lazy',
-                            widths: '360,550,720,960,1200',
-                            class: 'promo-banner__image',
+                            widths: '320,480,720,900,1200,1400',
+                            class: 'tabs-v2__banner-image',
                             alt: block.settings.banner_2_heading | escape
                         }}
-                      </a>
-                      <div class="promo-banner__content">
-                        {% if block.settings.banner_2_heading != blank %}
-                          <h3>{{ block.settings.banner_2_heading }}</h3>
-                        {% endif %}
-                        {% if block.settings.banner_2_text != blank %}
-                          <p>{{ block.settings.banner_2_text }}</p>
-                        {% endif %}
-                        {% if block.settings.banner_2_button != blank %}
-                          <a class="btn btn-primary" href="{{ block.settings.banner_2_link | default: '#' }}">
-                            {{ block.settings.banner_2_button }}
+
+                        {% if block.settings.banner_2_link != blank %}
                           </a>
                         {% endif %}
+
+                        <div class="tabs-v2__banner-content">
+                          {% if block.settings.banner_2_heading != blank %}
+                            <h3 class="tabs-v2__banner-heading">{{ block.settings.banner_2_heading }}</h3>
+                          {% endif %}
+
+                          {% if block.settings.banner_2_text != blank %}
+                            <div class="tabs-v2__banner-text">{{ block.settings.banner_2_text }}</div>
+                          {% endif %}
+
+                          {% if block.settings.banner_2_button != blank %}
+                            <div class="tabs-v2__banner-buttons">
+                              <a class="tabs-v2__banner-btn" href="{{ block.settings.banner_2_link | default: '#' }}">
+                                {{ block.settings.banner_2_button }}
+                              </a>
+                            </div>
+                          {% endif %}
+                        </div>
                       </div>
                     </div>
                   {% endif %}
                 </div>
               {% endif %}
             {% else %}
-              <p>Collection non trouvée pour cet onglet.</p>
+              <div class="tabs-v2__empty">
+                Collection non trouvée pour cet onglet.
+              </div>
             {% endif %}
           </div>
         {% endfor %}
@@ -181,258 +272,555 @@
   </div>
 
   <style>
-    .tabs-collections-custom {
-      padding: 60px 0;
+    #{{ section_id }} {
+      --tabs-text: {{ section.settings.text_color }};
+      --tabs-accent: {{ section.settings.accent_color }};
+      --tabs-bg: {{ section.settings.background_color }};
+      --tabs-border: {{ section.settings.border_color }};
+      --tabs-muted: {{ section.settings.muted_color }};
+      --tabs-badge-bg: {{ section.settings.badge_bg }};
+      --tabs-badge-text: {{ section.settings.badge_text }};
+      --tabs-card-bg: {{ section.settings.card_bg }};
+      --tabs-btn-bg: {{ section.settings.button_bg }};
+      --tabs-btn-text: {{ section.settings.button_text }};
+      --tabs-btn-secondary-border: {{ section.settings.secondary_button_border }};
+      --tabs-btn-secondary-text: {{ section.settings.secondary_button_text }};
+      background: var(--tabs-bg);
+      color: var(--tabs-text);
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
     }
 
-    .tabs-collections-custom .section-header {
+    #{{ section_id }} .tabs-v2__header {
       text-align: center;
       margin-bottom: 30px;
     }
 
-    .tabs-collections-custom .section-header h2 {
+    #{{ section_id }} .tabs-v2__title {
       margin: 0;
-      font-size: 36px;
-      line-height: 1.2;
+      font-size: clamp(30px, 4vw, 52px);
+      line-height: 1.12;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      white-space: pre-line;
     }
 
-    .tabs-nav {
+    #{{ section_id }} .tabs-v2__nav-wrapper {
+      margin-bottom: 36px;
+    }
+
+    #{{ section_id }} .tabs-v2__nav {
       display: flex;
       gap: 12px;
       flex-wrap: wrap;
       justify-content: center;
-      margin-bottom: 30px;
+      align-items: center;
     }
 
-    .tab-button {
-      border: 1px solid #ddd;
-      background: #fff;
-      padding: 10px 18px;
-      cursor: pointer;
+    #{{ section_id }} .tabs-v2__nav-btn {
+      appearance: none;
+      border: 1px solid var(--tabs-border);
+      background: transparent;
+      color: var(--tabs-text);
+      padding: 11px 20px;
+      min-height: 44px;
       border-radius: 999px;
-      transition: 0.2s ease;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1;
+      cursor: pointer;
+      transition: all .25s ease;
     }
 
-    .tab-button.is-active {
-      background: #9c5455;
+    #{{ section_id }} .tabs-v2__nav-btn:hover,
+    #{{ section_id }} .tabs-v2__nav-btn.is-active {
+      background: var(--tabs-accent);
+      border-color: var(--tabs-accent);
       color: #fff;
-      border-color: #9c5455;
     }
 
-    .tab-panel {
+    #{{ section_id }} .tabs-v2__panel {
       display: none;
     }
 
-    .tab-panel.is-active {
+    #{{ section_id }} .tabs-v2__panel.is-active {
       display: block;
     }
 
-    .tab-top {
-      text-align: center;
-      margin-bottom: 24px;
+    #{{ section_id }} .tabs-v2__topbar {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 28px;
     }
 
-    .view-all-btn {
-      display: inline-block;
-      padding: 10px 18px;
-      border: 1px solid #111;
+    #{{ section_id }} .tabs-v2__view-all {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
       text-decoration: none;
-      color: #111;
+      color: var(--tabs-text);
+      border: 1px solid var(--tabs-text);
+      padding: 12px 20px;
       border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all .25s ease;
     }
 
-    .products-grid {
+    #{{ section_id }} .tabs-v2__view-all svg {
+      width: 14px;
+      height: 10px;
+    }
+
+    #{{ section_id }} .tabs-v2__view-all:hover {
+      background: var(--tabs-text);
+      color: #fff;
+    }
+
+    #{{ section_id }} .tabs-v2__products {
       display: grid;
-      gap: 20px;
-      margin-bottom: 30px;
+      gap: 18px;
+      margin-bottom: 32px;
     }
 
-    .products-grid.columns-2 {
+    #{{ section_id }} .tabs-v2__products.grid-cols-2 {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .products-grid.columns-3 {
+    #{{ section_id }} .tabs-v2__products.grid-cols-3 {
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
-    .products-grid.columns-4 {
+    #{{ section_id }} .tabs-v2__products.grid-cols-4 {
       grid-template-columns: repeat(4, minmax(0, 1fr));
     }
 
-    .product-card {
-      border: 1px solid #eee;
-      padding: 16px;
-      position: relative;
+    #{{ section_id }} .tabs-v2__product-card {
+      min-width: 0;
+    }
+
+    #{{ section_id }} .tabs-v2__product-wrap {
+      background: var(--tabs-card-bg);
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,.06);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #{{ section_id }} .tabs-v2__product-main {
+      display: flex;
+      flex-direction: column;
       height: 100%;
     }
 
-    .product-image-wrap {
-      display: block;
+    #{{ section_id }} .tabs-v2__product-info {
       position: relative;
-      margin-bottom: 14px;
+      padding: 18px 18px 12px;
+      flex: 1 1 auto;
     }
 
-    .product-image {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    .badge {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      background: #111;
-      color: #fff;
-      padding: 4px 8px;
-      font-size: 12px;
-      border-radius: 4px;
-    }
-
-    .series-title {
+    #{{ section_id }} .tabs-v2__series {
       font-size: 13px;
-      opacity: 0.7;
+      line-height: 1.2;
+      color: var(--tabs-muted);
       margin-bottom: 6px;
+      font-weight: 600;
     }
 
-    .product-title {
+    #{{ section_id }} .tabs-v2__product-title {
       margin: 0 0 10px;
       font-size: 18px;
       line-height: 1.35;
+      font-weight: 700;
+      position: relative;
+      z-index: 2;
     }
 
-    .product-title a {
+    #{{ section_id }} .tabs-v2__product-title a {
       color: inherit;
       text-decoration: none;
     }
 
-    .product-price {
-      margin-bottom: 10px;
+    #{{ section_id }} .tabs-v2__rating {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      position: relative;
+      z-index: 2;
     }
 
-    .price--compare {
-      margin-left: 8px;
-      text-decoration: line-through;
-      opacity: 0.6;
+    #{{ section_id }} .tabs-v2__rating-score,
+    #{{ section_id }} .tabs-v2__rating-count {
+      font-size: 13px;
+      color: var(--tabs-text);
     }
 
-    .promo-tags {
+    #{{ section_id }} .tabs-v2__stars {
+      position: relative;
+      line-height: 1;
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+
+    #{{ section_id }} .tabs-v2__stars-bg {
+      color: rgba(0,0,0,.16);
+    }
+
+    #{{ section_id }} .tabs-v2__stars-fill {
+      position: absolute;
+      inset: 0 auto 0 0;
+      overflow: hidden;
+      white-space: nowrap;
+      color: #111;
+    }
+
+    #{{ section_id }} .tabs-v2__image-wrap {
+      position: relative;
+      margin-bottom: 16px;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #f6f6f6;
+    }
+
+    #{{ section_id }} .tabs-v2__image-link {
+      display: block;
+      position: relative;
+      aspect-ratio: 0.8 / 1;
+      overflow: hidden;
+    }
+
+    #{{ section_id }} .tabs-v2__image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity .35s ease, transform .45s ease;
+    }
+
+    #{{ section_id }} .tabs-v2__image--secondary {
+      opacity: 0;
+    }
+
+    #{{ section_id }} .tabs-v2__product-wrap:hover .tabs-v2__image--secondary {
+      opacity: 1;
+    }
+
+    #{{ section_id }} .tabs-v2__product-wrap:hover .tabs-v2__image--primary {
+      opacity: 0;
+    }
+
+    #{{ section_id }} .tabs-v2__product-wrap:hover .tabs-v2__image {
+      transform: scale(1.03);
+    }
+
+    #{{ section_id }} .tabs-v2__badges {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      z-index: 3;
+    }
+
+    #{{ section_id }} .tabs-v2__badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 28px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: .02em;
+    }
+
+    #{{ section_id }} .tabs-v2__badge--custom,
+    #{{ section_id }} .tabs-v2__badge--sale,
+    #{{ section_id }} .tabs-v2__badge--soldout {
+      background: var(--tabs-badge-bg);
+      color: var(--tabs-badge-text);
+    }
+
+    #{{ section_id }} .tabs-v2__promo-tags {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 2;
     }
 
-    .promo-tags span {
-      font-size: 12px;
+    #{{ section_id }} .tabs-v2__promo-tags span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
       padding: 6px 10px;
-      background: #f5f5f5;
       border-radius: 999px;
+      background: #f3f3f3;
+      font-size: 12px;
+      line-height: 1.2;
+      color: var(--tabs-text);
     }
 
-    .product-actions {
+    #{{ section_id }} .tabs-v2__full-link {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+
+    #{{ section_id }} .tabs-v2__actions {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
+      padding: 0 18px 18px;
+      position: relative;
+      z-index: 2;
     }
 
-    .btn {
-      display: inline-block;
+    #{{ section_id }} .tabs-v2__btn {
+      position: relative;
+      z-index: 3;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
       padding: 10px 16px;
-      text-decoration: none;
       border-radius: 999px;
+      text-decoration: none;
       font-size: 14px;
+      font-weight: 700;
+      transition: all .25s ease;
     }
 
-    .btn-primary {
-      background: #111;
+    #{{ section_id }} .tabs-v2__btn--primary {
+      background: var(--tabs-btn-bg);
+      color: var(--tabs-btn-text);
+    }
+
+    #{{ section_id }} .tabs-v2__btn--primary:hover {
+      opacity: .9;
+      transform: translateY(-1px);
+    }
+
+    #{{ section_id }} .tabs-v2__btn--secondary {
+      background: transparent;
+      color: var(--tabs-btn-secondary-text);
+      border: 1px solid var(--tabs-btn-secondary-border);
+    }
+
+    #{{ section_id }} .tabs-v2__btn--secondary:hover {
+      background: var(--tabs-btn-secondary-border);
       color: #fff;
     }
 
-    .btn-secondary {
-      background: transparent;
-      color: #111;
-      border: 1px solid #111;
-    }
-
-    .promo-banners {
+    #{{ section_id }} .tabs-v2__banners {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 20px;
+      gap: 18px;
     }
 
-    .promo-banner {
+    #{{ section_id }} .tabs-v2__banner {
+      min-width: 0;
+    }
+
+    #{{ section_id }} .tabs-v2__banner-figure {
       position: relative;
       overflow: hidden;
-      border-radius: 12px;
-      background: #f7f7f7;
+      border-radius: 18px;
+      background: #f5f5f5;
+      min-height: 100%;
     }
 
-    .promo-banner__image {
-      width: 100%;
-      height: auto;
+    #{{ section_id }} .tabs-v2__banner-image-link {
       display: block;
     }
 
-    .promo-banner__content {
-      padding: 20px;
+    #{{ section_id }} .tabs-v2__banner-image {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform .45s ease;
     }
 
-    .promo-banner__content h3 {
-      margin-top: 0;
-      margin-bottom: 10px;
+    #{{ section_id }} .tabs-v2__banner-figure:hover .tabs-v2__banner-image {
+      transform: scale(1.03);
     }
 
-    .promo-banner__content p {
-      margin-bottom: 14px;
+    #{{ section_id }} .tabs-v2__banner-content {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      bottom: 24px;
+      z-index: 2;
+      max-width: 72%;
+    }
+
+    #{{ section_id }} .tabs-v2__banner-heading {
+      margin: 0 0 8px;
+      font-size: clamp(22px, 2.4vw, 30px);
+      line-height: 1.1;
+      color: #fff;
+      font-weight: 700;
+      text-shadow: 0 2px 10px rgba(0,0,0,.22);
+    }
+
+    #{{ section_id }} .tabs-v2__banner-text {
+      margin: 0 0 14px;
+      font-size: 14px;
+      line-height: 1.45;
+      color: #fff;
+      text-shadow: 0 2px 10px rgba(0,0,0,.22);
+    }
+
+    #{{ section_id }} .tabs-v2__banner-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    #{{ section_id }} .tabs-v2__banner-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: #fff;
+      color: #111;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 700;
+      transition: all .25s ease;
+    }
+
+    #{{ section_id }} .tabs-v2__banner-btn:hover {
+      transform: translateY(-1px);
+      opacity: .95;
+    }
+
+    #{{ section_id }} .tabs-v2__empty {
+      text-align: center;
+      padding: 24px;
+      border: 1px dashed var(--tabs-border);
+      border-radius: 12px;
+    }
+
+    @media screen and (max-width: 1199px) {
+      #{{ section_id }} .tabs-v2__products.grid-cols-4 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
     }
 
     @media screen and (max-width: 989px) {
-      .products-grid.columns-4,
-      .products-grid.columns-3 {
+      #{{ section_id }} .tabs-v2__products.grid-cols-4,
+      #{{ section_id }} .tabs-v2__products.grid-cols-3 {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
-      .promo-banners {
+      #{{ section_id }} .tabs-v2__banners {
         grid-template-columns: 1fr;
+      }
+
+      #{{ section_id }} .tabs-v2__banner-content {
+        max-width: 78%;
       }
     }
 
     @media screen and (max-width: 749px) {
-      .tabs-collections-custom {
-        padding: 40px 0;
+      #{{ section_id }} {
+        padding-top: {{ section.settings.padding_top_mobile }}px;
+        padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
       }
 
-      .tabs-collections-custom .section-header h2 {
-        font-size: 28px;
+      #{{ section_id }} .tabs-v2__header {
+        margin-bottom: 24px;
       }
 
-      .products-grid.columns-4,
-      .products-grid.columns-3,
-      .products-grid.columns-2 {
-        grid-template-columns: 1fr 1fr;
+      #{{ section_id }} .tabs-v2__nav {
+        gap: 8px;
+      }
+
+      #{{ section_id }} .tabs-v2__nav-btn {
+        padding: 10px 14px;
+        font-size: 13px;
+      }
+
+      #{{ section_id }} .tabs-v2__products.grid-cols-4,
+      #{{ section_id }} .tabs-v2__products.grid-cols-3,
+      #{{ section_id }} .tabs-v2__products.grid-cols-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      #{{ section_id }} .tabs-v2__product-info {
+        padding: 14px 14px 10px;
+      }
+
+      #{{ section_id }} .tabs-v2__actions {
+        padding: 0 14px 14px;
+      }
+
+      #{{ section_id }} .tabs-v2__product-title {
+        font-size: 15px;
+      }
+
+      #{{ section_id }} .tabs-v2__promo-tags span {
+        font-size: 11px;
+        padding: 6px 8px;
+      }
+
+      #{{ section_id }} .tabs-v2__banner-content {
+        left: 18px;
+        right: 18px;
+        bottom: 18px;
+        max-width: 88%;
+      }
+
+      #{{ section_id }} .tabs-v2__banner-heading {
+        font-size: 22px;
+      }
+
+      #{{ section_id }} .tabs-v2__banner-text {
+        font-size: 13px;
       }
     }
   </style>
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      const section = document.getElementById('{{ section_id }}');
+      var section = document.getElementById('{{ section_id }}');
       if (!section) return;
 
-      const buttons = section.querySelectorAll('.tab-button');
-      const panels = section.querySelectorAll('.tab-panel');
+      var buttons = section.querySelectorAll('.tabs-v2__nav-btn');
+      var panels = section.querySelectorAll('.tabs-v2__panel');
 
-      buttons.forEach((button) => {
+      buttons.forEach(function (button) {
         button.addEventListener('click', function () {
-          const target = this.getAttribute('data-tab-target');
+          var targetId = this.getAttribute('data-tab-target');
 
-          buttons.forEach((btn) => btn.classList.remove('is-active'));
-          panels.forEach((panel) => panel.classList.remove('is-active'));
+          buttons.forEach(function (btn) {
+            btn.classList.remove('is-active');
+            btn.setAttribute('aria-selected', 'false');
+          });
+
+          panels.forEach(function (panel) {
+            panel.classList.remove('is-active');
+          });
 
           this.classList.add('is-active');
-          const activePanel = section.querySelector('#' + target);
-          if (activePanel) activePanel.classList.add('is-active');
+          this.setAttribute('aria-selected', 'true');
+
+          var activePanel = section.querySelector('#' + targetId);
+          if (activePanel) {
+            activePanel.classList.add('is-active');
+          }
         });
       });
     });
@@ -441,13 +829,125 @@
 
 {% schema %}
 {
-  "name": "Tabs collections custom",
+  "name": "Tabs collections V2",
   "settings": [
     {
       "type": "textarea",
       "id": "heading",
       "label": "Titre",
       "default": "Maximizing Comfort\nfor Moms at Every Step."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Couleur de fond",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Couleur du texte",
+      "default": "#1b1b1b"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Couleur active des onglets",
+      "default": "#9c5455"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Couleur des bordures",
+      "default": "#d9d9d9"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Couleur du sous-texte",
+      "default": "#6d6d6d"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Fond des cartes produit",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "badge_bg",
+      "label": "Fond des badges",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "badge_text",
+      "label": "Texte des badges",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_bg",
+      "label": "Fond bouton Shop now",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "button_text",
+      "label": "Texte bouton Shop now",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "secondary_button_border",
+      "label": "Bordure bouton secondaire",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "secondary_button_text",
+      "label": "Texte bouton secondaire",
+      "default": "#111111"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding haut desktop",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bas desktop",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding haut mobile",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bas mobile",
+      "default": 48
     }
   ],
   "blocks": [
@@ -469,8 +969,20 @@
         {
           "type": "text",
           "id": "view_all_text",
-          "label": "Texte bouton voir tout",
+          "label": "Texte bouton Voir tout",
           "default": "View all"
+        },
+        {
+          "type": "text",
+          "id": "shop_now_text",
+          "label": "Texte bouton Shop now",
+          "default": "Shop Now"
+        },
+        {
+          "type": "text",
+          "id": "learn_more_text",
+          "label": "Texte bouton Learn more",
+          "default": "Learn More"
         },
         {
           "type": "range",
@@ -493,65 +1005,100 @@
           ]
         },
         {
+          "type": "header",
+          "content": "Bannière 1"
+        },
+        {
           "type": "image_picker",
           "id": "banner_1_image",
-          "label": "Bannière 1 image"
+          "label": "Image bannière 1"
         },
         {
           "type": "text",
           "id": "banner_1_heading",
-          "label": "Bannière 1 titre"
+          "label": "Titre bannière 1",
+          "default": "Which Pump Fits You?"
         },
         {
           "type": "textarea",
           "id": "banner_1_text",
-          "label": "Bannière 1 texte"
+          "label": "Texte bannière 1",
+          "default": "Take the quiz to get a personalized pump recommendation!"
         },
         {
           "type": "text",
           "id": "banner_1_button",
-          "label": "Bannière 1 bouton"
+          "label": "Texte bouton bannière 1",
+          "default": "Quick Quiz!"
         },
         {
           "type": "url",
           "id": "banner_1_link",
-          "label": "Bannière 1 lien"
+          "label": "Lien bannière 1"
+        },
+        {
+          "type": "header",
+          "content": "Bannière 2"
         },
         {
           "type": "image_picker",
           "id": "banner_2_image",
-          "label": "Bannière 2 image"
+          "label": "Image bannière 2"
         },
         {
           "type": "text",
           "id": "banner_2_heading",
-          "label": "Bannière 2 titre"
+          "label": "Titre bannière 2",
+          "default": "Find the Right Pump"
         },
         {
           "type": "textarea",
           "id": "banner_2_text",
-          "label": "Bannière 2 texte"
+          "label": "Texte bannière 2",
+          "default": "Compare features and comfort to find your ideal breast pump."
         },
         {
           "type": "text",
           "id": "banner_2_button",
-          "label": "Bannière 2 bouton"
+          "label": "Texte bouton bannière 2",
+          "default": "Compare"
         },
         {
           "type": "url",
           "id": "banner_2_link",
-          "label": "Bannière 2 lien"
+          "label": "Lien bannière 2"
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "Tabs collections custom",
+      "name": "Tabs collections V2",
       "blocks": [
-        { "type": "tab" },
-        { "type": "tab" },
-        { "type": "tab" }
+        {
+          "type": "tab",
+          "settings": {
+            "tab_title": "Breast Pumps",
+            "products_per_row": "4",
+            "products_limit": 4
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "tab_title": "Maternity",
+            "products_per_row": "3",
+            "products_limit": 6
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "tab_title": "Bras",
+            "products_per_row": "4",
+            "products_limit": 4
+          }
+        }
       ]
     }
   ]
