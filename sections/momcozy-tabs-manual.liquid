@@ -452,21 +452,23 @@
 
   #{{ section_id }} .mc-card__badge {
   position: absolute;
-  right: 8px;
-  top: 8px;
-  min-width: 50px;
-  min-height: 50px;
+  left: 8px;
+  top: 18px;
+  width: 42px;
+  height: 42px;
   border-radius: 999px;
-  background: #b56567;
-  color: #fff;
+  background: {{ section.settings.badge_bg }};
+  color: {{ section.settings.badge_text }};
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   font-size: 10px;
-  line-height: 1.05;
-  font-weight: 600;
-  padding: 6px;
+  line-height: 1.02;
+  font-weight: 500;
+  padding: 4px;
+  z-index: 3;
+  box-shadow: 0 2px 8px rgba(0,0,0,.08);
 }
 
   #{{ section_id }} .mc-card__tags {
