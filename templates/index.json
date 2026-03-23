@@ -344,7 +344,7 @@
             "desktop_columns": "3",
             "mobile_columns": "2",
             "enable_desktop_slider": false,
-            "enable_mobile_slider": true,
+            "enable_mobile_slider": false,
             "show_rating": true,
             "show_price": true,
             "show_badges": true,
