@@ -351,6 +351,56 @@
         "custom_HTML": "<a href=\"/products/m5-smart-wearable-breast-pump-upgraded-with-app-control\" target=\"_self\" class=\"t4s-full-width-link t4s-pe-auto\" style=\"--bg-overlay: rgba(0, 0, 0, 0.0);\"></a>"
       }
     },
+    "tabs_collections_custom_cEJBJE": {
+      "type": "tabs-collections-custom",
+      "blocks": {
+        "tab_P4hXUM": {
+          "type": "tab",
+          "settings": {
+            "tab_title": "Breast Pumps",
+            "collection": "baby-carriers",
+            "view_all_text": "View all",
+            "products_limit": 8,
+            "products_per_row": "4",
+            "banner_1_image": "shopify://shop_images/CopiedeCopiedeCopiedeCopiedeCopiedeCopiedeCopiedeCopiedeCopiedeWhiteandPurpleModernSkincareBenefitwithSkincarePhotoInstagramPost.png",
+            "banner_1_heading": "ezrzre",
+            "banner_1_text": "zerer",
+            "banner_1_button": "erer",
+            "banner_1_link": "",
+            "banner_2_heading": "",
+            "banner_2_text": "",
+            "banner_2_button": "",
+            "banner_2_link": ""
+          }
+        },
+        "tab_ayDJ6f": {
+          "type": "tab",
+          "settings": {
+            "tab_title": "Breast Pumps",
+            "collection": "",
+            "view_all_text": "View all",
+            "products_limit": 4,
+            "products_per_row": "4",
+            "banner_1_heading": "",
+            "banner_1_text": "",
+            "banner_1_button": "",
+            "banner_1_link": "",
+            "banner_2_heading": "",
+            "banner_2_text": "",
+            "banner_2_button": "",
+            "banner_2_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "tab_P4hXUM",
+        "tab_ayDJ6f"
+      ],
+      "name": "Tabs collections custom",
+      "settings": {
+        "heading": "Maximizing Comfort\nfor Moms at Every Step."
+      }
+    },
     "image_with_text_aehJ7D": {
       "type": "image-with-text",
       "blocks": {
@@ -831,6 +881,7 @@
     "featured_collections_pqL6dW",
     "featured_collection_jx3eKb",
     "custom_html_tEBAEn",
+    "tabs_collections_custom_cEJBJE",
     "image_with_text_aehJ7D",
     "featured_collection_6pn6Cg",
     "image_with_text_EC3mFy",
