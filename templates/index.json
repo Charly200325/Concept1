@@ -377,7 +377,7 @@
           "type": "tab",
           "settings": {
             "tab_title": "Breast Pumps",
-            "collection": "",
+            "collection": "baby-carriers",
             "view_all_text": "View all",
             "products_limit": 4,
             "products_per_row": "4",
