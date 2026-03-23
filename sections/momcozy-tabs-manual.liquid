@@ -40,137 +40,137 @@
             </div>
 
             <div class="mc-tabs__products">
-              {% for i in (1..4) %}
+              {% assign rendered_products = 0 %}
+
+              {% for i in (1..10) %}
                 {% liquid
                   assign product_key = 'product_' | append: i
-                  assign current_product = block.settings[product_key]
+                  assign title_key = 'custom_title_' | append: i
+                  assign show_badge_key = 'show_badge_' | append: i
+                  assign badge_text_key = 'badge_text_' | append: i
+                  assign benefit_1_key = 'benefit_1_' | append: i
+                  assign benefit_2_key = 'benefit_2_' | append: i
+                  assign benefit_3_key = 'benefit_3_' | append: i
+                  assign benefit_4_key = 'benefit_4_' | append: i
+
+                  assign product = block.settings[product_key]
+                  assign custom_title = block.settings[title_key]
+                  assign show_badge = block.settings[show_badge_key]
+                  assign custom_badge_text = block.settings[badge_text_key]
+                  assign benefit_1 = block.settings[benefit_1_key]
+                  assign benefit_2 = block.settings[benefit_2_key]
+                  assign benefit_3 = block.settings[benefit_3_key]
+                  assign benefit_4 = block.settings[benefit_4_key]
                 %}
 
-                {% if current_product != blank %}
-                  {% assign product = all_products[current_product] %}
+                {% if product != blank %}
+                  {% assign rendered_products = rendered_products | plus: 1 %}
+                  {% assign hover_image = blank %}
+                  {% if product.images.size > 1 %}
+                    {% assign hover_image = product.images[1] %}
+                  {% endif %}
 
-                  {% if product != blank %}
-                    {% assign hover_image = blank %}
-                    {% if product.images.size > 1 %}
-                      {% assign hover_image = product.images[1] %}
-                    {% endif %}
+                  {% assign quick_add_variant = product.selected_or_first_available_variant %}
 
-                    {% assign quick_add_variant = product.selected_or_first_available_variant %}
-                    {% assign badge_text = blank %}
-
-                    {% if product.available == false %}
-                      {% assign badge_text = 'Sold out' %}
-                    {% else %}
-                      {% for tag in product.tags %}
-                        {% if tag contains 'badge_' %}
-                          {% assign badge_text = tag | remove: 'badge_' %}
-                          {% break %}
-                        {% endif %}
-                      {% endfor %}
-
-                      {% if badge_text == blank and product.compare_at_price > product.price %}
-                        {% assign discount_percent = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round %}
-                        {% assign badge_text = '-' | append: discount_percent | append: '%' %}
-                      {% endif %}
-                    {% endif %}
-
-                    <div class="mc-card">
-                      <div class="mc-card__inner">
-                        <div class="mc-card__content">
-                          <h3 class="mc-card__title">
-                            <a href="{{ product.url }}">
+                  <div class="mc-card">
+                    <div class="mc-card__inner">
+                      <div class="mc-card__content">
+                        <h3 class="mc-card__title">
+                          <a href="{{ product.url }}">
+                            {% if custom_title != blank %}
+                              {{ custom_title }}
+                            {% else %}
                               {{ product.title }}
-                            </a>
-                          </h3>
+                            {% endif %}
+                          </a>
+                        </h3>
 
-                          {% if block.settings.show_rating %}
-                            <div class="mc-card__rating">
-                              <div class="mc-card__stars" aria-hidden="true">★★★★★</div>
-                              {% if product.metafields.reviews.rating_count != blank %}
-                                <div class="mc-card__reviews">({{ product.metafields.reviews.rating_count }})</div>
-                              {% endif %}
-                            </div>
-                          {% endif %}
-
-                          <div class="mc-card__image-wrap">
-                            <a class="mc-card__image-link" href="{{ product.url }}">
-                              {% if product.featured_image != blank %}
-                                {{
-                                  product.featured_image
-                                  | image_url: width: 900
-                                  | image_tag:
-                                    loading: 'lazy',
-                                    widths: '320,480,720,900',
-                                    class: 'mc-card__image mc-card__image--main',
-                                    alt: product.title | escape
-                                }}
-                              {% endif %}
-
-                              {% if hover_image != blank %}
-                                {{
-                                  hover_image
-                                  | image_url: width: 900
-                                  | image_tag:
-                                    loading: 'lazy',
-                                    widths: '320,480,720,900',
-                                    class: 'mc-card__image mc-card__image--hover',
-                                    alt: product.title | escape
-                                }}
-                              {% endif %}
-                            </a>
-
-                            {% if block.settings.show_badges and badge_text != blank %}
-                              <div class="mc-card__badge">{{ badge_text }}</div>
+                        {% if block.settings.show_rating %}
+                          <div class="mc-card__rating">
+                            <div class="mc-card__stars" aria-hidden="true">★★★★★</div>
+                            {% if product.metafields.reviews.rating_count != blank %}
+                              <div class="mc-card__reviews">({{ product.metafields.reviews.rating_count }})</div>
                             {% endif %}
                           </div>
+                        {% endif %}
 
-                          {% if block.settings.show_benefits %}
-                            {% assign benefit_count = 0 %}
-                            <div class="mc-card__tags">
-                              {% for tag in product.tags %}
-                                {% if tag contains 'benefit_' %}
-                                  {% assign clean_tag = tag | remove: 'benefit_' %}
-                                  <span>{{ clean_tag }}</span>
-                                  {% assign benefit_count = benefit_count | plus: 1 %}
-                                  {% if benefit_count >= 4 %}
-                                    {% break %}
-                                  {% endif %}
-                                {% endif %}
-                              {% endfor %}
-                            </div>
-                          {% endif %}
+                        <div class="mc-card__image-wrap">
+                          <a class="mc-card__image-link" href="{{ product.url }}">
+                            {% if product.featured_image != blank %}
+                              {{
+                                product.featured_image
+                                | image_url: width: 900
+                                | image_tag:
+                                  loading: 'lazy',
+                                  widths: '320,480,720,900',
+                                  class: 'mc-card__image mc-card__image--main',
+                                  alt: product.title | escape
+                              }}
+                            {% endif %}
 
-                          {% if block.settings.show_price %}
-                            <div class="mc-card__price">
-                              {% if product.compare_at_price > product.price %}
-                                <span class="mc-card__price-sale">{{ product.price | money }}</span>
-                                <span class="mc-card__price-compare">{{ product.compare_at_price | money }}</span>
-                              {% else %}
-                                <span class="mc-card__price-regular">{{ product.price | money }}</span>
-                              {% endif %}
-                            </div>
-                          {% endif %}
-                        </div>
+                            {% if hover_image != blank %}
+                              {{
+                                hover_image
+                                | image_url: width: 900
+                                | image_tag:
+                                  loading: 'lazy',
+                                  widths: '320,480,720,900',
+                                  class: 'mc-card__image mc-card__image--hover',
+                                  alt: product.title | escape
+                              }}
+                            {% endif %}
+                          </a>
 
-                        <div class="mc-card__actions">
-                          {% if block.settings.enable_quick_add and quick_add_variant != blank and product.available %}
-                            {% form 'product', product, class: 'mc-card__quick-add-form' %}
-                              <input type="hidden" name="id" value="{{ quick_add_variant.id }}">
-                              <button type="submit" class="mc-card__button">
-                                {{ block.settings.quick_add_text }}
-                              </button>
-                            {% endform %}
-                          {% else %}
-                            <a class="mc-card__button" href="{{ product.url }}">
-                              {{ block.settings.button_text }}
-                            </a>
+                          {% if block.settings.show_badges and show_badge and custom_badge_text != blank %}
+                            <div class="mc-card__badge">{{ custom_badge_text }}</div>
                           {% endif %}
                         </div>
+
+                        {% if block.settings.show_benefits %}
+                          <div class="mc-card__tags">
+                            {% if benefit_1 != blank %}<span>{{ benefit_1 }}</span>{% endif %}
+                            {% if benefit_2 != blank %}<span>{{ benefit_2 }}</span>{% endif %}
+                            {% if benefit_3 != blank %}<span>{{ benefit_3 }}</span>{% endif %}
+                            {% if benefit_4 != blank %}<span>{{ benefit_4 }}</span>{% endif %}
+                          </div>
+                        {% endif %}
+
+                        {% if block.settings.show_price %}
+                          <div class="mc-card__price">
+                            {% if product.compare_at_price > product.price %}
+                              <span class="mc-card__price-sale">{{ product.price | money }}</span>
+                              <span class="mc-card__price-compare">{{ product.compare_at_price | money }}</span>
+                            {% else %}
+                              <span class="mc-card__price-regular">{{ product.price | money }}</span>
+                            {% endif %}
+                          </div>
+                        {% endif %}
+                      </div>
+
+                      <div class="mc-card__actions">
+                        {% if block.settings.enable_quick_add and quick_add_variant != blank and product.available %}
+                          {% form 'product', product, class: 'mc-card__quick-add-form' %}
+                            <input type="hidden" name="id" value="{{ quick_add_variant.id }}">
+                            <button type="submit" class="mc-card__button">
+                              {{ block.settings.quick_add_text }}
+                            </button>
+                          {% endform %}
+                        {% else %}
+                          <a class="mc-card__button" href="{{ product.url }}">
+                            {{ block.settings.button_text }}
+                          </a>
+                        {% endif %}
                       </div>
                     </div>
-                  {% endif %}
+                  </div>
                 {% endif %}
               {% endfor %}
+
+              {% if rendered_products == 0 %}
+                <div class="mc-empty">
+                  Sélectionne au moins un produit dans cet onglet.
+                </div>
+              {% endif %}
             </div>
 
             <div class="mc-tabs__banners">
@@ -550,6 +550,14 @@
       font-size: 18px;
     }
 
+    #{{ section_id }} .mc-empty {
+      grid-column: 1 / -1;
+      background: #fff;
+      border-radius: 18px;
+      padding: 30px;
+      text-align: center;
+    }
+
     @media screen and (max-width: 1199px) {
       #{{ section_id }} .mc-tabs__products {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -810,10 +818,56 @@
           "id": "view_all_link",
           "label": "Lien du View all"
         },
+
+        {
+          "type": "header",
+          "content": "Produit 1"
+        },
         {
           "type": "product",
           "id": "product_1",
           "label": "Produit 1"
+        },
+        {
+          "type": "text",
+          "id": "custom_title_1",
+          "label": "Titre personnalisé produit 1"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_badge_1",
+          "label": "Afficher badge produit 1",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "badge_text_1",
+          "label": "Texte badge produit 1"
+        },
+        {
+          "type": "text",
+          "id": "benefit_1_1",
+          "label": "Bénéfice 1 produit 1"
+        },
+        {
+          "type": "text",
+          "id": "benefit_2_1",
+          "label": "Bénéfice 2 produit 1"
+        },
+        {
+          "type": "text",
+          "id": "benefit_3_1",
+          "label": "Bénéfice 3 produit 1"
+        },
+        {
+          "type": "text",
+          "id": "benefit_4_1",
+          "label": "Bénéfice 4 produit 1"
+        },
+
+        {
+          "type": "header",
+          "content": "Produit 2"
         },
         {
           "type": "product",
@@ -821,15 +875,410 @@
           "label": "Produit 2"
         },
         {
+          "type": "text",
+          "id": "custom_title_2",
+          "label": "Titre personnalisé produit 2"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_badge_2",
+          "label": "Afficher badge produit 2",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "badge_text_2",
+          "label": "Texte badge produit 2"
+        },
+        {
+          "type": "text",
+          "id": "benefit_1_2",
+          "label": "Bénéfice 1 produit 2"
+        },
+        {
+          "type": "text",
+          "id": "benefit_2_2",
+          "label": "Bénéfice 2 produit 2"
+        },
+        {
+          "type": "text",
+          "id": "benefit_3_2",
+          "label": "Bénéfice 3 produit 2"
+        },
+        {
+          "type": "text",
+          "id": "benefit_4_2",
+          "label": "Bénéfice 4 produit 2"
+        },
+
+        {
+          "type": "header",
+          "content": "Produit 3"
+        },
+        {
           "type": "product",
           "id": "product_3",
           "label": "Produit 3"
+        },
+        {
+          "type": "text",
+          "id": "custom_title_3",
+          "label": "Titre personnalisé produit 3"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_badge_3",
+          "label": "Afficher badge produit 3",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "badge_text_3",
+          "label": "Texte badge produit 3"
+        },
+        {
+          "type": "text",
+          "id": "benefit_1_3",
+          "label": "Bénéfice 1 produit 3"
+        },
+        {
+          "type": "text",
+          "id": "benefit_2_3",
+          "label": "Bénéfice 2 produit 3"
+        },
+        {
+          "type": "text",
+          "id": "benefit_3_3",
+          "label": "Bénéfice 3 produit 3"
+        },
+        {
+          "type": "text",
+          "id": "benefit_4_3",
+          "label": "Bénéfice 4 produit 3"
+        },
+
+        {
+          "type": "header",
+          "content": "Produit 4"
         },
         {
           "type": "product",
           "id": "product_4",
           "label": "Produit 4"
         },
+        {
+          "type": "text",
+          "id": "custom_title_4",
+          "label": "Titre personnalisé produit 4"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_badge_4",
+          "label": "Afficher badge produit 4",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "badge_text_4",
+          "label": "Texte badge produit 4"
+        },
+        {
+          "type": "text",
+          "id": "benefit_1_4",
+          "label": "Bénéfice 1 produit 4"
+        },
+        {
+          "type": "text",
+          "id": "benefit_2_4",
+          "label": "Bénéfice 2 produit 4"
+        },
+        {
+          "type": "text",
+          "id": "benefit_3_4",
+          "label": "Bénéfice 3 produit 4"
+        },
+        {
+          "type": "text",
+          "id": "benefit_4_4",
+          "label": "Bénéfice 4 produit 4"
+        },
+
+        {
+          "type": "header",
+          "content": "Produit 5"
+        },
+        {
+          "type": "product",
+          "id": "product_5",
+          "label": "Produit 5"
+        },
+        {
+          "type": "text",
+          "id": "custom_title_5",
+          "label": "Titre personnalisé produit 5"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_badge_5",
+          "label": "Afficher badge produit 5",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "badge_text_5",
+          "label": "Texte badge produit 5"
+        },
+        {
+          "type": "text",
+          "id": "benefit_1_5",
+          "label": "Bénéfice 1 produit 5"
+        },
+        {
+          "type": "text",
+          "id": "benefit_2_5",
+          "label": "Bénéfice 2 produit 5"
+        },
+        {
+          "type": "text",
+          "id": "benefit_3_5",
+          "label": "Bénéfice 3 produit 5"
+        },
+        {
+          "type": "text",
+          "id": "benefit_4_5",
+          "label": "Bénéfice 4 produit 5"
+        },
+
+        {
+          "type": "header",
+          "content": "Produit 6"
+        },
+        {
+          "type": "product",
+          "id": "product_6",
+          "label": "Produit 6"
+        },
+        {
+          "type": "text",
+          "id": "custom_title_6",
+          "label": "Titre personnalisé produit 6"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_badge_6",
+          "label": "Afficher badge produit 6",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "badge_text_6",
+          "label": "Texte badge produit 6"
+        },
+        {
+          "type": "text",
+          "id": "benefit_1_6",
+          "label": "Bénéfice 1 produit 6"
+        },
+        {
+          "type": "text",
+          "id": "benefit_2_6",
+          "label": "Bénéfice 2 produit 6"
+        },
+        {
+          "type": "text",
+          "id": "benefit_3_6",
+          "label": "Bénéfice 3 produit 6"
+        },
+        {
+          "type": "text",
+          "id": "benefit_4_6",
+          "label": "Bénéfice 4 produit 6"
+        },
+
+        {
+          "type": "header",
+          "content": "Produit 7"
+        },
+        {
+          "type": "product",
+          "id": "product_7",
+          "label": "Produit 7"
+        },
+        {
+          "type": "text",
+          "id": "custom_title_7",
+          "label": "Titre personnalisé produit 7"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_badge_7",
+          "label": "Afficher badge produit 7",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "badge_text_7",
+          "label": "Texte badge produit 7"
+        },
+        {
+          "type": "text",
+          "id": "benefit_1_7",
+          "label": "Bénéfice 1 produit 7"
+        },
+        {
+          "type": "text",
+          "id": "benefit_2_7",
+          "label": "Bénéfice 2 produit 7"
+        },
+        {
+          "type": "text",
+          "id": "benefit_3_7",
+          "label": "Bénéfice 3 produit 7"
+        },
+        {
+          "type": "text",
+          "id": "benefit_4_7",
+          "label": "Bénéfice 4 produit 7"
+        },
+
+        {
+          "type": "header",
+          "content": "Produit 8"
+        },
+        {
+          "type": "product",
+          "id": "product_8",
+          "label": "Produit 8"
+        },
+        {
+          "type": "text",
+          "id": "custom_title_8",
+          "label": "Titre personnalisé produit 8"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_badge_8",
+          "label": "Afficher badge produit 8",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "badge_text_8",
+          "label": "Texte badge produit 8"
+        },
+        {
+          "type": "text",
+          "id": "benefit_1_8",
+          "label": "Bénéfice 1 produit 8"
+        },
+        {
+          "type": "text",
+          "id": "benefit_2_8",
+          "label": "Bénéfice 2 produit 8"
+        },
+        {
+          "type": "text",
+          "id": "benefit_3_8",
+          "label": "Bénéfice 3 produit 8"
+        },
+        {
+          "type": "text",
+          "id": "benefit_4_8",
+          "label": "Bénéfice 4 produit 8"
+        },
+
+        {
+          "type": "header",
+          "content": "Produit 9"
+        },
+        {
+          "type": "product",
+          "id": "product_9",
+          "label": "Produit 9"
+        },
+        {
+          "type": "text",
+          "id": "custom_title_9",
+          "label": "Titre personnalisé produit 9"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_badge_9",
+          "label": "Afficher badge produit 9",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "badge_text_9",
+          "label": "Texte badge produit 9"
+        },
+        {
+          "type": "text",
+          "id": "benefit_1_9",
+          "label": "Bénéfice 1 produit 9"
+        },
+        {
+          "type": "text",
+          "id": "benefit_2_9",
+          "label": "Bénéfice 2 produit 9"
+        },
+        {
+          "type": "text",
+          "id": "benefit_3_9",
+          "label": "Bénéfice 3 produit 9"
+        },
+        {
+          "type": "text",
+          "id": "benefit_4_9",
+          "label": "Bénéfice 4 produit 9"
+        },
+
+        {
+          "type": "header",
+          "content": "Produit 10"
+        },
+        {
+          "type": "product",
+          "id": "product_10",
+          "label": "Produit 10"
+        },
+        {
+          "type": "text",
+          "id": "custom_title_10",
+          "label": "Titre personnalisé produit 10"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_badge_10",
+          "label": "Afficher badge produit 10",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "badge_text_10",
+          "label": "Texte badge produit 10"
+        },
+        {
+          "type": "text",
+          "id": "benefit_1_10",
+          "label": "Bénéfice 1 produit 10"
+        },
+        {
+          "type": "text",
+          "id": "benefit_2_10",
+          "label": "Bénéfice 2 produit 10"
+        },
+        {
+          "type": "text",
+          "id": "benefit_3_10",
+          "label": "Bénéfice 3 produit 10"
+        },
+        {
+          "type": "text",
+          "id": "benefit_4_10",
+          "label": "Bénéfice 4 produit 10"
+        },
+
         {
           "type": "checkbox",
           "id": "show_rating",
@@ -872,6 +1321,7 @@
           "label": "Texte bouton lien produit",
           "default": "Shop Now"
         },
+
         {
           "type": "header",
           "content": "Bannière 1"
@@ -910,6 +1360,7 @@
           "id": "banner_1_link",
           "label": "Lien bannière 1"
         },
+
         {
           "type": "header",
           "content": "Bannière 2"
