@@ -733,27 +733,34 @@
 }
 
       #{{ section_id }} .mc-card__title {
-        font-size: 15px;
-        min-height: unset;
-        margin-bottom: 6px;
-        line-height: 1.2;
-        letter-spacing: -0.02em;
-        max-width: 94%;
-      }
+  font-size: 12px;
+  line-height: 1.32;
+  font-weight: 400;
+  letter-spacing: 0;
+  max-width: 86%;
+  margin: 0 auto 6px;
+  text-align: center;
+  min-height: 48px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 
-      #{{ section_id }} .mc-card__rating {
-        gap: 7px;
-        margin-top: 0;
-        margin-bottom: 0;
-      }
+#{{ section_id }} .mc-card__rating {
+  gap: 6px;
+  margin: 0 0 8px;
+}
 
-      #{{ section_id }} .mc-card__stars {
-        font-size: 14px;
-      }
+#{{ section_id }} .mc-card__stars {
+  font-size: 12px;
+  letter-spacing: 1px;
+}
 
-      #{{ section_id }} .mc-card__reviews {
-        font-size: 11px;
-      }
+#{{ section_id }} .mc-card__reviews {
+  font-size: 10px;
+  color: #4d4d4d;
+}
 
       #{{ section_id }} .mc-card__image-wrap {
         margin-top: 4px;
