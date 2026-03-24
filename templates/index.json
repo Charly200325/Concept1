@@ -369,7 +369,7 @@
             "show_price": false,
             "show_badges": true,
             "show_benefits": true,
-            "enable_quick_add": true,
+            "enable_quick_add": false,
             "quick_add_text": "Shop Now",
             "button_text": "Shop Now",
             "banner_1_enable": true,
