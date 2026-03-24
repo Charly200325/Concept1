@@ -485,46 +485,46 @@
     }
 
     #{{ section_id }} .mc-card__benefits-wrap {
-      width: 100%;
-      margin-top: 2px;
-      margin-bottom: 20px;
-    }
+  width: 100%;
+  margin-top: 0;
+  margin-bottom: 14px;
+}
 
-    #{{ section_id }} .mc-card__divider {
-      width: min(82%, 235px);
-      height: 1px;
-      background: #d9d9d9;
-      margin: 0 auto 20px;
-    }
+#{{ section_id }} .mc-card__divider {
+  width: min(74%, 260px);
+  height: 1px;
+  background: #d9d9d9;
+  margin: 0 auto 14px;
+}
 
-    #{{ section_id }} .mc-card__tags {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      align-items: center;
-      gap: 12px 10px;
-      width: 100%;
-      max-width: 100%;
-      margin: 0 auto;
-    }
+#{{ section_id }} .mc-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px 10px;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+}
 
-    #{{ section_id }} .mc-card__tags span {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 40px;
-      padding: 0 22px;
-      background: {{ section.settings.tag_bg }};
-      color: {{ section.settings.tag_text }};
-      border-radius: 999px;
-      font-size: 12px;
-      line-height: 1;
-      text-align: center;
-      white-space: nowrap;
-      font-weight: 500;
-      letter-spacing: -0.01em;
-      box-shadow: none;
-    }
+#{{ section_id }} .mc-card__tags span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 22px;
+  padding: 0 10px;
+  background: {{ section.settings.tag_bg }};
+  color: {{ section.settings.tag_text }};
+  border-radius: 999px;
+  font-size: 8px;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  font-weight: 600;
+  letter-spacing: 0;
+  box-shadow: none;
+}
 
     #{{ section_id }} .mc-card__price {
       text-align: center;
