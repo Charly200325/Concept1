@@ -735,32 +735,64 @@
     }
 
     #{{ section_id }} .mc-card__actions {
-      display: flex;
-      justify-content: center;
-    }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
 
-    #{{ section_id }} .mc-card__quick-add-form {
-      display: flex;
-      justify-content: center;
-    }
+#{{ section_id }} .mc-card__quick-add-form {
+  display: flex;
+  justify-content: center;
+}
 
-    #{{ section_id }} .mc-card__button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 44px;
-      background: {{ section.settings.button_bg }};
-      color: {{ section.settings.button_text }};
-      text-decoration: none;
-      border-radius: 999px;
-      padding: 0 30px;
-      font-size: 11px;
-      font-weight: 600;
-      transition: .25s ease;
-      border: 0;
-      cursor: pointer;
-      box-shadow: none;
-    }
+#{{ section_id }} .mc-card__quick-add-form--icon {
+  flex: 0 0 auto;
+}
+
+#{{ section_id }} .mc-card__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  background: {{ section.settings.button_bg }};
+  color: {{ section.settings.button_text }};
+  text-decoration: none;
+  border-radius: 999px;
+  padding: 0 30px;
+  font-size: 11px;
+  font-weight: 600;
+  transition: .25s ease;
+  border: 0;
+  cursor: pointer;
+  box-shadow: none;
+}
+
+#{{ section_id }} .mc-card__quick-add-icon {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: 999px;
+  border: 0;
+  background: #f4d43f;
+  color: #111111;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: .25s ease;
+  padding: 0;
+}
+
+#{{ section_id }} .mc-card__quick-add-icon svg {
+  width: 21px;
+  height: 21px;
+}
+
+#{{ section_id }} .mc-card__quick-add-icon:hover {
+  transform: translateY(-1px);
+  opacity: .92;
+}
 
     #{{ section_id }} .mc-card__button:hover {
       transform: translateY(-1px);
