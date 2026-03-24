@@ -43,48 +43,102 @@
 
     {% if section.blocks.size > 0 %}
       <div class="mc-tabs__toolbar">
+  <div class="mc-tabs__toolbar-main">
+    <div class="mc-tabs__nav-wrap">
+      {% if section.settings.show_arrows_desktop %}
+        <div class="mc-tabs__arrows mc-tabs__arrows--tabs">
+          <button type="button" class="mc-tabs__tabs-arrow mc-tabs__tabs-arrow--prev" aria-label="Précédent">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+            </svg>
+          </button>
+        </div>
+      {% endif %}
+
+      <div class="mc-tabs__nav-outer">
         <div class="mc-tabs__nav" role="tablist">
           {% for block in section.blocks %}
             <button
-  type="button"
-  class="mc-tabs__tab{% if forloop.first %} is-active{% endif %}"
-  data-tab-target="mc-tab-{{ block.id }}"
-  aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
->
-  {{ block.settings.tab_title }}
-</button>
+              type="button"
+              class="mc-tabs__tab{% if forloop.first %} is-active{% endif %}"
+              data-tab-target="mc-tab-{{ block.id }}"
+              data-view-all-text="{{ block.settings.view_all_text | escape }}"
+              data-view-all-link="{{ block.settings.view_all_link | default: '#' }}"
+              aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+            >
+              {{ block.settings.tab_title }}
+            </button>
           {% endfor %}
         </div>
-
-        {% if section.settings.show_arrows_desktop %}
-          <div class="mc-tabs__arrows">
-            {% for block in section.blocks %}
-              <div
-                class="mc-tabs__arrows-group"
-                data-arrows-for="mc-tab-{{ block.id }}"
-                {% unless forloop.first %}hidden{% endunless %}
-              >
-                <button
-                  type="button"
-                  class="mc-tabs__arrow"
-                  data-slider-prev="mc-tab-{{ block.id }}"
-                  aria-label="Précédent"
-                >
-                  ←
-                </button>
-                <button
-                  type="button"
-                  class="mc-tabs__arrow"
-                  data-slider-next="mc-tab-{{ block.id }}"
-                  aria-label="Suivant"
-                >
-                  →
-                </button>
-              </div>
-            {% endfor %}
-          </div>
-        {% endif %}
       </div>
+
+      {% if section.settings.show_arrows_desktop %}
+        <div class="mc-tabs__arrows mc-tabs__arrows--tabs">
+          <button type="button" class="mc-tabs__tabs-arrow mc-tabs__tabs-arrow--next" aria-label="Suivant">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+            </svg>
+          </button>
+        </div>
+      {% endif %}
+    </div>
+
+    {% if section.settings.show_view_all %}
+      {% assign first_block = section.blocks.first %}
+      <a
+        class="mc-tabs__view-all mc-tabs__view-all--desktop"
+        id="mc-tabs-view-all-{{ section.id }}"
+        href="{{ first_block.settings.view_all_link | default: '#' }}"
+      >
+        <span class="mc-tabs__view-all-text">{{ first_block.settings.view_all_text }}</span>
+        <span class="mc-tabs__view-all-icon" aria-hidden="true">→</span>
+      </a>
+    {% endif %}
+  </div>
+
+  {% if section.settings.show_view_all %}
+    {% assign first_block = section.blocks.first %}
+    <div class="mc-tabs__view-all-mobile-wrap">
+      <a
+        class="mc-tabs__view-all mc-tabs__view-all--mobile"
+        id="mc-tabs-view-all-mobile-{{ section.id }}"
+        href="{{ first_block.settings.view_all_link | default: '#' }}"
+      >
+        <span class="mc-tabs__view-all-text">{{ first_block.settings.view_all_text }}</span>
+        <span class="mc-tabs__view-all-icon" aria-hidden="true">→</span>
+      </a>
+    </div>
+  {% endif %}
+
+  {% if section.settings.show_arrows_desktop %}
+    <div class="mc-tabs__product-arrows">
+      {% for block in section.blocks %}
+        <div
+          class="mc-tabs__arrows-group"
+          data-arrows-for="mc-tab-{{ block.id }}"
+          {% unless forloop.first %}hidden{% endunless %}
+        >
+          <button
+            type="button"
+            class="mc-tabs__arrow"
+            data-slider-prev="mc-tab-{{ block.id }}"
+            aria-label="Précédent"
+          >
+            ←
+          </button>
+          <button
+            type="button"
+            class="mc-tabs__arrow"
+            data-slider-next="mc-tab-{{ block.id }}"
+            aria-label="Suivant"
+          >
+            →
+          </button>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>
 
       <div class="mc-tabs__panels">
         {% for block in section.blocks %}
