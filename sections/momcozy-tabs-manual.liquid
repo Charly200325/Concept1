@@ -278,29 +278,25 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
-  gap: 12px 10px;
-  width: 100%;
-  max-width: 100%;
-  margin: 0 auto;
+  gap: 8px 8px;
+  margin-bottom: 16px;
 }
 
 #{{ section_id }} .mc-card__tags span {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 40px;
-  padding: 0 22px;
-  background: #f3f3f3;
-  color: #111111;
+  min-height: 28px;
+  padding: 0 12px;
+  background: #f2f2f2;
+  color: #000000;
   border-radius: 999px;
-  font-size: 12px;
+  font-size: 8px;
   line-height: 1;
   text-align: center;
   white-space: nowrap;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  box-shadow: none;
+  font-weight: 700;
+  letter-spacing: 0;
 }
     #{{ section_id }} .mc-tabs__header {
       margin-bottom: 24px;
@@ -798,28 +794,41 @@
         padding: 4px;
       }
 
-      #{{ section_id }} .mc-card__tags {
+      #{{ section_id }} .mc-card__benefits-wrap {
+  width: 100%;
+  margin-top: 0;
+  margin-bottom: 18px;
+}
+
+#{{ section_id }} .mc-card__divider {
+  width: min(84%, 210px);
+  height: 1px;
+  background: #d9d9d9;
+  margin: 0 auto 18px;
+}
+
+#{{ section_id }} .mc-card__tags {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 8px;
+  gap: 10px 8px;
   width: 100%;
   max-width: 100%;
-  margin: 0 auto 16px;
+  margin: 0 auto;
 }
 
 #{{ section_id }} .mc-card__tags span {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 28px;
-  padding: 0 12px;
-  font-size: 8px;
+  min-height: 30px;
+  padding: 0 14px;
+  font-size: 7px;
   line-height: 1;
   border-radius: 999px;
-  background: #f2f2f2;
-  color: #000000;
+  background: #f3f3f3;
+  color: #111111;
   font-weight: 700;
   letter-spacing: 0;
   white-space: nowrap;
