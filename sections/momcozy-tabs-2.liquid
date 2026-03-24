@@ -46,14 +46,13 @@
         <div class="mc-tabs__nav" role="tablist">
           {% for block in section.blocks %}
             <button
-              type="button"
-              class="mc-tabs__tab{% if forloop.first %} is-active{% endif %}"
-              data-tab-target="mc-tab-{{ block.id }}"
-              aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
-              {{ block.shopify_attributes }}
-            >
-              {{ block.settings.tab_title }}
-            </button>
+  type="button"
+  class="mc-tabs__tab{% if forloop.first %} is-active{% endif %}"
+  data-tab-target="mc-tab-{{ block.id }}"
+  aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+>
+  {{ block.settings.tab_title }}
+</button>
           {% endfor %}
         </div>
 
@@ -1118,6 +1117,33 @@
         scroll-snap-align: start;
       }
     }
+    #{{ section_id }} .mc-tabs__header,
+#{{ section_id }} .mc-tabs__toolbar,
+#{{ section_id }} .mc-tabs__nav {
+  position: relative;
+  z-index: 3;
+}
+
+#{{ section_id }} .mc-tabs__nav {
+  display: flex !important;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+#{{ section_id }} .mc-tabs__tab {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  white-space: nowrap;
+}
+
+#{{ section_id }} .mc-tabs__title,
+#{{ section_id }} .mc-tabs__subheading,
+#{{ section_id }} .mc-tabs__description {
+  position: relative;
+  z-index: 3;
+}
   </style>
 
   <script>
