@@ -83,112 +83,112 @@
                     {% assign quick_add_variant = product.selected_or_first_available_variant %}
 
                     <div class="mc-card">
-  <div class="mc-card__inner">
-    <div class="mc-card__content">
-      <div class="mc-card__header">
-        <h3 class="mc-card__title">
-          <a href="{{ product.url }}">
-            {% if custom_title != blank %}
-              {{ custom_title }}
-            {% else %}
-              {{ product.title }}
-            {% endif %}
-          </a>
-        </h3>
+                      <div class="mc-card__inner">
+                        <div class="mc-card__content">
+                          <div class="mc-card__header">
+                            <h3 class="mc-card__title">
+                              <a href="{{ product.url }}">
+                                {% if custom_title != blank %}
+                                  {{ custom_title }}
+                                {% else %}
+                                  {{ product.title }}
+                                {% endif %}
+                              </a>
+                            </h3>
 
-        {% if block.settings.show_rating %}
-          {% liquid
-            assign rating_percentage = custom_rating | times: 20
-          %}
-          <div class="mc-card__rating">
-            <div
-              class="mc-card__stars"
-              aria-label="Note de {{ custom_rating }} sur 5"
-              style="--rating-percent: {{ rating_percentage }}%;"
-            >
-              <span class="mc-card__stars-bg">★★★★★</span>
-              <span class="mc-card__stars-fill">★★★★★</span>
-            </div>
+                            {% if block.settings.show_rating %}
+                              {% liquid
+                                assign rating_percentage = custom_rating | times: 20
+                              %}
+                              <div class="mc-card__rating">
+                                <div
+                                  class="mc-card__stars"
+                                  aria-label="Note de {{ custom_rating }} sur 5"
+                                  style="--rating-percent: {{ rating_percentage }}%;"
+                                >
+                                  <span class="mc-card__stars-bg">★★★★★</span>
+                                  <span class="mc-card__stars-fill">★★★★★</span>
+                                </div>
 
-            {% if custom_reviews_count != blank %}
-              <div class="mc-card__reviews">({{ custom_reviews_count }})</div>
-            {% endif %}
-          </div>
-        {% endif %}
-      </div>
+                                {% if custom_reviews_count != blank %}
+                                  <div class="mc-card__reviews">({{ custom_reviews_count }})</div>
+                                {% endif %}
+                              </div>
+                            {% endif %}
+                          </div>
 
-      <div class="mc-card__image-wrap">
-        <a class="mc-card__image-link" href="{{ product.url }}">
-          {% if product.featured_image != blank %}
-            {{
-              product.featured_image
-              | image_url: width: 1200
-              | image_tag:
-                loading: 'lazy',
-                widths: '360,535,720,900,1200',
-                class: 'mc-card__image mc-card__image--main',
-                alt: product.title | escape
-            }}
-          {% endif %}
+                          <div class="mc-card__image-wrap">
+                            <a class="mc-card__image-link" href="{{ product.url }}">
+                              {% if product.featured_image != blank %}
+                                {{
+                                  product.featured_image
+                                  | image_url: width: 1200
+                                  | image_tag:
+                                    loading: 'lazy',
+                                    widths: '360,535,720,900,1200',
+                                    class: 'mc-card__image mc-card__image--main',
+                                    alt: product.title | escape
+                                }}
+                              {% endif %}
 
-          {% if hover_image != blank %}
-            {{
-              hover_image
-              | image_url: width: 1200
-              | image_tag:
-                loading: 'lazy',
-                widths: '360,535,720,900,1200',
-                class: 'mc-card__image mc-card__image--hover',
-                alt: product.title | escape
-            }}
-          {% endif %}
-        </a>
+                              {% if hover_image != blank %}
+                                {{
+                                  hover_image
+                                  | image_url: width: 1200
+                                  | image_tag:
+                                    loading: 'lazy',
+                                    widths: '360,535,720,900,1200',
+                                    class: 'mc-card__image mc-card__image--hover',
+                                    alt: product.title | escape
+                                }}
+                              {% endif %}
+                            </a>
 
-        {% if block.settings.show_badges and show_badge and custom_badge_text != blank %}
-          <div class="mc-card__badge">{{ custom_badge_text }}</div>
-        {% endif %}
-      </div>
+                            {% if block.settings.show_badges and show_badge and custom_badge_text != blank %}
+                              <div class="mc-card__badge">{{ custom_badge_text }}</div>
+                            {% endif %}
+                          </div>
 
-      {% if block.settings.show_benefits %}
-        <div class="mc-card__benefits-wrap">
-          <div class="mc-card__divider"></div>
-          <div class="mc-card__tags">
-            {% if benefit_1 != blank %}<span>{{ benefit_1 }}</span>{% endif %}
-            {% if benefit_2 != blank %}<span>{{ benefit_2 }}</span>{% endif %}
-            {% if benefit_3 != blank %}<span>{{ benefit_3 }}</span>{% endif %}
-            {% if benefit_4 != blank %}<span>{{ benefit_4 }}</span>{% endif %}
-          </div>
-        </div>
-      {% endif %}
+                          {% if block.settings.show_benefits %}
+                            <div class="mc-card__benefits-wrap">
+                              <div class="mc-card__divider"></div>
+                              <div class="mc-card__tags">
+                                {% if benefit_1 != blank %}<span>{{ benefit_1 }}</span>{% endif %}
+                                {% if benefit_2 != blank %}<span>{{ benefit_2 }}</span>{% endif %}
+                                {% if benefit_3 != blank %}<span>{{ benefit_3 }}</span>{% endif %}
+                                {% if benefit_4 != blank %}<span>{{ benefit_4 }}</span>{% endif %}
+                              </div>
+                            </div>
+                          {% endif %}
 
-      {% if block.settings.show_price %}
-        <div class="mc-card__price">
-          {% if product.compare_at_price > product.price %}
-            <span class="mc-card__price-sale">{{ product.price | money }}</span>
-            <span class="mc-card__price-compare">{{ product.compare_at_price | money }}</span>
-          {% else %}
-            <span class="mc-card__price-regular">{{ product.price | money }}</span>
-          {% endif %}
-        </div>
-      {% endif %}
-    </div>
+                          {% if block.settings.show_price %}
+                            <div class="mc-card__price">
+                              {% if product.compare_at_price > product.price %}
+                                <span class="mc-card__price-sale">{{ product.price | money }}</span>
+                                <span class="mc-card__price-compare">{{ product.compare_at_price | money }}</span>
+                              {% else %}
+                                <span class="mc-card__price-regular">{{ product.price | money }}</span>
+                              {% endif %}
+                            </div>
+                          {% endif %}
+                        </div>
 
-    <div class="mc-card__actions">
-      {% if block.settings.enable_quick_add and quick_add_variant != blank and product.available %}
-        {% form 'product', product, class: 'mc-card__quick-add-form' %}
-          <input type="hidden" name="id" value="{{ quick_add_variant.id }}">
-          <button type="submit" class="mc-card__button">
-            {{ block.settings.quick_add_text }}
-          </button>
-        {% endform %}
-      {% else %}
-        <a class="mc-card__button" href="{{ product.url }}">
-          {{ block.settings.button_text }}
-        </a>
-      {% endif %}
-    </div>
-  </div>
-</div>
+                        <div class="mc-card__actions">
+                          {% if block.settings.enable_quick_add and quick_add_variant != blank and product.available %}
+                            {% form 'product', product, class: 'mc-card__quick-add-form' %}
+                              <input type="hidden" name="id" value="{{ quick_add_variant.id }}">
+                              <button type="submit" class="mc-card__button">
+                                {{ block.settings.quick_add_text }}
+                              </button>
+                            {% endform %}
+                          {% else %}
+                            <a class="mc-card__button" href="{{ product.url }}">
+                              {{ block.settings.button_text }}
+                            </a>
+                          {% endif %}
+                        </div>
+                      </div>
+                    </div>
                   {% endif %}
                 {% endfor %}
 
@@ -261,43 +261,7 @@
       padding-bottom: {{ section.settings.padding_bottom }}px;
       color: {{ section.settings.text_color }};
     }
-#{{ section_id }} .mc-card__benefits-wrap {
-  width: 100%;
-  margin-top: 2px;
-  margin-bottom: 20px;
-}
 
-#{{ section_id }} .mc-card__divider {
-  width: min(82%, 235px);
-  height: 1px;
-  background: #d9d9d9;
-  margin: 0 auto 20px;
-}
-
-#{{ section_id }} .mc-card__tags {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px 8px;
-  margin-bottom: 16px;
-}
-
-#{{ section_id }} .mc-card__tags span {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 28px;
-  padding: 0 12px;
-  background: #f2f2f2;
-  color: #000000;
-  border-radius: 999px;
-  font-size: 8px;
-  line-height: 1;
-  text-align: center;
-  white-space: nowrap;
-  font-weight: 700;
-  letter-spacing: 0;
-}
     #{{ section_id }} .mc-tabs__header {
       margin-bottom: 24px;
     }
@@ -520,29 +484,46 @@
       z-index: 2;
     }
 
+    #{{ section_id }} .mc-card__benefits-wrap {
+      width: 100%;
+      margin-top: 2px;
+      margin-bottom: 20px;
+    }
+
+    #{{ section_id }} .mc-card__divider {
+      width: min(82%, 235px);
+      height: 1px;
+      background: #d9d9d9;
+      margin: 0 auto 20px;
+    }
+
     #{{ section_id }} .mc-card__tags {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 8px 8px;
-      margin-bottom: 16px;
+      align-items: center;
+      gap: 12px 10px;
+      width: 100%;
+      max-width: 100%;
+      margin: 0 auto;
     }
 
     #{{ section_id }} .mc-card__tags span {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 28px;
-      padding: 0 12px;
-      background: #f2f2f2;
-      color: #000000;
+      min-height: 40px;
+      padding: 0 22px;
+      background: {{ section.settings.tag_bg }};
+      color: {{ section.settings.tag_text }};
       border-radius: 999px;
-      font-size: 8px;
+      font-size: 12px;
       line-height: 1;
       text-align: center;
       white-space: nowrap;
-      font-weight: 700;
-      letter-spacing: 0;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      box-shadow: none;
     }
 
     #{{ section_id }} .mc-card__price {
@@ -584,8 +565,8 @@
       align-items: center;
       justify-content: center;
       min-height: 40px;
-      background: #b56567;
-      color: #fff;
+      background: {{ section.settings.button_bg }};
+      color: {{ section.settings.button_text }};
       text-decoration: none;
       border-radius: 999px;
       padding: 0 22px;
@@ -795,45 +776,46 @@
       }
 
       #{{ section_id }} .mc-card__benefits-wrap {
-  width: 100%;
-  margin-top: 0;
-  margin-bottom: 18px;
-}
+        width: 100%;
+        margin-top: 0;
+        margin-bottom: 18px;
+      }
 
-#{{ section_id }} .mc-card__divider {
-  width: min(84%, 210px);
-  height: 1px;
-  background: #d9d9d9;
-  margin: 0 auto 18px;
-}
+      #{{ section_id }} .mc-card__divider {
+        width: min(84%, 210px);
+        height: 1px;
+        background: #d9d9d9;
+        margin: 0 auto 18px;
+      }
 
-#{{ section_id }} .mc-card__tags {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 10px 8px;
-  width: 100%;
-  max-width: 100%;
-  margin: 0 auto;
-}
+      #{{ section_id }} .mc-card__tags {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 10px 8px;
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+      }
 
-#{{ section_id }} .mc-card__tags span {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 30px;
-  padding: 0 14px;
-  font-size: 7px;
-  line-height: 1;
-  border-radius: 999px;
-  background: #f3f3f3;
-  color: #111111;
-  font-weight: 700;
-  letter-spacing: 0;
-  white-space: nowrap;
-  flex: 0 0 auto;
-}
+      #{{ section_id }} .mc-card__tags span {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 30px;
+        padding: 0 14px;
+        font-size: 7px;
+        line-height: 1;
+        border-radius: 999px;
+        background: {{ section.settings.tag_bg }};
+        color: {{ section.settings.tag_text }};
+        font-weight: 700;
+        letter-spacing: 0;
+        white-space: nowrap;
+        flex: 0 0 auto;
+      }
+
       #{{ section_id }} .mc-card__price {
         font-size: 13px;
         margin-bottom: 12px;
@@ -1025,19 +1007,19 @@
       "type": "color",
       "id": "tag_bg",
       "label": "Fond tags",
-      "default": "#ffffff"
+      "default": "#f3f3f3"
     },
     {
       "type": "color",
       "id": "tag_text",
       "label": "Texte tags",
-      "default": "#333333"
+      "default": "#111111"
     },
     {
       "type": "color",
       "id": "button_bg",
       "label": "Fond bouton carte",
-      "default": "#111111"
+      "default": "#b56567"
     },
     {
       "type": "color",
