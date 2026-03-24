@@ -252,6 +252,61 @@
         "parallax_direction": "vertical"
       }
     },
+    "featured_collections_tabs2_4W4ngU": {
+      "type": "featured-collections-tabs2",
+      "blocks": {
+        "collection_dYUJfz": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "products": [],
+            "title": ""
+          }
+        },
+        "collection_iHq8mR": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "products": [],
+            "title": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_dYUJfz",
+        "collection_iHq8mR"
+      ],
+      "name": "collections TABS2",
+      "settings": {
+        "product_limit": 6,
+        "columns": 4,
+        "carousel_on_desktop": true,
+        "show_view_all": false,
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "heading": "Comfort, designed for Moms",
+        "heading_size": "title-md",
+        "heading_alignment": "text-left md:items-end md:flex-row",
+        "heading_tag": "h2",
+        "subheading": "",
+        "description": "<p><em>Every step of the way.</em></p>",
+        "highlighted_text": "underline",
+        "highlighted_scribble": "basic-underline",
+        "color_text": "",
+        "color_background": "",
+        "gradient_background": "",
+        "color_highlight": "",
+        "gradient_highlight": "",
+        "color_button_text": "",
+        "color_button_background": "",
+        "color_button_gradient": "",
+        "padding_top": 72,
+        "padding_bottom": 72,
+        "divider": false,
+        "full_width": false,
+        "rounded": false
+      }
+    },
     "momcozy_tabs_manual_v2_hYUR4n": {
       "type": "momcozy-tabs-manual-v2",
       "blocks": {
@@ -1825,6 +1880,7 @@
     "ss_slideshow_9_fDtK8k",
     "custom_html_RPBiPN",
     "slideshow",
+    "featured_collections_tabs2_4W4ngU",
     "momcozy_tabs_manual_v2_hYUR4n",
     "momcozy_tabs_manual_P6BXGf",
     "featured_collections_pqL6dW",
