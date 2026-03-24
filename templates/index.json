@@ -819,6 +819,84 @@
         "padding_bottom_mobile": 32
       }
     },
+    "collection_list_38EYMr": {
+      "type": "collection-list",
+      "blocks": {
+        "collection_VKrPKr": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "title": "",
+            "description": "",
+            "overlay_content": false,
+            "color_text": "#ffffff",
+            "color_overlay": "#000000",
+            "overlay_opacity": 30
+          }
+        },
+        "collection_PDdrJQ": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "title": "",
+            "description": "",
+            "overlay_content": false,
+            "color_text": "#ffffff",
+            "color_overlay": "#000000",
+            "overlay_opacity": 30
+          }
+        },
+        "collection_7Ahwfk": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "title": "",
+            "description": "",
+            "overlay_content": false,
+            "color_text": "#ffffff",
+            "color_overlay": "#000000",
+            "overlay_opacity": 30
+          }
+        }
+      },
+      "block_order": [
+        "collection_VKrPKr",
+        "collection_PDdrJQ",
+        "collection_7Ahwfk"
+      ],
+      "name": "t:sections.collection-list.presets.name",
+      "settings": {
+        "columns": 4,
+        "carousel_on_desktop": true,
+        "image_type": "collection",
+        "image_ratio": "square",
+        "show_products_count": true,
+        "show_view_all": false,
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "heading": "Solutions for Every Mom's Needs",
+        "heading_size": "title-md",
+        "heading_alignment": "text-left md:items-end md:flex-row",
+        "heading_tag": "h2",
+        "subheading": "",
+        "description": "",
+        "highlighted_text": "none",
+        "highlighted_scribble": "circle",
+        "color_text": "",
+        "color_background": "",
+        "gradient_background": "",
+        "color_highlight": "",
+        "gradient_highlight": "",
+        "color_button_text": "",
+        "color_button_background": "",
+        "color_button_gradient": "",
+        "padding_top": 72,
+        "padding_bottom": 72,
+        "divider": false,
+        "full_width": false,
+        "rounded": false
+      }
+    },
     "momcozy_tabs_manual_P6BXGf": {
       "type": "momcozy-tabs-manual",
       "blocks": {
@@ -1345,6 +1423,7 @@
         "tab_Nx6YC7",
         "tab_jNP8DH"
       ],
+      "disabled": true,
       "name": "Momcozy tabs manual",
       "settings": {
         "heading": "Maximizing Comfort\nfor Moms at Every Step.",
@@ -1524,43 +1603,6 @@
         "rounded": false,
         "enable_parallax": true,
         "parallax_direction": "vertical"
-      }
-    },
-    "featured_collection_6pn6Cg": {
-      "type": "featured-collection",
-      "name": "t:sections.featured-collection.presets.name",
-      "settings": {
-        "collection": "",
-        "products": [
-          "new-baby-going-out-safety-carrier-simple-leopard-pattern-portable-front-hug-type-back-baby-out-of-the-baby-artifact-waist-stool-115904020828-mtvmt"
-        ],
-        "product_limit": 6,
-        "columns": 4,
-        "carousel_on_desktop": true,
-        "show_view_all": false,
-        "columns_mobile": "1",
-        "swipe_on_mobile": true,
-        "heading": "Featured collection",
-        "heading_size": "title-md",
-        "heading_alignment": "text-left md:items-end md:flex-row",
-        "heading_tag": "h2",
-        "subheading": "",
-        "description": "",
-        "highlighted_text": "none",
-        "highlighted_scribble": "circle",
-        "color_text": "",
-        "color_background": "",
-        "gradient_background": "",
-        "color_highlight": "",
-        "gradient_highlight": "",
-        "color_button_text": "",
-        "color_button_background": "",
-        "color_button_gradient": "",
-        "padding_top": 72,
-        "padding_bottom": 72,
-        "divider": false,
-        "full_width": false,
-        "rounded": false
       }
     },
     "image_with_text_EC3mFy": {
@@ -1926,11 +1968,11 @@
     "custom_html_RPBiPN",
     "slideshow",
     "momcozy_tabs_2_AedKXp",
+    "collection_list_38EYMr",
     "momcozy_tabs_manual_P6BXGf",
     "featured_collections_pqL6dW",
     "custom_html_tEBAEn",
     "image_with_text_aehJ7D",
-    "featured_collection_6pn6Cg",
     "image_with_text_EC3mFy",
     "featured_product_rftdJk",
     "rich-text-2",
