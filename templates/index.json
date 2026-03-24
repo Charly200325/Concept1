@@ -371,7 +371,7 @@
             "show_benefits": true,
             "enable_quick_add": true,
             "quick_add_text": "Shop Now",
-            "button_text": "",
+            "button_text": "Shop Now",
             "banner_1_enable": true,
             "banner_1_title": "Which Pump Fits You?",
             "banner_1_text": "Take the quiz to get a personalized pump recommendation!",
