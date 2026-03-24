@@ -1874,7 +1874,6 @@
     },
     "featured_collection_jx3eKb": {
       "type": "featured-collection",
-      "disabled": true,
       "name": "t:sections.featured-collection.presets.name",
       "settings": {
         "collection": "baby-carriers",
@@ -2001,7 +2000,9 @@
       "name": "t:sections.featured-collection.presets.name",
       "settings": {
         "collection": "",
-        "products": [],
+        "products": [
+          "new-baby-going-out-safety-carrier-simple-leopard-pattern-portable-front-hug-type-back-baby-out-of-the-baby-artifact-waist-stool-115904020828-mtvmt"
+        ],
         "product_limit": 6,
         "columns": 4,
         "carousel_on_desktop": true,
