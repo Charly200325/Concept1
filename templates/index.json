@@ -789,7 +789,7 @@
         "product_limit": 6,
         "carousel_on_desktop": false,
         "show_view_all": true,
-        "swipe_on_mobile": true,
+        "swipe_on_mobile": false,
         "divider": false,
         "full_width": false,
         "rounded": false,
@@ -1840,6 +1840,7 @@
         "collection_LdNPAe",
         "collection_gJea3Y"
       ],
+      "disabled": true,
       "name": "t:sections.featured-collections.presets.name",
       "settings": {
         "product_limit": 6,
