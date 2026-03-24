@@ -1847,7 +1847,7 @@
         "carousel_on_desktop": true,
         "show_view_all": true,
         "columns_mobile": "2",
-        "swipe_on_mobile": false,
+        "swipe_on_mobile": true,
         "heading": "<strong>Comfort, designed for Moms</strong>",
         "heading_size": "title-sm",
         "heading_alignment": "text-left md:items-end md:flex-row",
