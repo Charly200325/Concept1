@@ -4,10 +4,20 @@
     --section-padding-bottom: {{ section.settings.padding_bottom }}px;
     {%- render 'section-variables', section: section -%}
   }
+  .slider-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.3;
+    transition: opacity 0.3s;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
   .slider-dot.active {
-  opacity: 1;
-}
-
+    opacity: 1;
+  }
 </style>
 
 <div class="section section--padding{% if section.settings.divider %} section--divider{% endif %}{% if section.settings.rounded %} section--rounded relative{% endif %}">
@@ -81,26 +91,58 @@
           </div>
         {%- endif -%}
       {%- endif -%}
-      {%- if section.settings.carousel_on_desktop or section.settings.swipe_on_mobile -%}
-  <div class="slider-dots flex justify-center gap-2 mt-4 lg:hidden">
-    {%- for block in section.blocks -%}
-      <button class="slider-dot w-2 h-2 rounded-full bg-current opacity-30 transition-opacity" type="button" aria-label="Slide {{ forloop.index }}" data-index="{{ forloop.index0 }}"></button>
-    {%- endfor -%}
-  </div>
-  <div class="slider-dots hidden lg:flex justify-center gap-2 mt-4">
-    {%- for block in section.blocks -%}
-      <button class="slider-dot w-2 h-2 rounded-full bg-current opacity-30 transition-opacity" type="button" aria-label="Slide {{ forloop.index }}" data-index="{{ forloop.index0 }}"></button>
-    {%- endfor -%}
-  </div>
-{%- endif -%}
-
     </slider-element>
+
+    {%- if section.settings.carousel_on_desktop or section.settings.swipe_on_mobile -%}
+      <div class="slider-dots-{{ section.id }} flex justify-center gap-2 mt-4">
+        {%- for block in section.blocks -%}
+          <button class="slider-dot{% if forloop.first %} active{% endif %}" type="button" aria-label="Slide {{ forloop.index }}" data-index="{{ forloop.index0 }}"></button>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
 
     {%- if section.settings.carousel_on_desktop -%}
       <p class="hidden lg:block">{{ view_all }}</p>
     {%- endif -%}
   </div>
 </div>
+
+<script>
+  (function() {
+    var slider = document.getElementById('Slider-{{ section.id }}');
+    var dots = document.querySelectorAll('.slider-dots-{{ section.id }} .slider-dot');
+    if (!slider || !dots.length) return;
+
+    function updateDots(index) {
+      dots.forEach(function(dot, i) {
+        dot.classList.toggle('active', i === index);
+      });
+    }
+
+    dots.forEach(function(dot) {
+      dot.addEventListener('click', function() {
+        var index = parseInt(dot.dataset.index);
+        var cards = slider.querySelectorAll('.card-grid > .card');
+        if (cards[index]) {
+          cards[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+          updateDots(index);
+        }
+      });
+    });
+
+    slider.addEventListener('scroll', function() {
+      var cards = slider.querySelectorAll('.card-grid > .card');
+      var closest = 0;
+      var minDist = Infinity;
+      cards.forEach(function(card, i) {
+        var dist = Math.abs(card.getBoundingClientRect().left - slider.getBoundingClientRect().left);
+        if (dist < minDist) { minDist = dist; closest = i; }
+      });
+      updateDots(closest);
+    });
+  })();
+</script>
+
 
 {% schema %}
 {
@@ -556,39 +598,3 @@
 }
 
 {% endschema %}
-<script>
-  document.querySelectorAll('slider-element').forEach(slider => {
-    const dots = slider.parentElement.querySelectorAll('.slider-dot');
-    if (!dots.length) return;
-
-    function updateDots(index) {
-      dots.forEach((dot, i) => {
-        dot.classList.toggle('active', i === index);
-      });
-    }
-
-    updateDots(0);
-
-    dots.forEach(dot => {
-      dot.addEventListener('click', () => {
-        const index = parseInt(dot.dataset.index);
-        const cards = slider.querySelectorAll('.card-grid > .card');
-        if (cards[index]) {
-          cards[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
-          updateDots(index);
-        }
-      });
-    });
-
-    slider.addEventListener('scroll', () => {
-      const cards = slider.querySelectorAll('.card-grid > .card');
-      let closest = 0;
-      let minDist = Infinity;
-      cards.forEach((card, i) => {
-        const dist = Math.abs(card.getBoundingClientRect().left - slider.getBoundingClientRect().left);
-        if (dist < minDist) { minDist = dist; closest = i; }
-      });
-      updateDots(closest);
-    });
-  });
-</script>
