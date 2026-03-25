@@ -835,6 +835,32 @@
             "overlay_opacity": 30
           }
         },
+        "collection_VKrPKr": {
+          "type": "collection",
+          "settings": {
+            "collection": "baby-carriers",
+            "image": "shopify://shop_images/Design_sans_titre_12.png",
+            "title": "For Pregants Moms",
+            "description": "",
+            "overlay_content": false,
+            "color_text": "#ffffff",
+            "color_overlay": "#000000",
+            "overlay_opacity": 30
+          }
+        },
+        "collection_7Ahwfk": {
+          "type": "collection",
+          "settings": {
+            "collection": "baby-carriers",
+            "image": "shopify://shop_images/KB-PDP-Details-SimplySublime-2_a404d403-baba-47bd-a61d-595fd8e14ac8.webp",
+            "title": "For News Moms",
+            "description": "",
+            "overlay_content": false,
+            "color_text": "#ffffff",
+            "color_overlay": "#000000",
+            "overlay_opacity": 30
+          }
+        },
         "collection_Pzcpm6": {
           "type": "collection",
           "settings": {
@@ -873,40 +899,15 @@
             "color_overlay": "#000000",
             "overlay_opacity": 30
           }
-        },
-        "collection_7Ahwfk": {
-          "type": "collection",
-          "settings": {
-            "collection": "baby-carriers",
-            "image": "shopify://shop_images/KB-PDP-Details-SimplySublime-2_a404d403-baba-47bd-a61d-595fd8e14ac8.webp",
-            "title": "For News Moms",
-            "description": "",
-            "overlay_content": false,
-            "color_text": "#ffffff",
-            "color_overlay": "#000000",
-            "overlay_opacity": 30
-          }
-        },
-        "collection_VKrPKr": {
-          "type": "collection",
-          "settings": {
-            "collection": "",
-            "title": "",
-            "description": "",
-            "overlay_content": false,
-            "color_text": "#ffffff",
-            "color_overlay": "#000000",
-            "overlay_opacity": 30
-          }
         }
       },
       "block_order": [
         "collection_QchLik",
+        "collection_VKrPKr",
+        "collection_7Ahwfk",
         "collection_Pzcpm6",
         "collection_PDdrJQ",
-        "collection_YYQDQi",
-        "collection_7Ahwfk",
-        "collection_VKrPKr"
+        "collection_YYQDQi"
       ],
       "name": "t:sections.collection-list.presets.name",
       "settings": {
