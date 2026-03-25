@@ -1147,6 +1147,7 @@
         "image_ratio": "portrait",
         "columns_mobile": "1",
         "swipe_on_mobile": true,
+        "hide_instagram_icon": true,
         "account_name": "",
         "show_vendor": false,
         "show_price": true,
