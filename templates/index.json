@@ -825,10 +825,11 @@
         "collection_QchLik": {
           "type": "collection",
           "settings": {
-            "collection": "",
-            "title": "",
-            "description": "",
-            "overlay_content": false,
+            "collection": "baby-carriers",
+            "image": "shopify://shop_images/Design_sans_titre_7.png",
+            "title": "SHOP ALL",
+            "description": "découvrir touts nos produits",
+            "overlay_content": true,
             "color_text": "#ffffff",
             "color_overlay": "#000000",
             "overlay_opacity": 30
