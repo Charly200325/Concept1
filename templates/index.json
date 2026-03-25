@@ -835,6 +835,19 @@
             "overlay_opacity": 30
           }
         },
+        "collection_Pzcpm6": {
+          "type": "collection",
+          "settings": {
+            "collection": "baby-carriers",
+            "image": "shopify://shop_images/Design_sans_titre_11.png",
+            "title": "",
+            "description": "",
+            "overlay_content": false,
+            "color_text": "#ffffff",
+            "color_overlay": "#000000",
+            "overlay_opacity": 30
+          }
+        },
         "collection_PDdrJQ": {
           "type": "collection",
           "settings": {
@@ -861,18 +874,6 @@
             "overlay_opacity": 30
           }
         },
-        "collection_VKrPKr": {
-          "type": "collection",
-          "settings": {
-            "collection": "",
-            "title": "",
-            "description": "",
-            "overlay_content": false,
-            "color_text": "#ffffff",
-            "color_overlay": "#000000",
-            "overlay_opacity": 30
-          }
-        },
         "collection_7Ahwfk": {
           "type": "collection",
           "settings": {
@@ -885,14 +886,27 @@
             "color_overlay": "#000000",
             "overlay_opacity": 30
           }
+        },
+        "collection_VKrPKr": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "title": "",
+            "description": "",
+            "overlay_content": false,
+            "color_text": "#ffffff",
+            "color_overlay": "#000000",
+            "overlay_opacity": 30
+          }
         }
       },
       "block_order": [
         "collection_QchLik",
+        "collection_Pzcpm6",
         "collection_PDdrJQ",
         "collection_YYQDQi",
-        "collection_VKrPKr",
-        "collection_7Ahwfk"
+        "collection_7Ahwfk",
+        "collection_VKrPKr"
       ],
       "name": "t:sections.collection-list.presets.name",
       "settings": {
