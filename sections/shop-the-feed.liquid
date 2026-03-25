@@ -12,8 +12,66 @@
         --ratio-percent: {{ 1 | divided_by: block.settings.image.aspect_ratio | times: 100 }}%;
       {%- endif -%}
     }
-    
   {%- endfor -%}
+
+  .slider-dots-{{ section.id }} {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 16px;
+    width: 100%;
+    line-height: 0;
+  }
+
+  .slider-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: #bdbdbd;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    flex: 0 0 auto;
+    transition: all 0.25s ease;
+  }
+
+  .slider-dot.active {
+    width: 42px;
+    height: 4px;
+    border-radius: 999px;
+    background: #222;
+  }
+
+  @media screen and (max-width: 749px) {
+    .slider-dots-{{ section.id }} {
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .slider-dot {
+      width: 5px;
+      height: 5px;
+    }
+
+    .slider-dot.active {
+      width: 34px;
+      height: 3px;
+    }
+  }
+
+  {% if section.settings.hide_instagram_icon %}
+    #shopify-section-{{ section.id }} [class*="instagram"],
+    #shopify-section-{{ section.id }} [class*="Instagram"],
+    #shopify-section-{{ section.id }} .icon-instagram,
+    #shopify-section-{{ section.id }} .social-feed-card__icon,
+    #shopify-section-{{ section.id }} .shop-the-feed__icon,
+    #shopify-section-{{ section.id }} svg[aria-label="Instagram"],
+    #shopify-section-{{ section.id }} svg[aria-label*="Instagram"] {
+      display: none !important;
+    }
+  {% endif %}
 </style>
 
 <div class="section section--padding{% if section.settings.divider %} section--divider{% endif %}{% if section.settings.rounded %} section--rounded relative{% endif %}" data-section-id="{{ section.id }}">
@@ -51,10 +109,156 @@
           </button>
         </div>
       {%- endif -%}
-    </slider-element>
+        </slider-element>
+
+    {%- if section.settings.carousel_on_desktop or section.settings.swipe_on_mobile -%}
+      <div class="slider-dots-{{ section.id }}" aria-label="Navigation du carrousel"></div>
+    {%- endif -%}
   </div>
 </div>
+  </div>
+</div>
+<script>
+  (function() {
+    var slider = document.getElementById('Slider-{{ section.id }}');
+    var dotsContainer = document.querySelector('.slider-dots-{{ section.id }}');
 
+    if (!slider || !dotsContainer) return;
+
+    var track = slider.querySelector('.card-grid');
+    if (!track) return;
+
+    var pagePositions = [];
+    var dots = [];
+    var ticking = false;
+
+    function getCards() {
+      return Array.from(track.children).filter(function(el) {
+        return el.offsetParent !== null;
+      });
+    }
+
+    function getMaxScroll() {
+      return Math.max(0, slider.scrollWidth - slider.clientWidth);
+    }
+
+    function buildPagePositions() {
+      var cards = getCards();
+      var maxScroll = getMaxScroll();
+      var positions = [];
+
+      if (!cards.length) return [0];
+
+      cards.forEach(function(card) {
+        var left = Math.min(card.offsetLeft, maxScroll);
+
+        var alreadyExists = positions.some(function(pos) {
+          return Math.abs(pos - left) < 8;
+        });
+
+        if (!alreadyExists) {
+          positions.push(left);
+        }
+      });
+
+      if (!positions.length) positions = [0];
+
+      positions = positions.filter(function(pos, index) {
+        if (index === positions.length - 1) return true;
+        return pos <= maxScroll;
+      });
+
+      if (positions[positions.length - 1] !== maxScroll) {
+        positions.push(maxScroll);
+      }
+
+      positions = positions.filter(function(pos, index) {
+        return index === 0 || Math.abs(pos - positions[index - 1]) >= 8;
+      });
+
+      return positions;
+    }
+
+    function renderDots() {
+      pagePositions = buildPagePositions();
+      dotsContainer.innerHTML = '';
+
+      pagePositions.forEach(function(pos, index) {
+        var dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'slider-dot' + (index === 0 ? ' active' : '');
+        dot.setAttribute('aria-label', 'Aller à la slide ' + (index + 1));
+        dot.setAttribute('aria-current', index === 0 ? 'true' : 'false');
+        dot.dataset.index = index;
+
+        dot.addEventListener('click', function() {
+          slider.scrollTo({
+            left: pagePositions[index],
+            behavior: 'smooth'
+          });
+          updateDots(index);
+        });
+
+        dotsContainer.appendChild(dot);
+      });
+
+      dots = Array.from(dotsContainer.querySelectorAll('.slider-dot'));
+      updateDots(getActiveIndex());
+    }
+
+    function getActiveIndex() {
+      if (!pagePositions.length) return 0;
+
+      var current = slider.scrollLeft;
+      var closestIndex = 0;
+      var minDist = Infinity;
+
+      pagePositions.forEach(function(pos, index) {
+        var dist = Math.abs(current - pos);
+        if (dist < minDist) {
+          minDist = dist;
+          closestIndex = index;
+        }
+      });
+
+      return closestIndex;
+    }
+
+    function updateDots(activeIndex) {
+      if (!dots.length) return;
+
+      dots.forEach(function(dot, index) {
+        var isActive = index === activeIndex;
+        dot.classList.toggle('active', isActive);
+        dot.setAttribute('aria-current', isActive ? 'true' : 'false');
+      });
+    }
+
+    function handleScroll() {
+      if (ticking) return;
+
+      ticking = true;
+      window.requestAnimationFrame(function() {
+        updateDots(getActiveIndex());
+        ticking = false;
+      });
+    }
+
+    var resizeTimer;
+    function handleResize() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function() {
+        renderDots();
+      }, 120);
+    }
+
+    slider.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleResize);
+    window.addEventListener('load', handleResize);
+
+    renderDots();
+  })();
+</script>
 {% schema %}
 {
   "name": "t:sections.shop-the-feed.name",
@@ -129,6 +333,12 @@
       "label": "t:sections.global.settings.swipe_on_mobile.label",
       "default": true
     },
+    {
+  "type": "checkbox",
+  "id": "hide_instagram_icon",
+  "label": "Masquer le logo Instagram",
+  "default": false
+},
     {
       "type": "header",
       "content": "t:sections.shop-the-feed.settings.header__account.content"
