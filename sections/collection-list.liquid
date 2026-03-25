@@ -48,6 +48,19 @@
       height: 3px;
     }
   }
+  #Slider-{{ section.id }} {
+  cursor: grab;
+}
+
+#Slider-{{ section.id }}.is-dragging {
+  cursor: grabbing;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#Slider-{{ section.id }}.is-dragging * {
+  cursor: grabbing !important;
+}
 </style>
 
 <div class="section section--padding{% if section.settings.divider %} section--divider{% endif %}{% if section.settings.rounded %} section--rounded relative{% endif %}">
@@ -146,6 +159,12 @@
     var pagePositions = [];
     var dots = [];
     var ticking = false;
+
+    var isPointerDown = false;
+    var isDragging = false;
+    var startX = 0;
+    var startScrollLeft = 0;
+    var dragThreshold = 8;
 
     function getCards() {
       return Array.from(track.children).filter(function(el) {
@@ -258,6 +277,92 @@
         ticking = false;
       });
     }
+
+    function snapToClosest() {
+      if (!pagePositions.length) return;
+
+      var activeIndex = getActiveIndex();
+      slider.scrollTo({
+        left: pagePositions[activeIndex],
+        behavior: 'smooth'
+      });
+      updateDots(activeIndex);
+    }
+
+    function shouldIgnoreDrag(target) {
+      return !!target.closest('button, a, input, select, textarea, label, summary');
+    }
+
+    function onPointerDown(e) {
+      if (e.pointerType !== 'mouse') return;
+      if (e.button !== 0) return;
+      if (shouldIgnoreDrag(e.target)) return;
+
+      isPointerDown = true;
+      isDragging = false;
+      startX = e.clientX;
+      startScrollLeft = slider.scrollLeft;
+
+      slider.classList.add('is-dragging');
+      slider.setPointerCapture(e.pointerId);
+    }
+
+    function onPointerMove(e) {
+      if (!isPointerDown) return;
+      if (e.pointerType !== 'mouse') return;
+
+      var deltaX = e.clientX - startX;
+
+      if (Math.abs(deltaX) > dragThreshold) {
+        isDragging = true;
+      }
+
+      if (!isDragging) return;
+
+      slider.scrollLeft = startScrollLeft - deltaX;
+    }
+
+    function endDrag(e) {
+      if (!isPointerDown) return;
+
+      isPointerDown = false;
+      slider.classList.remove('is-dragging');
+
+      try {
+        slider.releasePointerCapture(e.pointerId);
+      } catch (err) {}
+
+      if (isDragging) {
+        setTimeout(function() {
+          snapToClosest();
+        }, 0);
+      }
+
+      setTimeout(function() {
+        isDragging = false;
+      }, 0);
+    }
+
+    slider.addEventListener('click', function(e) {
+      if (isDragging) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    }, true);
+
+    slider.addEventListener('pointerdown', onPointerDown);
+    slider.addEventListener('pointermove', onPointerMove);
+    slider.addEventListener('pointerup', endDrag);
+    slider.addEventListener('pointercancel', endDrag);
+    slider.addEventListener('lostpointercapture', function() {
+      if (!isPointerDown) return;
+      isPointerDown = false;
+      slider.classList.remove('is-dragging');
+      if (isDragging) snapToClosest();
+      setTimeout(function() {
+        isDragging = false;
+      }, 0);
+    });
 
     var resizeTimer;
     function handleResize() {
