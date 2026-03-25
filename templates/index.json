@@ -1177,67 +1177,6 @@
         "rounded": false
       }
     },
-    "shop_the_look_xK9E3Q": {
-      "type": "shop-the-look",
-      "blocks": {
-        "product_RVVk8L": {
-          "type": "product",
-          "settings": {
-            "product": "",
-            "color_text": "#ffffff",
-            "vertical": 25,
-            "horizontal": 25,
-            "vertical_mobile": 25,
-            "horizontal_mobile": 25
-          }
-        },
-        "product_39QgLz": {
-          "type": "product",
-          "settings": {
-            "product": "",
-            "color_text": "#ffffff",
-            "vertical": 75,
-            "horizontal": 65,
-            "vertical_mobile": 75,
-            "horizontal_mobile": 65
-          }
-        }
-      },
-      "block_order": [
-        "product_RVVk8L",
-        "product_39QgLz"
-      ],
-      "name": "t:sections.shop-the-look.name",
-      "settings": {
-        "heading": "",
-        "heading_size": "title-md",
-        "heading_alignment": "text-center md:items-center",
-        "heading_tag": "h2",
-        "subheading": "",
-        "description": "",
-        "button_label": "",
-        "button_link": "",
-        "button_external": false,
-        "button_icon": true,
-        "highlighted_text": "none",
-        "highlighted_scribble": "circle",
-        "color_text": "",
-        "color_background": "",
-        "gradient_background": "",
-        "color_highlight": "",
-        "gradient_highlight": "",
-        "color_button_text": "",
-        "color_button_background": "",
-        "color_button_gradient": "",
-        "color_overlay": "#171717",
-        "overlay_opacity": 30,
-        "padding_top": 72,
-        "padding_bottom": 72,
-        "divider": false,
-        "full_width": false,
-        "rounded": false
-      }
-    },
     "momcozy_tabs_manual_P6BXGf": {
       "type": "momcozy-tabs-manual",
       "blocks": {
@@ -2311,7 +2250,6 @@
     "momcozy_tabs_2_AedKXp",
     "collection_list_38EYMr",
     "shop_the_feed_NkQLFH",
-    "shop_the_look_xK9E3Q",
     "momcozy_tabs_manual_P6BXGf",
     "featured_collections_pqL6dW",
     "custom_html_tEBAEn",
